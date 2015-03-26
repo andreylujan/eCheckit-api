@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :contacts
+  resources :venues
+  resources :report_states
+  resources :report_types
+  resources :pictures
+  resources :actions
+  resources :action_types
   resources :reports
   devise_for :users
   resources :organizations

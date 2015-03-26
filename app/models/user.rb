@@ -27,4 +27,5 @@ class User < ActiveRecord::Base
   belongs_to :organization
   has_many :created_reports, foreign_key: :creator_id, class_name: :Report
   has_many :assigned_reports, foreign_key: :assigned_user_id, class_name: :Report
+  has_many :actions
 end

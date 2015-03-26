@@ -7,6 +7,9 @@
 #  assigned_user_id :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  report_state_id  :integer
+#  report_type_id   :integer
+#  venue_id         :integer
 #
 
 class ReportSerializer < ActiveModel::Serializer

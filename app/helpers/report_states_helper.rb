@@ -1,0 +1,2 @@
+module ReportStatesHelper
+end

@@ -9,7 +9,9 @@
 #
 
 class Organization < ActiveRecord::Base
-
 	has_many :users
-	
+	has_many :action_types
+    has_many :report_types
+    has_many :report_states
+    has_many :venues
 end
