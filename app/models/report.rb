@@ -21,4 +21,5 @@ class Report < ActiveRecord::Base
     belongs_to :report_state
     belongs_to :report_type
     belongs_to :venue
+    has_many :report_fields
 end

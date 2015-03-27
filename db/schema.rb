@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326213451) do
+ActiveRecord::Schema.define(version: 20150327182637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,26 @@ ActiveRecord::Schema.define(version: 20150326213451) do
   end
 
   add_index "pictures", ["report_id"], name: "index_pictures_on_report_id", using: :btree
+
+  create_table "report_field_types", force: :cascade do |t|
+    t.text     "description"
+    t.integer  "report_type_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "report_field_types", ["report_type_id"], name: "index_report_field_types_on_report_type_id", using: :btree
+
+  create_table "report_fields", force: :cascade do |t|
+    t.integer  "report_id"
+    t.integer  "report_field_type_id"
+    t.text     "value"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "report_fields", ["report_field_type_id"], name: "index_report_fields_on_report_field_type_id", using: :btree
+  add_index "report_fields", ["report_id"], name: "index_report_fields_on_report_id", using: :btree
 
   create_table "report_states", force: :cascade do |t|
     t.text     "description"
@@ -131,6 +151,9 @@ ActiveRecord::Schema.define(version: 20150326213451) do
   add_foreign_key "actions", "users"
   add_foreign_key "contacts", "venues"
   add_foreign_key "pictures", "reports"
+  add_foreign_key "report_field_types", "report_types"
+  add_foreign_key "report_fields", "report_field_types"
+  add_foreign_key "report_fields", "reports"
   add_foreign_key "report_states", "organizations"
   add_foreign_key "report_types", "organizations"
   add_foreign_key "reports", "report_states"

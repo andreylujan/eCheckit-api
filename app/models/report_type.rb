@@ -12,4 +12,5 @@
 class ReportType < ActiveRecord::Base
   belongs_to :organization
   has_many :reports
+  has_many :report_field_types
 end

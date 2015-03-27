@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :report_fields
+  resources :report_field_types
   resources :contacts
   resources :venues
   resources :report_states
