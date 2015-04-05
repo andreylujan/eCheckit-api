@@ -15,9 +15,9 @@ end
 
 # Authentication
 gem 'omniauth', '~> 1.2.2'
-gem 'dotenv-rails', '~> 2.0.0'
+gem 'dotenv-rails', '~> 2.0.1'
 gem 'devise', '~> 3.4.1'
-gem 'doorkeeper', '~> 2.1.3'
+gem 'doorkeeper', '~> 2.1.4'
 gem 'rolify', '~> 4.0.0'
 gem 'cancan', '~> 1.6.10'
 
@@ -30,7 +30,7 @@ end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', '~> 4.0.3'
+  gem 'byebug', '~> 4.0.5'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.1.2'
