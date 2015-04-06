@@ -19,7 +19,7 @@ class Report < ActiveRecord::Base
     has_one :action
     has_many :pictures
     belongs_to :report_state
-    belongs_to :report_type
+    belongs_to :workspace
     belongs_to :venue
     has_many :report_fields
 end

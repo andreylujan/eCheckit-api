@@ -9,11 +9,12 @@
 #
 
 class Organization < ActiveRecord::Base
+    resourcify
 	has_many :organization_users
 	has_many :organizations, through: :organization_users
 	has_many :users, through: :organization_users
 	has_many :action_types, dependent: :nullify
-    has_many :report_types, dependent: :nullify
+    has_many :workspaces, dependent: :nullify
     has_many :report_states, dependent: :nullify
     has_many :venues, dependent: :nullify
 end

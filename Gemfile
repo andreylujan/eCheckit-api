@@ -26,6 +26,10 @@ group :development do
 	gem 'annotate', '~> 2.6.8'
 	gem 'awesome_print', '~> 1.6.1'
 	gem 'rails-erd', '~> 1.3.1'
+
+  gem 'capistrano-rails', '~> 1.1.2'
+  gem 'capistrano-rbenv', '~> 2.0.3'
+  gem 'capistrano-passenger', '~> 0.0.4'
 end
 
 group :development, :test do

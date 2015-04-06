@@ -9,7 +9,7 @@
 #  updated_at      :datetime         not null
 #
 
-class ReportType < ActiveRecord::Base
+class Workspace < ActiveRecord::Base
   belongs_to :organization
   has_many :reports
   has_many :report_field_types
