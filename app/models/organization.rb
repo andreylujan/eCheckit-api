@@ -10,11 +10,18 @@
 
 class Organization < ActiveRecord::Base
     resourcify
-	has_many :organization_users
-	has_many :organizations, through: :organization_users
-	has_many :users, through: :organization_users
 	has_many :action_types, dependent: :nullify
     has_many :workspaces, dependent: :nullify
-    has_many :report_states, dependent: :nullify
     has_many :venues, dependent: :nullify
+
+    def users
+        users = nil
+        workspaces.each do |w|
+            if users.nil?
+                users = User.with_role(:user, w)
+            else
+                users = users + User.with_role(:user, w)
+            end
+        end
+    end
 end

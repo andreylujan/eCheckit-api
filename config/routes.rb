@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :contacts, only: [ :show, :index ]
   resources :venues, only: [ :show, :index ]
   resources :report_states, only: [ :show, :index ]
-  resources :report_types, only: [ :show, :index ]
+  resources :workspaces, only: [ :show, :index ]
   resources :pictures, only: [ :show, :index, :create ]
   resources :actions, only: [ :show, :index ]
   resources :action_types, only: [ :show, :index ]

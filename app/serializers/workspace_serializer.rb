@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: report_types
+# Table name: workspaces
 #
 #  id              :integer          not null, primary key
 #  description     :text
@@ -9,7 +9,7 @@
 #  updated_at      :datetime         not null
 #
 
-class ReportTypeSerializer < ActiveModel::Serializer
+class WorkspaceSerializer < ActiveModel::Serializer
   attributes :id, :description
   has_one :organization
 end

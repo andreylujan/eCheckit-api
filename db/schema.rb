@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150406184932) do
+ActiveRecord::Schema.define(version: 20150406190812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,16 +87,6 @@ ActiveRecord::Schema.define(version: 20150406184932) do
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
-  create_table "organization_users", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "organization_users", ["organization_id"], name: "index_organization_users_on_organization_id", using: :btree
-  add_index "organization_users", ["user_id"], name: "index_organization_users_on_user_id", using: :btree
-
   create_table "organizations", force: :cascade do |t|
     t.text     "name"
     t.datetime "created_at", null: false
@@ -114,12 +104,12 @@ ActiveRecord::Schema.define(version: 20150406184932) do
 
   create_table "report_field_types", force: :cascade do |t|
     t.text     "description"
-    t.integer  "report_type_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "workspace_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  add_index "report_field_types", ["report_type_id"], name: "index_report_field_types_on_report_type_id", using: :btree
+  add_index "report_field_types", ["workspace_id"], name: "index_report_field_types_on_workspace_id", using: :btree
 
   create_table "report_fields", force: :cascade do |t|
     t.integer  "report_id"
@@ -134,12 +124,12 @@ ActiveRecord::Schema.define(version: 20150406184932) do
 
   create_table "report_states", force: :cascade do |t|
     t.text     "description"
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer  "workspace_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  add_index "report_states", ["organization_id"], name: "index_report_states_on_organization_id", using: :btree
+  add_index "report_states", ["workspace_id"], name: "index_report_states_on_workspace_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
     t.integer  "creator_id",       null: false
@@ -147,15 +137,15 @@ ActiveRecord::Schema.define(version: 20150406184932) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.integer  "report_state_id"
-    t.integer  "report_type_id"
+    t.integer  "workspace_id"
     t.integer  "venue_id"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
   add_index "reports", ["report_state_id"], name: "index_reports_on_report_state_id", using: :btree
-  add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id", using: :btree
   add_index "reports", ["venue_id"], name: "index_reports_on_venue_id", using: :btree
+  add_index "reports", ["workspace_id"], name: "index_reports_on_workspace_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -216,18 +206,16 @@ ActiveRecord::Schema.define(version: 20150406184932) do
   add_foreign_key "actions", "reports"
   add_foreign_key "actions", "users"
   add_foreign_key "contacts", "venues"
-  add_foreign_key "organization_users", "organizations"
-  add_foreign_key "organization_users", "users"
   add_foreign_key "pictures", "reports"
-  add_foreign_key "report_field_types", "workspaces", column: "report_type_id"
+  add_foreign_key "report_field_types", "workspaces"
   add_foreign_key "report_fields", "report_field_types"
   add_foreign_key "report_fields", "reports"
-  add_foreign_key "report_states", "organizations"
+  add_foreign_key "report_states", "workspaces"
   add_foreign_key "reports", "report_states"
   add_foreign_key "reports", "users", column: "assigned_user_id"
   add_foreign_key "reports", "users", column: "creator_id"
   add_foreign_key "reports", "venues"
-  add_foreign_key "reports", "workspaces", column: "report_type_id"
+  add_foreign_key "reports", "workspaces"
   add_foreign_key "venues", "organizations"
   add_foreign_key "workspaces", "organizations"
 end

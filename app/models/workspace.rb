@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: report_types
+# Table name: workspaces
 #
 #  id              :integer          not null, primary key
 #  description     :text
@@ -10,7 +10,9 @@
 #
 
 class Workspace < ActiveRecord::Base
+  resourcify
   belongs_to :organization
   has_many :reports
   has_many :report_field_types
+  has_many :report_states, dependent: :nullify
 end

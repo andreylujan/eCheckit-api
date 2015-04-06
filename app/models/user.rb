@@ -23,8 +23,6 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable
-  has_many :organization_users
-  has_many :organizations, through: :organization_users
   has_many :created_reports, foreign_key: :creator_id, class_name: :Report
   has_many :assigned_reports, foreign_key: :assigned_user_id, class_name: :Report
   has_many :actions
@@ -46,10 +44,23 @@ class User < ActiveRecord::Base
     Doorkeeper::AccessToken.where(resource_owner_id: id)
   end
 
+  def workspaces
+    workspaces = nil
+    roles.where(resource_type: "Workspace", name: "user").each do |r|
+      if workspaces.nil?
+        workspaces = [ r.resource ]
+      else
+        workspaces << r.resource 
+      end
+    end
+  end
+
   private
 
   def doorkeeper_app
   	@app ||= Doorkeeper::Application.find_by_name("echeckit")    
   end
+
+
 
 end

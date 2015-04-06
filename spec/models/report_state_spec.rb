@@ -2,11 +2,11 @@
 #
 # Table name: report_states
 #
-#  id              :integer          not null, primary key
-#  description     :text
-#  organization_id :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id           :integer          not null, primary key
+#  description  :text
+#  workspace_id :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 require 'rails_helper'
