@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   use_doorkeeper
-  use_doorkeeper
+  resources :access_tokens, only: [ :create ]
   resources :report_fields, only: [ :show, :index ]
   resources :report_field_types, only: [ :show, :index ]
   resources :contacts, only: [ :show, :index ]

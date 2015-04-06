@@ -15,7 +15,6 @@
 #  last_sign_in_ip        :inet
 #  created_at             :datetime
 #  updated_at             :datetime
-#  organization_id        :integer
 #
 
 require 'rails_helper'

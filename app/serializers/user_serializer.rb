@@ -15,9 +15,11 @@
 #  last_sign_in_ip        :inet
 #  created_at             :datetime
 #  updated_at             :datetime
-#  organization_id        :integer
 #
 
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email
+
+  has_one :access_token, serializer: AccessTokenSerializer
+  
 end

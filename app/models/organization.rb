@@ -9,9 +9,11 @@
 #
 
 class Organization < ActiveRecord::Base
-	has_many :users
-	has_many :action_types
-    has_many :report_types
-    has_many :report_states
-    has_many :venues
+	has_many :organization_users
+	has_many :organizations, through: :organization_users
+	has_many :users, through: :organization_users
+	has_many :action_types, dependent: :nullify
+    has_many :report_types, dependent: :nullify
+    has_many :report_states, dependent: :nullify
+    has_many :venues, dependent: :nullify
 end
