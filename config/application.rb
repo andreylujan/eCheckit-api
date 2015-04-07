@@ -1,6 +1,9 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'dotenv'
+
+Dotenv.load
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -28,3 +31,9 @@ module EcheckitApi
     end
   end
 end
+
+# Disable for all serializers (except ArraySerializer)
+ActiveModel::Serializer.root = false
+
+# Disable for ArraySerializer
+ActiveModel::ArraySerializer.root = false

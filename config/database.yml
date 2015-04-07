@@ -82,4 +82,6 @@ production:
   <<: *default
   database: echeckit_api_production
   username: echeckit
+  host: localhost
+  pool: 5
   password: <%= ENV['ECHECKIT_API_DATABASE_PASSWORD'] %>
