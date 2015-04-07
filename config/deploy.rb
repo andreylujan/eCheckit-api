@@ -2,7 +2,7 @@
 lock '3.4.0'
 
 set :application, 'api'
-set :repo_url, 'git@github.com:andreylujan/echeckit-api.git'
+set :repo_url, 'git@github.com:pelluch/echeckit-api.git'
 set :branch, 'master'
 
 set :ssh_options, {
