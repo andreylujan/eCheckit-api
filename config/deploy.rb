@@ -62,6 +62,8 @@ set :keep_releases, 5
 # set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 # set :rbenv_roles, :all
 
+set :passenger_restart_with_sudo, true
+
 namespace :deploy do
 
   after :restart, :clear_cache do
