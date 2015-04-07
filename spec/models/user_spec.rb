@@ -19,6 +19,7 @@
 #  last_name              :text
 #  rut                    :text             not null
 #  picture                :text
+#  is_demo                :boolean          default(FALSE)
 #
 
 require 'rails_helper'
