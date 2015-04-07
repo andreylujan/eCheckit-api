@@ -15,6 +15,10 @@
 #  last_sign_in_ip        :inet
 #  created_at             :datetime
 #  updated_at             :datetime
+#  first_name             :text             not null
+#  last_name              :text
+#  rut                    :text             not null
+#  picture                :text
 #
 
 class UserSerializer < ActiveModel::Serializer

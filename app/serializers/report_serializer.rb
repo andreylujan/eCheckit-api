@@ -8,7 +8,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  report_state_id  :integer
-#  workspace_id     :integer
+#  report_type_id   :integer
 #  venue_id         :integer
 #
 

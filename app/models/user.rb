@@ -15,6 +15,10 @@
 #  last_sign_in_ip        :inet
 #  created_at             :datetime
 #  updated_at             :datetime
+#  first_name             :text             not null
+#  last_name              :text
+#  rut                    :text             not null
+#  picture                :text
 #
 
 class User < ActiveRecord::Base
@@ -28,6 +32,8 @@ class User < ActiveRecord::Base
   has_many :actions
 
   after_create :create_token
+  validates_presence_of [ :first_name, :rut ]
+  validates_uniqueness_of [ :rut ]
 
   def create_token
     app = doorkeeper_app
@@ -41,6 +47,14 @@ class User < ActiveRecord::Base
     access_tokens.last
   end
   
+  def name
+    name = first_name
+    if last_name.present?
+      name = name + " " + last_name
+    end
+    name
+  end
+
   def access_tokens
     Doorkeeper::AccessToken.where(resource_owner_id: id)
   end
