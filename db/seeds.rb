@@ -8,7 +8,7 @@
 
 org = Organization.create(name: "Koandina")
 Doorkeeper::Application.create name: "echeckit", redirect_uri: "https://127.0.0.1"
-user = User.create(email: "pablo.lluch@gmail.com", password: "12345678")
+user = User.create(email: "demo@ewin.cl", password: "12345678", first_name: "Juan", last_name: "Pérez", rut: "111111111")
 assignee = User.create(email: "alujan@ewin.cl", password: "12345678")
 action_type = ActionType.create(description: "Cobrar", organization: org)
 report = Report.create(creator: user, assigned_user: assignee)
