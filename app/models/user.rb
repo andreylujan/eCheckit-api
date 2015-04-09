@@ -61,13 +61,9 @@ class User < ActiveRecord::Base
   end
 
   def workspaces
-    workspaces = nil
-    roles.where(resource_type: "Workspace", name: "user").each do |r|
-      if workspaces.nil?
-        workspaces = [ r.resource ]
-      else
-        workspaces << r.resource 
-      end
+    workspaces = []
+    roles.where(resource_type: "Workspace", name: "user").each do |r|  
+      workspaces << r.resource 
     end
     workspaces
   end
