@@ -6,6 +6,9 @@ class Ability
     user ||= User.new
 
     can [ :read, :update ], User, id: user.id
+    can [ :read ], Workspace do |workspace|
+        (workspace.role_ids & user.role_ids).count > 0
+    end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
