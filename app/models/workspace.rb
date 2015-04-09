@@ -3,7 +3,7 @@
 # Table name: workspaces
 #
 #  id              :integer          not null, primary key
-#  description     :text
+#  name            :text
 #  organization_id :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
