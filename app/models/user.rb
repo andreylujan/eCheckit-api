@@ -60,6 +60,21 @@ class User < ActiveRecord::Base
     Doorkeeper::AccessToken.where(resource_owner_id: id)
   end
 
+  def organizations
+    orgs = {}
+    works = self.workspaces
+    pruned = [ "created_at", "updated_at", "organization_id" ]
+    works.each do |w|
+      org = w.organization
+      if orgs[org.id].nil?
+        orgs[org.id] = org.as_json.reject! { |k, v| pruned.include? k }
+        orgs[org.id][:workspaces] = []
+      end
+      orgs[org.id][:workspaces] << w.as_json.reject! { |k, v| pruned.include? k }
+    end
+    orgs.values
+  end
+
   def workspaces
     workspaces = []
     roles.where(resource_type: "Workspace", name: "user").each do |r|  

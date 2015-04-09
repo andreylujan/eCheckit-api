@@ -24,20 +24,8 @@
 
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :first_name, :last_name, :rut, :picture, :is_demo,
-  :workspaces
+  :organizations
 
   has_one :access_token, serializer: AccessTokenSerializer
 
-  def workspaces
-  	workspaces = []
-  	object.workspaces.each do |workspace|
-  		workspaces << {
-  			name: workspace.name,
-  			id: workspace.id,
-  			organization_id: workspace.organization_id
-  		}
-  	end
-  	workspaces
-  end
-  
 end
