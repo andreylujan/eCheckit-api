@@ -69,6 +69,7 @@ class User < ActiveRecord::Base
         workspaces << r.resource 
       end
     end
+    workspaces
   end
 
   private
