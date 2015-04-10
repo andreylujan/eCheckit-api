@@ -10,6 +10,5 @@
 #
 
 class ReportStateSerializer < ActiveModel::Serializer
-  attributes :id, :description
-  has_one :organization
+  attributes :id, :name
 end

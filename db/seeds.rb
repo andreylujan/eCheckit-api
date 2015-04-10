@@ -22,9 +22,9 @@ assigned = ReportState.create workspace: w, name: "Asignado"
 
 action_type = ActionType.create(description: "Cobrar", organization: org)
 
-report = Report.create(creator: user, assigned_user: assignee, title: "Local Matta", report_state: assigned)
-report = Report.create(creator: user, assigned_user: assignee, title: "Local Vicuña", report_state: assigned)
-report = Report.create(creator: user, assigned_user: assignee, title: "Easy", report_state: assigned)
+report = Report.create(creator: user, assigned_user: assignee, title: "Local Matta", report_state: assigned, workspace: w)
+report = Report.create(creator: user, assigned_user: assignee, title: "Local Vicuña", report_state: assigned, workspace: w)
+report = Report.create(creator: user, assigned_user: assignee, title: "Easy", report_state: assigned, workspace: w)
 
 # Action.create(action_type: action_type, user: user, report: report)
 
