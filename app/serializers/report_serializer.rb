@@ -10,6 +10,7 @@
 #  report_state_id  :integer
 #  workspace_id     :integer
 #  venue_id         :integer
+#  title            :text             not null
 #
 
 class ReportSerializer < ActiveModel::Serializer

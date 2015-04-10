@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150409000424) do
+ActiveRecord::Schema.define(version: 20150410162650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,12 +123,13 @@ ActiveRecord::Schema.define(version: 20150409000424) do
   add_index "report_fields", ["report_id"], name: "index_report_fields_on_report_id", using: :btree
 
   create_table "report_states", force: :cascade do |t|
-    t.text     "description"
+    t.text     "name",         null: false
     t.integer  "workspace_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
+  add_index "report_states", ["workspace_id", "name"], name: "index_report_states_on_workspace_id_and_name", unique: true, using: :btree
   add_index "report_states", ["workspace_id"], name: "index_report_states_on_workspace_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(version: 20150409000424) do
     t.integer  "report_state_id"
     t.integer  "workspace_id"
     t.integer  "venue_id"
+    t.text     "title",            null: false
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
