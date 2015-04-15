@@ -11,10 +11,22 @@
 #  workspace_id     :integer
 #  venue_id         :integer
 #  title            :text             not null
+#  address          :text
+#  city             :text
+#  region           :text
+#  commune          :text
+#  country          :text
+#  longitude        :float            not null
+#  latitude         :float            not null
+#  reference        :text
 #
 
 class ReportSerializer < ActiveModel::Serializer
   attributes :id, :creator_id, :assigned_user_id,
-  :created_at, :title
+  :created_at, :title, :workspace_id,
+  :title, :address, :country, :commune, :region, :city,
+  :latitude, :longitude, :reference
   has_one :report_state
+
+  
 end

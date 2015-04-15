@@ -11,6 +11,14 @@
 #  workspace_id     :integer
 #  venue_id         :integer
 #  title            :text             not null
+#  address          :text
+#  city             :text
+#  region           :text
+#  commune          :text
+#  country          :text
+#  longitude        :float            not null
+#  latitude         :float            not null
+#  reference        :text
 #
 
 class Report < ActiveRecord::Base
@@ -23,4 +31,15 @@ class Report < ActiveRecord::Base
     belongs_to :workspace
     belongs_to :venue
     has_many :report_fields
+
+    validates_presence_of [ :workspace, :creator, 
+    	:title, :longitude, :latitude ]
+    	
+    before_create :verify_state
+    private
+    def verify_state
+        if report_state.nil?
+            self.report_state = ReportState.find_by_workspace_id_and_name self.workspace_id, "Creado"
+        end
+    end
 end

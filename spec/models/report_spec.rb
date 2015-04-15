@@ -11,6 +11,14 @@
 #  workspace_id     :integer
 #  venue_id         :integer
 #  title            :text             not null
+#  address          :text
+#  city             :text
+#  region           :text
+#  commune          :text
+#  country          :text
+#  longitude        :float            not null
+#  latitude         :float            not null
+#  reference        :text
 #
 
 require 'rails_helper'

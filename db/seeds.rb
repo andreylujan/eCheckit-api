@@ -10,11 +10,13 @@ Doorkeeper::Application.create name: "echeckit", redirect_uri: "https://127.0.0.
 
 org = Organization.create(name: "Koandina")
 w = Workspace.create organization: org, name: "Embajadores"
+Workspace.create organization: org, name: "Despachadores"
 
 user = User.create(email: "demo@ewin.cl", password: "12345678", first_name: "Juan", last_name: "Pérez", rut: "111111111")
 assignee = User.create(email: "alujan@ewin.cl", password: "12345678", first_name: "Andrey", last_name: "Lujan",
 	rut: "27835805")
 user.add_role :user, w
+user.add_role :user, Workspace.last
 assignee.add_role :user, w
 
 created = ReportState.create workspace: w, name: "Creado"
@@ -22,9 +24,12 @@ assigned = ReportState.create workspace: w, name: "Asignado"
 
 action_type = ActionType.create(description: "Cobrar", organization: org)
 
-report = Report.create(creator: user, assigned_user: assignee, title: "Local Matta", report_state: assigned, workspace: w)
-report = Report.create(creator: user, assigned_user: assignee, title: "Local Vicuña", report_state: assigned, workspace: w)
-report = Report.create(creator: user, assigned_user: assignee, title: "Easy", report_state: assigned, workspace: w)
+report = Report.create(creator: user, assigned_user: assignee, title: "Local Matta", report_state: assigned, workspace: w,
+	latitude: -33.457779, longitude: -70.643044)
+report = Report.create(creator: user, assigned_user: assignee, title: "Local Vicuña", report_state: assigned, workspace: w,
+	latitude: -33.457779, longitude: -70.643044)
+report = Report.create(creator: user, assigned_user: assignee, title: "Easy", report_state: assigned, workspace: w,
+	latitude: -33.457779, longitude: -70.643044)
 
 # Action.create(action_type: action_type, user: user, report: report)
 
