@@ -28,6 +28,7 @@ class Report < ActiveRecord::Base
 	belongs_to :assigned_user, foreign_key: :assigned_user_id, class_name: :User
     has_one :action
     has_many :pictures
+    accepts_nested_attributes_for :pictures
     belongs_to :report_state
     belongs_to :workspace
     belongs_to :venue
