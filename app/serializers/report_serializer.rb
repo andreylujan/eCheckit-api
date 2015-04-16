@@ -28,6 +28,6 @@ class ReportSerializer < ActiveModel::Serializer
   :title, :address, :country, :commune, :region, :city,
   :latitude, :longitude, :reference, :comment
   has_one :report_state
-
+  has_many :pictures
   
 end

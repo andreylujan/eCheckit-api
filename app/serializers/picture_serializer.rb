@@ -11,6 +11,5 @@
 #
 
 class PictureSerializer < ActiveModel::Serializer
-  attributes :id, :url
-  has_one :report
+  attributes :id, :url, :comment
 end
