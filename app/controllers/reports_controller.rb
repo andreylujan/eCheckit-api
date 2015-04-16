@@ -15,6 +15,6 @@ class ReportsController < ApplicationController
     params.require(:report).permit(:workspace_id, :venue_id, :title, 
       :report_state_id, :assigned_user_id,
       :longitude, :latitude, :address, :city, :country,
-      :region, :commune, :reference)
+      :region, :commune, :reference, :comment)
   end
 end

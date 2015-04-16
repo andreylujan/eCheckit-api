@@ -19,13 +19,14 @@
 #  longitude        :float            not null
 #  latitude         :float            not null
 #  reference        :text
+#  comment          :text
 #
 
 class ReportSerializer < ActiveModel::Serializer
   attributes :id, :creator_id, :assigned_user_id,
   :created_at, :title, :workspace_id,
   :title, :address, :country, :commune, :region, :city,
-  :latitude, :longitude, :reference
+  :latitude, :longitude, :reference, :comment
   has_one :report_state
 
   

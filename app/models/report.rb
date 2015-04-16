@@ -19,6 +19,7 @@
 #  longitude        :float            not null
 #  latitude         :float            not null
 #  reference        :text
+#  comment          :text
 #
 
 class Report < ActiveRecord::Base
