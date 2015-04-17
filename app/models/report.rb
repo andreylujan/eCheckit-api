@@ -27,7 +27,7 @@ class Report < ActiveRecord::Base
 	belongs_to :creator, foreign_key: :creator_id, class_name: :User
 	belongs_to :assigned_user, foreign_key: :assigned_user_id, class_name: :User
     has_one :action
-    has_many :pictures
+    has_many :pictures, dependent: :destroy
     accepts_nested_attributes_for :pictures
     belongs_to :report_state
     belongs_to :workspace
