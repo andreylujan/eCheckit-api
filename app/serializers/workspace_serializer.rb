@@ -13,4 +13,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
   attributes :id, :name, :organization_id
   
   has_many :reports
+  def reports
+    object.reports.order('created_at desc')
+  end
 end
