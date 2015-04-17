@@ -33,8 +33,7 @@ class User < ActiveRecord::Base
   has_many :actions
 
   after_create :create_token
-  validates_presence_of [ :first_name, :rut ]
-  validates_uniqueness_of [ :rut ]
+  validates_presence_of [ :first_name ]
 
   def create_token
     app = doorkeeper_app

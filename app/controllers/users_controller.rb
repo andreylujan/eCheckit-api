@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:email, :first_name, :last_name, :rut, :picture, :is_demo).tap do | whitelisted |
+    params.require(:user).permit(:email, :first_name, :last_name, :picture, :is_demo).tap do | whitelisted |
       whitelisted[:password] = params.require(:password)
       whitelisted[:password_confirmation] = params.require(:password_confirmation)
     end
