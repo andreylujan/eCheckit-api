@@ -17,13 +17,12 @@
 #  updated_at             :datetime
 #  first_name             :text             not null
 #  last_name              :text
-#  rut                    :text             not null
 #  picture                :text
 #  is_demo                :boolean          default(FALSE)
 #
 
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :first_name, :last_name, :rut, :picture, :is_demo,
+  attributes :id, :email, :first_name, :last_name, :picture, :is_demo,
   :organizations
 
   has_one :access_token, serializer: AccessTokenSerializer

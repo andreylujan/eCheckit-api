@@ -17,7 +17,6 @@
 #  updated_at             :datetime
 #  first_name             :text             not null
 #  last_name              :text
-#  rut                    :text             not null
 #  picture                :text
 #  is_demo                :boolean          default(FALSE)
 #
