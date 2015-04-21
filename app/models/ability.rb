@@ -9,6 +9,10 @@ class Ability
     can [ :read ], Workspace do |workspace|
         (workspace.role_ids & user.role_ids).count > 0
     end
+
+    if user.has_any_role?
+        can [ :create ], Feedback
+    end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

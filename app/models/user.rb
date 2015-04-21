@@ -30,7 +30,8 @@ class User < ActiveRecord::Base
   has_many :created_reports, foreign_key: :creator_id, class_name: :Report
   has_many :assigned_reports, foreign_key: :assigned_user_id, class_name: :Report
   has_many :actions
-
+  has_many :feedbacks
+  
   after_create :create_token
   validates_presence_of [ :first_name ]
 
