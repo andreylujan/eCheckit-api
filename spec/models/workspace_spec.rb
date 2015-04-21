@@ -7,6 +7,7 @@
 #  organization_id :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  is_open         :boolean          default(TRUE), not null
 #
 
 require 'rails_helper'

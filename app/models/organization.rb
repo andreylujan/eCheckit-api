@@ -14,6 +14,8 @@ class Organization < ActiveRecord::Base
     has_many :workspaces, dependent: :nullify
     has_many :venues, dependent: :nullify
     has_many :domains
+    accepts_nested_attributes_for :domains
+
     def users
         users = nil
         workspaces.each do |w|
