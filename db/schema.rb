@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421210644) do
+ActiveRecord::Schema.define(version: 20150421220941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,19 @@ ActiveRecord::Schema.define(version: 20150421210644) do
   end
 
   add_index "contacts", ["venue_id"], name: "index_contacts_on_venue_id", using: :btree
+
+  create_table "domains", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.text     "domain",                                      null: false
+    t.text     "default_email",                               null: false
+    t.boolean  "allow_automatic_registration", default: true, null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+  end
+
+  add_index "domains", ["domain"], name: "index_domains_on_domain", unique: true, using: :btree
+  add_index "domains", ["organization_id", "default_email"], name: "index_domains_on_organization_id_and_default_email", unique: true, using: :btree
+  add_index "domains", ["organization_id"], name: "index_domains_on_organization_id", using: :btree
 
   create_table "feedbacks", force: :cascade do |t|
     t.text     "comment"
@@ -231,6 +244,7 @@ ActiveRecord::Schema.define(version: 20150421210644) do
   add_foreign_key "actions", "reports"
   add_foreign_key "actions", "users"
   add_foreign_key "contacts", "venues"
+  add_foreign_key "domains", "organizations"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "pictures", "reports"
   add_foreign_key "report_field_types", "workspaces"
