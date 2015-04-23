@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
 
   def assign_default_workspace
     org = Organization.create name: "eCheckit"
-    w = Workspace.create name: "Demo", organization: org
+    w = Workspace.create name: self.name, organization: org
     self.add_role :user, w
   end
 

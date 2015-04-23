@@ -16,4 +16,12 @@ class Workspace < ActiveRecord::Base
   has_many :reports
   has_many :report_field_types
   has_many :report_states, dependent: :nullify
+
+  after_create :create_default_states
+
+  private
+  def create_default_states
+  	ReportState.create workspace: self, name: "Creado"
+	ReportState.create workspace: self, name: "Asignado"
+  end
 end
