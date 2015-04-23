@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421223254) do
+ActiveRecord::Schema.define(version: 20150423190513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,8 +65,10 @@ ActiveRecord::Schema.define(version: 20150421223254) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "rating",     null: false
   end
 
+  add_index "feedbacks", ["rating"], name: "index_feedbacks_on_rating", using: :btree
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
