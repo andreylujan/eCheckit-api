@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   authorize_resource only: [ :update, :show ]
   
   def create
-    @user = User.new(user_params)
+    @user = User.new(create_params)
     if @user.save
       render json: @user, status: :created
     else
@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(user_params)
+    if @user.update_attributes(update_params)
       render json: @user
     else
       render json: @user, status: :unprocessable_entity
@@ -28,11 +28,15 @@ class UsersController < ApplicationController
   end
 
   private
-  def user_params
+  def create_params
     params.require(:user).permit(:email, :first_name, :last_name, :picture, :is_demo).tap do | whitelisted |
       whitelisted[:password] = params.require(:password)
       whitelisted[:password_confirmation] = params.require(:password_confirmation)
     end
+  end
+
+  def update_params
+    params.require(:user).permit(:picture)
   end
 
 end
