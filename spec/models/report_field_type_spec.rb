@@ -7,6 +7,7 @@
 #  workspace_id :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  widget_id    :integer
 #
 
 require 'rails_helper'

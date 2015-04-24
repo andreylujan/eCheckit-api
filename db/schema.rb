@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424064548) do
+ActiveRecord::Schema.define(version: 20150424212818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,8 +132,10 @@ ActiveRecord::Schema.define(version: 20150424064548) do
     t.integer  "workspace_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "widget_id"
   end
 
+  add_index "report_field_types", ["widget_id"], name: "index_report_field_types_on_widget_id", using: :btree
   add_index "report_field_types", ["workspace_id"], name: "index_report_field_types_on_workspace_id", using: :btree
 
   create_table "report_fields", force: :cascade do |t|
@@ -232,6 +234,13 @@ ActiveRecord::Schema.define(version: 20150424064548) do
 
   add_index "venues", ["organization_id"], name: "index_venues_on_organization_id", using: :btree
 
+  create_table "widgets", force: :cascade do |t|
+    t.text     "name",       null: false
+    t.json     "structure",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "workspaces", force: :cascade do |t|
     t.text     "name"
     t.integer  "organization_id"
@@ -250,6 +259,7 @@ ActiveRecord::Schema.define(version: 20150424064548) do
   add_foreign_key "domains", "organizations"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "pictures", "reports"
+  add_foreign_key "report_field_types", "widgets"
   add_foreign_key "report_field_types", "workspaces"
   add_foreign_key "report_fields", "report_field_types"
   add_foreign_key "report_fields", "reports"
