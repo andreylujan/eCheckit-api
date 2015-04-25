@@ -15,6 +15,6 @@ class ReportFieldTypeSerializer < ActiveModel::Serializer
   attributes :id, :name, :widget_name, :translations
   
   def widget_name
-  	widget.name
+  	object.widget.name
   end
 end
