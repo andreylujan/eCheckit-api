@@ -11,6 +11,9 @@
 #
 
 class ReportFieldTypeSerializer < ActiveModel::Serializer
-  attributes :id, :description
-  has_one :workspace
+  attributes :id, :name, :widget_name
+  
+  def widget_name
+  	widget.name
+  end
 end
