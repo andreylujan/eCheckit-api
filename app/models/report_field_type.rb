@@ -8,6 +8,7 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  widget_id    :integer
+#  translations :json
 #
 
 class ReportFieldType < ActiveRecord::Base
