@@ -25,6 +25,7 @@ class ReportsController < ApplicationController
       :report_state_id, :assigned_user_id,
       :longitude, :latitude, :address, :city, :country,
       :region, :commune, :reference, :comment,
-      pictures_attributes: [ :url, :comment ])
+      pictures_attributes: [ :url, :comment ],
+      report_fields_attributes: [ :report_field_type_id, :value ])
   end
 end
