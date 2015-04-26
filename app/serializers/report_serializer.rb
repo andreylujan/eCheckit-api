@@ -29,5 +29,6 @@ class ReportSerializer < ActiveModel::Serializer
   :latitude, :longitude, :reference, :comment
   has_one :report_state
   has_many :pictures
+  has_many :report_fields
   
 end
