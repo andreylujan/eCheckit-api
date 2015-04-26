@@ -29,11 +29,12 @@ class Report < ActiveRecord::Base
     has_one :action
     has_many :pictures, dependent: :destroy
     accepts_nested_attributes_for :pictures
+    has_many :report_fields
     accepts_nested_attributes_for :report_fields
     belongs_to :report_state
     belongs_to :workspace
     belongs_to :venue
-    has_many :report_fields
+    
 
     validates_presence_of [ :workspace, :creator, 
     	:title, :longitude, :latitude ]
