@@ -11,10 +11,10 @@ class ReportsController < ApplicationController
     end
     
     @report = Report.new(create_params)
-    @report.report_fields.each do |field, idx|
+    @report.report_fields.each_with_index do |field, idx|
       field.value = params[:report][:report_fields_attributes][idx]
     end
-    
+
     @report.creator = current_user
     if @report.save
       render json: @report, status: :created
