@@ -6,6 +6,10 @@ class ReportsController < ApplicationController
     if params[:pictures_attributes].present?
       params[:report][:pictures_attributes] = params[:pictures_attributes]
     end
+    if params[:report_fields_attributes].present?
+      params[:report][:report_fields_attributes] = params[:report_fields_attributes]
+    end
+    
     @report = Report.new(create_params)
     @report.creator = current_user
     if @report.save
