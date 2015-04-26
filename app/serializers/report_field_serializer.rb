@@ -11,7 +11,8 @@
 #
 
 class ReportFieldSerializer < ActiveModel::Serializer
-  attributes :id, :value
-  has_one :report
-  has_one :report_field_type
+  attributes :id, :value, :report_field_name
+  def report_field_name
+  	object.report_field_type.name
+  end
 end
