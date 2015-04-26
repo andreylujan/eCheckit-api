@@ -5,9 +5,9 @@
 #  id                   :integer          not null, primary key
 #  report_id            :integer
 #  report_field_type_id :integer
-#  value                :text
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  value                :json             not null
 #
 
 class ReportField < ActiveRecord::Base

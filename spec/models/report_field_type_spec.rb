@@ -9,6 +9,7 @@
 #  updated_at   :datetime         not null
 #  widget_id    :integer
 #  translations :json
+#  data         :json
 #
 
 require 'rails_helper'

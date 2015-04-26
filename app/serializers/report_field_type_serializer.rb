@@ -9,10 +9,11 @@
 #  updated_at   :datetime         not null
 #  widget_id    :integer
 #  translations :json
+#  data         :json
 #
 
 class ReportFieldTypeSerializer < ActiveModel::Serializer
-  attributes :id, :name, :widget_name, :translations
+  attributes :id, :name, :widget_name, :translations, :data
   
   def widget_name
   	object.widget.name
