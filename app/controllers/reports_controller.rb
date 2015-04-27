@@ -12,7 +12,9 @@ class ReportsController < ApplicationController
     
     @report = Report.new(create_params)
     @report.report_fields.each_with_index do |field, idx|
-      field.value = params[:report][:report_fields_attributes][idx]
+      if params[:report][:report_fields_attributes][idx]["value"]
+        field.value = params[:report][:report_fields_attributes][idx]["value"]
+      end
     end
 
     @report.creator = current_user
