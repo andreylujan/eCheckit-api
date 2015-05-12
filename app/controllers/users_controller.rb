@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    organization_id = params.require(:organization_id)
+    organization_id = params.require(:organization_id).to_i
     @users = User.all.select do |u|
       idx = u.organizations.index { |o| o["id"] == organization_id }
       if idx != nil
