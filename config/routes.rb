@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :actions, only: [ :show, :index ]
   resources :action_types, only: [ :show, :index ]
   resources :reports, only: [ :show, :index, :create, :update ]
-  resources :users, only: [ :create, :show, :update ]
+  resources :users, only: [ :create, :show, :update, :index ]
   devise_for :users, skip: [:registrations, :confirmations], skip_helpers: true
   resources :organizations, only: [ :show, :index ]
 end
