@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   before_action :doorkeeper_authorize!, only: [ :update, :show ]
   
-  authorize_resource only: [ :update, :show ]
+  authorize_resource only: [ :update ] # show
   
   def create
     @user = User.new(create_params)
@@ -25,6 +25,19 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     render json: @user
+  end
+
+  def index
+    organization_id = params.require(:organization_id)
+    @users = User.all.select do |u|
+      idx = u.organizations.index { |o| o["id"] == organization_id }
+      if idx != nil
+        true
+      else
+        false
+      end
+    end
+    render json: @users, status: :ok
   end
 
   private
