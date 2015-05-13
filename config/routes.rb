@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   use_doorkeeper
+
+  match '/*path', to: 'application#cors_preflight_check', via: :options
   resources :feedbacks, only: [ :create ]
   resources :access_tokens, only: [ :create ]
   resources :report_fields, only: [ :show, :index ]
