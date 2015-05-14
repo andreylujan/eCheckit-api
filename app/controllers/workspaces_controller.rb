@@ -1,6 +1,6 @@
 class WorkspacesController < ApplicationController
 
-	before_action :doorkeeper_authorize!
+	before_action :doorkeeper_authorize!, only: :show
 	authorize_resource
 
 	def show
