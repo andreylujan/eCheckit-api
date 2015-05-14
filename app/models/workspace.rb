@@ -11,6 +11,7 @@
 #
 
 class Workspace < ActiveRecord::Base
+  include ActiveModel::Serialization
   resourcify
   belongs_to :organization
   has_many :reports
