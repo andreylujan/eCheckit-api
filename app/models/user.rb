@@ -75,13 +75,11 @@ class User < ActiveRecord::Base
       end
       invitation = self.workspace_invitations.find_by_workspace_id w.id
       workspace_json = w.as_json.reject! { |k, v| pruned.include? k }
-       if invitation.nil?
-        workspace_json[:invited] = false
-      else
-        workspace_json[:invited] = true
+       if invitation.present?
         workspace_json[:accepted] = invitation.accepted?
+        orgs[org.id][:workspaces] << workspace_json
       end
-      orgs[org.id][:workspaces] << workspace_json
+      
      
     end
     orgs.values
