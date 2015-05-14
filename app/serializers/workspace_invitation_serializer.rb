@@ -10,10 +10,6 @@
 #  updated_at   :datetime         not null
 #
 
-class WorkspaceInvitation < ActiveRecord::Base
-  belongs_to :workspace
-  belongs_to :user
-
-  validates_presence_of [ :workspace, :user ]
-  validates_uniqueness_of :workspace_id, scope: :user
+class WorkspaceInvitationSerializer < ActiveModel::Serializer
+  attributes :id, :workspace_id, :user_id, :accepted
 end

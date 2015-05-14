@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   resources :users, only: [ :create, :show, :update, :index ]
   devise_for :users, skip: [:registrations, :confirmations], skip_helpers: true
   resources :organizations, only: [ :show, :index ]
+  resources :workspace_invitations, only: [ :show, :index, :create, :update ]
 end
