@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150426201043) do
+ActiveRecord::Schema.define(version: 20150514212251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,6 +161,15 @@ ActiveRecord::Schema.define(version: 20150426201043) do
   add_index "report_states", ["workspace_id", "name"], name: "index_report_states_on_workspace_id_and_name", unique: true, using: :btree
   add_index "report_states", ["workspace_id"], name: "index_report_states_on_workspace_id", using: :btree
 
+  create_table "report_types", force: :cascade do |t|
+    t.text     "description"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "report_types", ["organization_id"], name: "index_report_types_on_organization_id", using: :btree
+
   create_table "reports", force: :cascade do |t|
     t.integer  "creator_id",       null: false
     t.integer  "assigned_user_id"
@@ -242,6 +251,17 @@ ActiveRecord::Schema.define(version: 20150426201043) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "workspace_invitations", force: :cascade do |t|
+    t.integer  "workspace_id",                 null: false
+    t.integer  "user_id",                      null: false
+    t.boolean  "accepted",     default: false, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "workspace_invitations", ["user_id"], name: "index_workspace_invitations_on_user_id", using: :btree
+  add_index "workspace_invitations", ["workspace_id"], name: "index_workspace_invitations_on_workspace_id", using: :btree
+
   create_table "workspaces", force: :cascade do |t|
     t.text     "name"
     t.integer  "organization_id"
@@ -271,5 +291,7 @@ ActiveRecord::Schema.define(version: 20150426201043) do
   add_foreign_key "reports", "venues"
   add_foreign_key "reports", "workspaces"
   add_foreign_key "venues", "organizations"
+  add_foreign_key "workspace_invitations", "users"
+  add_foreign_key "workspace_invitations", "workspaces"
   add_foreign_key "workspaces", "organizations"
 end

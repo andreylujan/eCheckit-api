@@ -16,6 +16,7 @@ class Workspace < ActiveRecord::Base
   has_many :reports
   has_many :report_field_types
   has_many :report_states, dependent: :nullify
+  has_many :workspace_invitations
 
   after_create :create_default_states
 

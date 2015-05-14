@@ -37,7 +37,8 @@ class User < ActiveRecord::Base
   after_create :check_organization
   validates_presence_of [ :first_name ]
   before_create :downcase_attributes
-
+  has_many :workspace_invitations
+  
   def create_token
     app = doorkeeper_app
     if not app
@@ -72,9 +73,23 @@ class User < ActiveRecord::Base
         orgs[org.id] = org.as_json.reject! { |k, v| pruned.include? k }
         orgs[org.id][:workspaces] = []
       end
-      orgs[org.id][:workspaces] << w.as_json.reject! { |k, v| pruned.include? k }
+      invitation = self.workspace_invitations.find_by_workspace_id w.id
+      workspace_json = w.as_json.reject! { |k, v| pruned.include? k }
+       if invitation.nil?
+        workspace_json[:invited] = false
+      else
+        workspace_json[:invited] = true
+        workspace_json[:accepted] = invitation.accepted?
+      end
+      orgs[org.id][:workspaces] << workspace_json
+     
     end
     orgs.values
+  end
+
+  def accepted_invitation?(workspace)
+    invitation = self.workspace_invitations.find_by_workspace_id workspace.id
+    accepted = invitation.present? and invitation.accepted?
   end
 
   def workspaces
