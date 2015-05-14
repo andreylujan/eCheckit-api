@@ -10,11 +10,9 @@ class WorkspaceInvitationsController < ApplicationController
 	end
 
 	def update
-		if params[:user_id] and params[:workspace_id]
-			@workspace_invitation = WorkspaceInvitation.find_by_user_id_and_workspace_id params[:user_id], params[:workspace_id]	
-		else
-			@workspace_invitation = WorkspaceInvitation.find(params.require(:id))
-		end
+		confirmation_token = params.require(:confirmation_token)
+		@workspace_invitation = WorkspaceInvitation.find_by_confirmation_token confirmation_token
+		
 		if @workspace_invitation.present?
 			if @workspace_invitation.update_attributes update_params
 				render json:  @workspace_invitation, status: :ok
