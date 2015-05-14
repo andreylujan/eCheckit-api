@@ -21,6 +21,14 @@ class Workspace < ActiveRecord::Base
 
   after_create :create_default_states
 
+  def users
+    workspace_users = User.joins(:workspace_invitations).where("workspace_invitations.accepted = true and workspace_id = ?", self.id)
+    maps = workspace_users.map do |u|
+      WorkspaceUserSerializer.new u
+    end
+    maps.as_json
+  end
+
   private
   def create_default_states
   	ReportState.create workspace: self, name: "Creado"
