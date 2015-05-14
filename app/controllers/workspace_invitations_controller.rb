@@ -39,8 +39,7 @@ class WorkspaceInvitationsController < ApplicationController
 		end
 	end
 
-	def index
-	end
+	
 
 	private
 	def workspace_invitations_params
