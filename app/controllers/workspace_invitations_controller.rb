@@ -1,7 +1,12 @@
 class WorkspaceInvitationsController < ApplicationController
 
 	def create
+		
 		@workspace_invitation = WorkspaceInvitation.new workspace_invitations_params
+		if params[:email]
+			@workspace_invitation.user = User.find_by_email(params[:email])
+		end
+
 		if @workspace_invitation.save
 			render json: @workspace_invitation, status: :created
 		else
