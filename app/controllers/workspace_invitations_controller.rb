@@ -1,6 +1,11 @@
 class WorkspaceInvitationsController < ApplicationController
 
 	def create
+
+		if params[:confirmation_token].present?
+			update and return
+		end
+
 		email = params.require(:user_email)
 		user = User.find_by_email(email)
 		workspace_invitation = WorkspaceInvitation.find_by_user_id_and_workspace_id(user.id, workspace_invitations_params[:workspace_id])
