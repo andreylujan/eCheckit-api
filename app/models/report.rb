@@ -50,8 +50,6 @@ class Report < ActiveRecord::Base
     end
 
     def assign_user
-        if assigned_user.nil?
-            self.assigned_user = User.second
-        end
+        self.assigned_user_id = self.workspace.users.first[:id]
     end
 end
