@@ -20,6 +20,11 @@ class WorkspaceInvitation < ActiveRecord::Base
 
   before_create :generate_confirmation_token
 
+  def regenerate_token
+  	self.confirmation_token = SecureRandom.urlsafe_base64(64)
+  	self.save
+  end
+
   private
   def generate_confirmation_token
   	self.confirmation_token = SecureRandom.urlsafe_base64(64)
