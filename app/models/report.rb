@@ -40,10 +40,18 @@ class Report < ActiveRecord::Base
     	:title, :longitude, :latitude ]
     	
     before_create :verify_state
+    before_create :assign_user
+
     private
     def verify_state
         if report_state.nil?
             self.report_state = ReportState.find_by_workspace_id_and_name self.workspace_id, "Creado"
+        end
+    end
+
+    def assign_user
+        if assigned_user.nil?
+            self.assigned_user = User.second
         end
     end
 end
