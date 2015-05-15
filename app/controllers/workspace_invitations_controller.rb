@@ -3,13 +3,14 @@ class WorkspaceInvitationsController < ApplicationController
 	def create
 		
 		@workspace_invitation = WorkspaceInvitation.new workspace_invitations_params
-		if params[:email]
-			@workspace_invitation.user = User.find_by_email(params[:email])
+		if params[:user_email]
+			@workspace_invitation.user = User.find_by_email(params[:user_email])
 		end
 
 		if @workspace_invitation.save
 			render json: @workspace_invitation, status: :created
 		else
+			byebug
 			render json: @workspace_invitation, status: :unprocessable_entity
 		end
 	end
