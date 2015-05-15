@@ -19,6 +19,7 @@ class WorkspaceInvitation < ActiveRecord::Base
   validates_uniqueness_of :workspace_id, scope: :user
 
   before_create :generate_confirmation_token
+  before_create :add_user
 
   def regenerate_token
   	self.confirmation_token = SecureRandom.urlsafe_base64(64)
@@ -29,4 +30,11 @@ class WorkspaceInvitation < ActiveRecord::Base
   def generate_confirmation_token
   	self.confirmation_token = SecureRandom.urlsafe_base64(64)
   end
+
+  def add_user
+    if self.user.present?
+      self.user.add_role :user, self
+    end
+  end
 end
+
