@@ -26,7 +26,19 @@ class Workspace < ActiveRecord::Base
     maps = workspace_users.map do |u|
       WorkspaceUserSerializer.new u
     end
-    maps.as_json
+    json = maps.as_json
+
+    json.each do |u|
+      invitation = WorkspaceInvitation.find_by_user_id_and_workspace_id u[:id], self.id
+      if invitation.present? and invitation.accepted?
+        u[:accepted] = true
+        u[:pending] = false
+      else
+        u[:pending] = true
+        u[:accepted] = false
+      end
+    end
+    json
   end
 
   private
