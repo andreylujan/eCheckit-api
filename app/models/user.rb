@@ -112,6 +112,7 @@ class User < ActiveRecord::Base
     org = Organization.create name: "eCheckit"
     w = Workspace.create name: self.name, organization: org
     self.add_role :user, w
+    WorkspaceInvitation.create user: self, workspace: w, accepted: true
   end
 
   def check_organization
