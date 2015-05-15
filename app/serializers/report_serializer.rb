@@ -30,5 +30,5 @@ class ReportSerializer < ActiveModel::Serializer
   has_one :report_state
   has_many :pictures
   has_many :report_fields
-  
+  has_many :actions
 end

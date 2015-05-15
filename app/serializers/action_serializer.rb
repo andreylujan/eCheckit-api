@@ -8,11 +8,10 @@
 #  report_id      :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  data           :json
 #
 
 class ActionSerializer < ActiveModel::Serializer
-  attributes :id
-  has_one :action_type
-  has_one :user
-  has_one :report
+  attributes :id, :action_type_id, :user_id, :report_id, :created_at, :updated_at,
+  :data
 end
