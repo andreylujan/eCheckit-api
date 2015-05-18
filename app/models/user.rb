@@ -51,6 +51,23 @@ class User < ActiveRecord::Base
     access_tokens.last
   end
   
+  def send_confirmation_email
+    gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
+    user_email = self.email
+    gmail.deliver! do
+      to user_email
+      subject "Welcome to eWin"
+      text_part do
+        body "Welcome, #{user_email}"
+      end
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body "Welcome, #{user_email}"
+      end
+    end
+  end
+
+
   def name
     name = first_name
     if last_name.present?
