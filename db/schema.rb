@@ -11,32 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150515194251) do
+ActiveRecord::Schema.define(version: 20150518214358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "action_types", force: :cascade do |t|
-    t.text     "description"
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "action_types", ["organization_id"], name: "index_action_types_on_organization_id", using: :btree
-
-  create_table "actions", force: :cascade do |t|
-    t.integer  "action_type_id"
-    t.integer  "user_id"
-    t.integer  "report_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.json     "data"
-  end
-
-  add_index "actions", ["action_type_id"], name: "index_actions_on_action_type_id", using: :btree
-  add_index "actions", ["report_id"], name: "index_actions_on_report_id", using: :btree
-  add_index "actions", ["user_id"], name: "index_actions_on_user_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.text     "description"
@@ -127,6 +105,28 @@ ActiveRecord::Schema.define(version: 20150515194251) do
   end
 
   add_index "pictures", ["report_id"], name: "index_pictures_on_report_id", using: :btree
+
+  create_table "report_action_types", force: :cascade do |t|
+    t.text     "description"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "report_action_types", ["organization_id"], name: "index_report_action_types_on_organization_id", using: :btree
+
+  create_table "report_actions", force: :cascade do |t|
+    t.integer  "report_action_type_id"
+    t.integer  "user_id"
+    t.integer  "report_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.json     "data"
+  end
+
+  add_index "report_actions", ["report_action_type_id"], name: "index_report_actions_on_report_action_type_id", using: :btree
+  add_index "report_actions", ["report_id"], name: "index_report_actions_on_report_id", using: :btree
+  add_index "report_actions", ["user_id"], name: "index_report_actions_on_user_id", using: :btree
 
   create_table "report_field_types", force: :cascade do |t|
     t.text     "name"
@@ -275,14 +275,14 @@ ActiveRecord::Schema.define(version: 20150515194251) do
 
   add_index "workspaces", ["organization_id"], name: "index_workspaces_on_organization_id", using: :btree
 
-  add_foreign_key "action_types", "organizations"
-  add_foreign_key "actions", "action_types"
-  add_foreign_key "actions", "reports"
-  add_foreign_key "actions", "users"
   add_foreign_key "contacts", "venues"
   add_foreign_key "domains", "organizations"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "pictures", "reports"
+  add_foreign_key "report_action_types", "organizations"
+  add_foreign_key "report_actions", "report_action_types"
+  add_foreign_key "report_actions", "reports"
+  add_foreign_key "report_actions", "users"
   add_foreign_key "report_field_types", "widgets"
   add_foreign_key "report_field_types", "workspaces"
   add_foreign_key "report_fields", "report_field_types"

@@ -10,7 +10,7 @@
 
 class Organization < ActiveRecord::Base
     resourcify
-	has_many :action_types, dependent: :nullify
+	has_many :report_action_types, dependent: :nullify
     has_many :workspaces, dependent: :nullify
     has_many :venues, dependent: :nullify
     has_many :domains

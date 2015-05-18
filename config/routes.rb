@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   resources :report_states, only: [ :show, :index ]
   resources :workspaces, only: [ :show, :index ]
   resources :pictures, only: [ :show, :index, :create ]
-  resources :actions, only: [ :show, :index ]
-  resources :action_types, only: [ :show, :index ]
+  resources :report_actions, only: [ :show, :index, :create ]
+  resources :report_action_types, only: [ :show, :index ]
   resources :reports, only: [ :show, :index, :create, :update ]
   resources :users, only: [ :create, :show, :update, :index ]
   devise_for :users, skip: [:registrations, :confirmations], skip_helpers: true

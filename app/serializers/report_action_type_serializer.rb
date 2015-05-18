@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: action_types
+# Table name: report_action_types
 #
 #  id              :integer          not null, primary key
 #  description     :text
@@ -9,7 +9,7 @@
 #  updated_at      :datetime         not null
 #
 
-class ActionTypeSerializer < ActiveModel::Serializer
+class ReportActionTypeSerializer < ActiveModel::Serializer
   attributes :id, :description
   has_one :organization
 end

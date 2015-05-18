@@ -1,0 +1,2 @@
+class ReportActionTypesController < ApplicationController
+end
