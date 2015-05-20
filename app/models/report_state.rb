@@ -12,6 +12,6 @@
 class ReportState < ActiveRecord::Base
   belongs_to :workspace
   has_many :reports
-
+  has_many :report_actions
   validates_uniqueness_of [ :name ], scope: :workspace_id
 end

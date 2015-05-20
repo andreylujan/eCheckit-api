@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520001937) do
+ActiveRecord::Schema.define(version: 20150520011319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,10 +122,12 @@ ActiveRecord::Schema.define(version: 20150520001937) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.json     "data",                  default: {}, null: false
+    t.integer  "report_state_id"
   end
 
   add_index "report_actions", ["report_action_type_id"], name: "index_report_actions_on_report_action_type_id", using: :btree
   add_index "report_actions", ["report_id"], name: "index_report_actions_on_report_id", using: :btree
+  add_index "report_actions", ["report_state_id"], name: "index_report_actions_on_report_state_id", using: :btree
   add_index "report_actions", ["user_id"], name: "index_report_actions_on_user_id", using: :btree
 
   create_table "report_field_types", force: :cascade do |t|
@@ -281,6 +283,7 @@ ActiveRecord::Schema.define(version: 20150520001937) do
   add_foreign_key "pictures", "reports"
   add_foreign_key "report_action_types", "organizations"
   add_foreign_key "report_actions", "report_action_types"
+  add_foreign_key "report_actions", "report_states"
   add_foreign_key "report_actions", "reports"
   add_foreign_key "report_actions", "users"
   add_foreign_key "report_field_types", "widgets"
