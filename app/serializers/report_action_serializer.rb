@@ -8,10 +8,15 @@
 #  report_id             :integer
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  data                  :json
+#  data                  :json             default({}), not null
 #
 
 class ReportActionSerializer < ActiveModel::Serializer
   attributes :id, :report_action_type_id, :user_id, :report_id, :created_at, :updated_at,
-  :data
+  :data, :report_action_type_name
+
+  def report_action_type_name
+  	object.report_action_type.name
+  end
+
 end

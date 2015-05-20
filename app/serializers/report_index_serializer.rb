@@ -22,12 +22,8 @@
 #  comment          :text
 #
 
-class ReportSerializer < ActiveModel::Serializer
+class ReportIndexSerializer < ActiveModel::Serializer
   attributes :id, :creator_id, :assigned_user_id,
-  :created_at, :workspace_id, :title, :address, :country, :commune, 
-  :region, :city, :latitude, :longitude, :reference, :comment, :report_state_id
+  :created_at, :title, :workspace_id, :report_state_id
   has_one :report_state
-  has_many :pictures
-  has_many :report_fields
-  has_many :report_actions
 end

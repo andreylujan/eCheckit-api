@@ -18,6 +18,7 @@ class ReportActionsController < ApplicationController
             if @report_action.save
                 render json: @report_action, status: :created
             else
+                byebug
                 render json: @report_action, status: :unprocessable_entity
             end
         end

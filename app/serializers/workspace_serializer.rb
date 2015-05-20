@@ -18,6 +18,11 @@ class WorkspaceSerializer < ActiveModel::Serializer
   has_many :report_states
   
   def reports
-    object.reports.order('created_at desc')
+  	object_reports = object.reports.order('created_at desc')
+  	reports_json = []
+    object_reports.each do |report|
+    	reports_json << ReportIndexSerializer.new(report).as_json
+    end
+  	reports_json
   end
 end

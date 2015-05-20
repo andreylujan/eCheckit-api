@@ -25,6 +25,11 @@ class ReportsController < ApplicationController
     end
   end
 
+  def show
+    @report = Report.find(params[:id])
+    render json: @report, status: :ok
+  end
+
   def update
     @report = Report.find(params[:id])
     if @report.update_attributes(update_params)
