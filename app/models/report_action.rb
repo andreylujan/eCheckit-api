@@ -33,6 +33,8 @@ class ReportAction < ActiveRecord::Base
           assigned_user = User.find_by_id(data["assigned_user_id"])
           if assigned_user.nil?
             errors.add(:data, "No user matches id #{data['assigned_user_id']}")
+          else
+            data["assigned_user_name"] = assigned_user.name
           end
         end
       end
