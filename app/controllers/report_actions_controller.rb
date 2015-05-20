@@ -32,7 +32,7 @@ class ReportActionsController < ApplicationController
 
     private
     def report_action_params
-        params.require(:report_action).permit(:report_id).tap do |whitelisted|
+        params.require(:report_action).permit(:report_id, :report_state_id).tap do |whitelisted|
             whitelisted[:data] = params[:data]
         end
     end
