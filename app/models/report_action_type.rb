@@ -12,4 +12,6 @@
 class ReportActionType < ActiveRecord::Base
   belongs_to :organization
   has_many :report_actions
+
+  validates_presence_of [ :organization ]
 end

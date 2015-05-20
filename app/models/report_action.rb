@@ -15,4 +15,6 @@ class ReportAction < ActiveRecord::Base
   belongs_to :report_action_type
   belongs_to :user
   belongs_to :report
+
+  validates_presence_of [ :report, :user, :report_action_type ]
 end

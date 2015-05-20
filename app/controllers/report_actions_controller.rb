@@ -4,12 +4,18 @@ class ReportActionsController < ApplicationController
     
     def create
         @report_action = ReportAction.new(report_action_params)
+        @report_action.user = current_user
         if @report_action.save
+            render json: @report_action, status: :created
         else
+            render json: @report_action, status: :unprocessable_entity
         end
     end
 
     def index
+        report_id = params.require(:report_id)
+        report = Report.find(report_id)
+        render json: report.report_actions, status: :ok
     end
 
     private
