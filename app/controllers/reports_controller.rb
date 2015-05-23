@@ -25,6 +25,17 @@ class ReportsController < ApplicationController
     end
   end
 
+  def index
+    workspace_id = params.require(:workspace_id)
+    workspace = Workspace.find(workspace_id)
+    reports = workspace.reports
+    reports_json = []
+    reports.each do |r|
+      reports_json << ReportIndexSerializer.new(r).as_json
+    end
+    render json: reports_json, status: :ok
+  end
+
   def show
     @report = Report.find(params[:id])
     render json: @report, status: :ok
