@@ -53,6 +53,12 @@ class Report < ActiveRecord::Base
         end
     end
 
+    def assigned_user_name
+        if assigned_user.present?
+            assigned_user.name
+        end
+    end
+
     private
     def verify_state
         if report_state.nil?

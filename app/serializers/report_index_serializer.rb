@@ -25,6 +25,6 @@
 class ReportIndexSerializer < ActiveModel::Serializer
   attributes :id, :creator_id, :assigned_user_id,
   :created_at, :title, :workspace_id, :report_state_id,
-  :assigned_at
+  :assigned_at, :assigned_user_name
   has_one :report_state
 end
