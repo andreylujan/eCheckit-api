@@ -23,7 +23,7 @@
 #
 
 class ReportSerializer < ActiveModel::Serializer
-  attributes :id, :creator_id, :assigned_user_id,
+  attributes :id, :creator_id, :assigned_user_id, :assigned_user_name,
   :created_at, :workspace_id, :title, :address, :country, :commune, 
   :region, :city, :latitude, :longitude, :reference, :comment, :report_state_id
   has_one :report_state
