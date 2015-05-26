@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520011319) do
+ActiveRecord::Schema.define(version: 20150525230248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "channels", force: :cascade do |t|
+    t.text     "name"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "channels", ["organization_id"], name: "index_channels_on_organization_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.text     "description"
@@ -210,6 +219,19 @@ ActiveRecord::Schema.define(version: 20150520011319) do
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
+  create_table "subchannels", force: :cascade do |t|
+    t.integer  "channel_id"
+    t.text     "name"
+    t.integer  "direct_manager_id"
+    t.integer  "indirect_manager_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "subchannels", ["channel_id"], name: "index_subchannels_on_channel_id", using: :btree
+  add_index "subchannels", ["direct_manager_id"], name: "index_subchannels_on_direct_manager_id", using: :btree
+  add_index "subchannels", ["indirect_manager_id"], name: "index_subchannels_on_indirect_manager_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -277,6 +299,7 @@ ActiveRecord::Schema.define(version: 20150520011319) do
 
   add_index "workspaces", ["organization_id"], name: "index_workspaces_on_organization_id", using: :btree
 
+  add_foreign_key "channels", "organizations"
   add_foreign_key "contacts", "venues"
   add_foreign_key "domains", "organizations"
   add_foreign_key "feedbacks", "users"
@@ -296,6 +319,7 @@ ActiveRecord::Schema.define(version: 20150520011319) do
   add_foreign_key "reports", "users", column: "creator_id"
   add_foreign_key "reports", "venues"
   add_foreign_key "reports", "workspaces"
+  add_foreign_key "subchannels", "channels"
   add_foreign_key "venues", "organizations"
   add_foreign_key "workspace_invitations", "users"
   add_foreign_key "workspace_invitations", "workspaces"

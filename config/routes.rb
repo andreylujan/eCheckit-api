@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :subchannels
+  resources :channels
   use_doorkeeper
 
   match '/*path', to: 'application#cors_preflight_check', via: :options
