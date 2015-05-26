@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150525230248) do
+ActiveRecord::Schema.define(version: 20150526014308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,20 @@ ActiveRecord::Schema.define(version: 20150525230248) do
 
   add_index "feedbacks", ["rating"], name: "index_feedbacks_on_rating", using: :btree
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
+
+  create_table "google_communes", force: :cascade do |t|
+    t.text     "commune"
+    t.text     "google_commune"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "google_regions", force: :cascade do |t|
+    t.text     "region"
+    t.text     "google_region"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
