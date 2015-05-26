@@ -77,8 +77,15 @@ class Report < ActiveRecord::Base
 
 
         if channel_field
-            channel = channel_field.value["title"].downcase
-            subitem = channel_field.value["subitem"].downcase
+            byebug
+            channel = channel_field.value["title"]
+            subitem = channel_field.value["subitem"]
+            if channel.present?
+                channel.downcase!
+            end
+            if subitem.present?
+                subitem.downcase!
+            end
             if channel.present? and subitem.present?
                 channel = Channel.find_by_organization_id_and_name(
                     self.workspace.organization_id, channel)
