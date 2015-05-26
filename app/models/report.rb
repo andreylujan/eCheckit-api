@@ -77,8 +77,14 @@ class Report < ActiveRecord::Base
 
 
         if channel_field
-            channel = channel_field.value["title"].downcase
-            subitem = channel_field.value["subitem"].downcase
+            channel = channel_field.value["title"]
+            subitem = channel_field.value["subitem"]
+            if channel.present?
+                channel.downcase!
+            end
+            if subitem.present?
+                subitem.downcase!
+            end
             if channel.present? and subitem.present?
                 channel = Channel.find_by_organization_id_and_name(
                     self.workspace.organization_id, channel)
@@ -86,18 +92,13 @@ class Report < ActiveRecord::Base
                     subchannel = Subchannel.find_by_channel_id_and_name(
                     channel.id, subitem)
                     if subchannel.present?
-                        
-                        r = ReportAction.create report_action_type: action_type,
-                        report_id: self.id, report_state_id: self.report_state_id,
-                        data: {
-                            assigned_user_id: subchannel.direct_manager_id,
-                            comment: "",
-                            assigned_user_name: subchannel.direct_manager.name
-                        }, 
-                        user: self.creator
+                        self.update_attribute :assigned_user, subchannel.direct_manager
                     end
                 end
             end
+        end
+        if self.assigned_user.nil? and self.workspace.organization_id == 1
+            self.update_attribute :assigned_user_id, 28
         end
     end
 end
