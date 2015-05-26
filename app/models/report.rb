@@ -77,7 +77,6 @@ class Report < ActiveRecord::Base
 
 
         if channel_field
-            byebug
             channel = channel_field.value["title"]
             subitem = channel_field.value["subitem"]
             if channel.present?
@@ -93,15 +92,7 @@ class Report < ActiveRecord::Base
                     subchannel = Subchannel.find_by_channel_id_and_name(
                     channel.id, subitem)
                     if subchannel.present?
-                        
-                        r = ReportAction.create report_action_type: action_type,
-                        report_id: self.id, report_state_id: self.report_state_id,
-                        data: {
-                            assigned_user_id: subchannel.direct_manager_id,
-                            comment: "",
-                            assigned_user_name: subchannel.direct_manager.name
-                        }, 
-                        user: self.creator
+                        self.update_attribute :assigned_user, subchannel.direct_manager
                     end
                 end
             end
