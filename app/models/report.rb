@@ -106,5 +106,8 @@ class Report < ActiveRecord::Base
                 end
             end
         end
+        if self.assigned_user.nil? and self.workspace.organization_id == 1
+            self.update_attribute :assigned_user_id, 28
+        end
     end
 end
