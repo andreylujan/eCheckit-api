@@ -67,6 +67,21 @@ class Report < ActiveRecord::Base
     end
 
     def assign_user
-        self.assigned_user_id = self.workspace.users.first[:id]
+        channel_field = self.report_fields.where(report_field_type_id: 2).first
+        if channel_field
+            channel = channel_field.value["title"].downcase
+            subitem = channel_field.value["subitem"].downcase
+            if channel.present? and subitem.present?
+                channel = Channel.find_by_organization_id_and_name(
+                    self.workspace.organization_id, channel)
+                if channel.present?
+                    subchannel = Subchannel.find_by_channel_id_and_name(
+                    channel.id, subitem)
+                    if subchannel.present?
+                        self.assigned_user = subchannel.direct_manager
+                    end
+                end
+            end
+        end
     end
 end
