@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   resources :contacts, only: [ :show, :index ]
   resources :venues, only: [ :show, :index ]
   resources :report_states, only: [ :show, :index ]
-  resources :workspaces, only: [ :show, :index ]
+  resources :workspaces, only: [ :show, :index ] do
+    post :admins
+  end
   resources :pictures, only: [ :show, :index, :create ]
   resources :report_actions, only: [ :show, :index, :create ]
   resources :report_action_types, only: [ :show, :index ]
