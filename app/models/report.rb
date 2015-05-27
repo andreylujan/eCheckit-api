@@ -64,6 +64,12 @@ class Report < ActiveRecord::Base
         end
     end
 
+    def creator_name
+        if creator.present?
+            creator.name
+        end
+    end
+    
     private
     def verify_state
         if report_state.nil?
