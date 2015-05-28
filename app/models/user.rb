@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   after_create :check_organization
   validates_presence_of [ :first_name ]
   before_create :downcase_attributes
-  has_many :workspace_invitations
+  has_many :workspace_invitations, dependent: :destroy
   
   def create_token
     app = doorkeeper_app

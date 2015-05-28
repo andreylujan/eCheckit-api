@@ -37,6 +37,11 @@ class Workspace < ActiveRecord::Base
         u[:pending] = true
         u[:accepted] = false
       end
+      if workspace_users.find_by_id(u[:id]).has_role? :admin, self
+        u[:is_admin] = true
+      else
+        u[:is_admin] = false
+      end
     end
     json
   end

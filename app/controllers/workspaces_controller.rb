@@ -1,7 +1,7 @@
 class WorkspacesController < ApplicationController
 
 	# before_action :doorkeeper_authorize!
-	authorize_resource
+	# authorize_resource
 
 	def show
 		@workspace = Workspace.find(params[:id])
@@ -14,6 +14,14 @@ class WorkspacesController < ApplicationController
 		organization = Organization.find(organization_id)
 		workspaces = organization.workspaces
 		render json: workspaces, status: :ok
+	end
+
+	def admins
+		workspace = Workspace.find(params.require(:workspace_id))
+		user_id = params.require(:user_id)
+		user = User.find(user_id)
+		role = user.add_role :admin, workspace
+		render json: role, status: :ok
 	end
 
 end
