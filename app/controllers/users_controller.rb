@@ -28,16 +28,26 @@ class UsersController < ApplicationController
   end
 
   def index
-    organization_id = params.require(:organization_id).to_i
-    @users = User.all.select do |u|
-      idx = u.organizations.index { |o| o["id"] == organization_id }
-      if idx != nil
-        true
+    if params[:confirmation_token]
+      invitation = WorkspaceInvitation.find_by_confirmation_token params[:confirmation_token]
+      if invitation.present?
+        @user = invitation.user
+        render json: @user, status: :ok
       else
-        false
+        render nothing: true, status: :not_found
       end
+    else
+      organization_id = params.require(:organization_id).to_i
+      @users = User.all.select do |u|
+        idx = u.organizations.index { |o| o["id"] == organization_id }
+        if idx != nil
+          true
+        else
+          false
+        end
+      end
+      render json: @users, status: :ok
     end
-    render json: @users, status: :ok
   end
 
   private
