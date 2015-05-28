@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   before_action :doorkeeper_authorize!, only: [ :update, :show ]
   
-  authorize_resource only: [ :update ] # show
+  authorize_resource only: [ :update, :show ] # show
   
   def create
     @user = User.new(create_params)

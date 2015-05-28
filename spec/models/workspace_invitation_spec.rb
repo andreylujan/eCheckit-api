@@ -4,11 +4,12 @@
 #
 #  id                 :integer          not null, primary key
 #  workspace_id       :integer          not null
-#  user_id            :integer          not null
+#  user_id            :integer
 #  accepted           :boolean          default(FALSE), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  confirmation_token :text             not null
+#  user_email         :text
 #
 
 require 'rails_helper'

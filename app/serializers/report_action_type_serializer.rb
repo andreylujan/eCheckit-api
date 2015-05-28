@@ -7,6 +7,7 @@
 #  organization_id :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  formatted_name  :text
 #
 
 class ReportActionTypeSerializer < ActiveModel::Serializer

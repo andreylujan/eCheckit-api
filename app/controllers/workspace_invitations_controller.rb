@@ -6,15 +6,13 @@ class WorkspaceInvitationsController < ApplicationController
 			update and return
 		end
 
-		email = params.require(:user_email)
-		user = User.find_by_email(email)
-		workspace_invitation = WorkspaceInvitation.find_by_user_id_and_workspace_id(user.id, workspace_invitations_params[:workspace_id])
+		user_email = params.require(:user_email)
+		workspace_invitation = WorkspaceInvitation.find_by_user_email_and_workspace_id(user_email, workspace_invitations_params[:workspace_id])
 		if workspace_invitation.present?
 			workspace_invitation.regenerate_token
 			render json: workspace_invitation, status: :ok
 		else
 			workspace_invitation = WorkspaceInvitation.new workspace_invitations_params
-			workspace_invitation.user = user
 			if workspace_invitation.save
 				render json: workspace_invitation, status: :created
 			else
@@ -57,7 +55,7 @@ class WorkspaceInvitationsController < ApplicationController
 
 	private
 	def workspace_invitations_params
-		params.require(:workspace_invitation).permit(:workspace_id)
+		params.require(:workspace_invitation).permit(:workspace_id, :user_email)
 	end
 
 	def update_params

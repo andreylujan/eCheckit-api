@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526143449) do
+ActiveRecord::Schema.define(version: 20150528221037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -293,15 +293,17 @@ ActiveRecord::Schema.define(version: 20150526143449) do
 
   create_table "workspace_invitations", force: :cascade do |t|
     t.integer  "workspace_id",                       null: false
-    t.integer  "user_id",                            null: false
+    t.integer  "user_id"
     t.boolean  "accepted",           default: false, null: false
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.text     "confirmation_token",                 null: false
+    t.text     "user_email"
   end
 
   add_index "workspace_invitations", ["confirmation_token"], name: "index_workspace_invitations_on_confirmation_token", unique: true, using: :btree
   add_index "workspace_invitations", ["user_id"], name: "index_workspace_invitations_on_user_id", using: :btree
+  add_index "workspace_invitations", ["workspace_id", "user_email"], name: "index_workspace_invitations_on_workspace_id_and_user_email", unique: true, using: :btree
   add_index "workspace_invitations", ["workspace_id"], name: "index_workspace_invitations_on_workspace_id", using: :btree
 
   create_table "workspaces", force: :cascade do |t|
