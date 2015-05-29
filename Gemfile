@@ -45,6 +45,7 @@ group :development, :test do
 
   gem 'rspec-rails', '~> 3.2.1'
   gem 'rspec-http', '~> 0.11.0'
+  gem 'awesome_print', '~> 1.6.1'
 end
 
 group :test do

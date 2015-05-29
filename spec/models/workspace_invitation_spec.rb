@@ -9,7 +9,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  confirmation_token :text             not null
-#  user_email         :text
+#  user_email         :text             not null
 #
 
 require 'rails_helper'

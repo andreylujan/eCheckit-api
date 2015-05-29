@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150528225306) do
+ActiveRecord::Schema.define(version: 20150529204910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 20150528225306) do
   end
 
   add_index "channels", ["organization_id"], name: "index_channels_on_organization_id", using: :btree
+
+  create_table "communes", force: :cascade do |t|
+    t.integer  "region_id",  null: false
+    t.text     "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "communes", ["region_id", "name"], name: "index_communes_on_region_id_and_name", unique: true, using: :btree
+  add_index "communes", ["region_id"], name: "index_communes_on_region_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.text     "description"
@@ -128,6 +138,16 @@ ActiveRecord::Schema.define(version: 20150528225306) do
   end
 
   add_index "pictures", ["report_id"], name: "index_pictures_on_report_id", using: :btree
+
+  create_table "regions", force: :cascade do |t|
+    t.text     "name",          null: false
+    t.text     "roman_numeral", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "regions", ["name"], name: "index_regions_on_name", unique: true, using: :btree
+  add_index "regions", ["roman_numeral"], name: "index_regions_on_roman_numeral", unique: true, using: :btree
 
   create_table "report_action_types", force: :cascade do |t|
     t.text     "name"
@@ -317,6 +337,7 @@ ActiveRecord::Schema.define(version: 20150528225306) do
   add_index "workspaces", ["organization_id"], name: "index_workspaces_on_organization_id", using: :btree
 
   add_foreign_key "channels", "organizations"
+  add_foreign_key "communes", "regions"
   add_foreign_key "contacts", "venues"
   add_foreign_key "domains", "organizations"
   add_foreign_key "feedbacks", "users"
