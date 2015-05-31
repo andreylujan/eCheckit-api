@@ -7,9 +7,10 @@
 #  roman_numeral :text             not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  number        :integer
 #
 
 class RegionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :roman_numeral
+  attributes :id, :name, :roman_numeral, :number
   has_many :communes
 end
