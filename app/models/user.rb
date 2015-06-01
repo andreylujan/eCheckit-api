@@ -38,7 +38,9 @@ class User < ActiveRecord::Base
   validates_presence_of [ :first_name ]
   before_create :downcase_attributes
   has_many :workspace_invitations, dependent: :destroy
-  
+  has_many :zone_managers
+  has_many :zone_assignments, through: :zone_managers
+
   def create_token
     app = doorkeeper_app
     if not app

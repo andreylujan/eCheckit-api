@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150531233539) do
+ActiveRecord::Schema.define(version: 20150601001926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -337,6 +337,30 @@ ActiveRecord::Schema.define(version: 20150531233539) do
 
   add_index "workspaces", ["organization_id"], name: "index_workspaces_on_organization_id", using: :btree
 
+  create_table "zone_assignments", force: :cascade do |t|
+    t.integer  "channel_id"
+    t.integer  "subchannel_id"
+    t.integer  "region_id"
+    t.integer  "commune_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "zone_assignments", ["channel_id"], name: "index_zone_assignments_on_channel_id", using: :btree
+  add_index "zone_assignments", ["commune_id"], name: "index_zone_assignments_on_commune_id", using: :btree
+  add_index "zone_assignments", ["region_id"], name: "index_zone_assignments_on_region_id", using: :btree
+  add_index "zone_assignments", ["subchannel_id"], name: "index_zone_assignments_on_subchannel_id", using: :btree
+
+  create_table "zone_managers", force: :cascade do |t|
+    t.integer  "zone_assignment_id"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "zone_managers", ["user_id"], name: "index_zone_managers_on_user_id", using: :btree
+  add_index "zone_managers", ["zone_assignment_id"], name: "index_zone_managers_on_zone_assignment_id", using: :btree
+
   add_foreign_key "channels", "organizations"
   add_foreign_key "communes", "regions"
   add_foreign_key "contacts", "venues"
@@ -363,4 +387,10 @@ ActiveRecord::Schema.define(version: 20150531233539) do
   add_foreign_key "workspace_invitations", "users"
   add_foreign_key "workspace_invitations", "workspaces"
   add_foreign_key "workspaces", "organizations"
+  add_foreign_key "zone_assignments", "channels"
+  add_foreign_key "zone_assignments", "communes"
+  add_foreign_key "zone_assignments", "regions"
+  add_foreign_key "zone_assignments", "subchannels"
+  add_foreign_key "zone_managers", "users"
+  add_foreign_key "zone_managers", "zone_assignments"
 end

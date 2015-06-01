@@ -1,0 +1,2 @@
+class ZoneAssignmentsController < ApplicationController
+end
