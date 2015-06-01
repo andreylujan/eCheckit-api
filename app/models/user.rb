@@ -35,6 +35,7 @@ class User < ActiveRecord::Base
   after_create :create_token
   after_create :assign_default_workspace
   after_create :check_organization
+  after_create :check_invitations
   validates_presence_of [ :first_name ]
   before_create :downcase_attributes
   has_many :workspace_invitations, dependent: :destroy
@@ -125,6 +126,12 @@ class User < ActiveRecord::Base
 
   def downcase_attributes
     self.email.downcase!
+  end
+
+  def check_invitations
+    WorkspaceInvitation.where(user_email: "ejemplo3@koandina.cl").each do |invitation|
+      invitation.udate_attribute :user_id, self.id
+    end
   end
 
   def assign_default_workspace
