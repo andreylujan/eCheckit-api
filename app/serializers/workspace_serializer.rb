@@ -12,7 +12,7 @@
 
 class WorkspaceSerializer < ActiveModel::Serializer
   attributes :id, :name, :organization_id, :users, :report_counts,
-  :current_contest
+  :current_contest, :server_time
   
   has_many :reports
   has_many :report_field_types
@@ -26,5 +26,9 @@ class WorkspaceSerializer < ActiveModel::Serializer
     	reports_json << ReportIndexSerializer.new(report).as_json
     end
   	reports_json
+  end
+
+  def server_time
+    DateTime.now.to_s
   end
 end
