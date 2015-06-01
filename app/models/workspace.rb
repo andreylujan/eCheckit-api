@@ -40,6 +40,13 @@ class Workspace < ActiveRecord::Base
     end
   end
 
+  def current_contest
+    active_contest = Contest.where("starts_at < ? and ends_at > ?", DateTime.now, DateTime.now).first
+    if active_contest
+      ContestSerializer.new(active_contest).as_json
+    end
+  end
+
   def users
     workspace_users = User.joins(:workspace_invitations).where("workspace_invitations.accepted = true and workspace_id = ?", self.id)
     maps = workspace_users.map do |u|
