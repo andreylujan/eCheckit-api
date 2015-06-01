@@ -32,7 +32,6 @@ f.each_line do |line|
 		user.add_role :user, workspace
 		WorkspaceInvitation.create workspace: workspace, accepted: true, user_id: user.id
 	end
-	subchannel.update_attribute :direct_manager, user
 
 	region = Region.find_by_roman_numeral(region_name)
 	if region.nil?
@@ -44,7 +43,7 @@ f.each_line do |line|
 			problems << "#{region_name} - #{commune_name}"
 		elsif user.present?
 			za = ZoneAssignment.find_or_create_by channel: channel, subchannel: subchannel, region: region,
-			commune: commune
+			commune: commune, workspace_id: 1
 			ZoneManager.find_or_create_by user: user, zone_assignment: za
 		end
 	end
@@ -82,8 +81,7 @@ f.each_line do |line|
 		user.add_role :user, workspace
 		WorkspaceInvitation.create workspace: workspace, accepted: true, user_id: user.id
 	end
-	subchannel.update_attribute :direct_manager, user
-
+	
 	region = Region.find_by_roman_numeral(region_name)
 	if region.nil?
 		puts "Region #{region_name} does not exist"
@@ -96,7 +94,7 @@ f.each_line do |line|
 			problems << "#{region_name} - #{commune_name}"
 		elsif user.present?
 			za = ZoneAssignment.find_or_create_by channel: channel, subchannel: subchannel, region: region,
-			commune: commune
+			commune: commune, workspace_id: 1
 			ZoneManager.find_or_create_by user: user, zone_assignment: za
 		end
 	end
