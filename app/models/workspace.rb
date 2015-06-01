@@ -28,6 +28,15 @@ class Workspace < ActiveRecord::Base
     if contest.present?
       reports = Report.where("created_at > ? and created_at < ?", contest.starts_at, contest.ends_at)
       counts = reports.group(:creator_id).count
+      counts_arr = []
+      counts.each do |k, v|
+        counts_arr << {
+          user_id: k,
+          num_reports: v
+        }
+        
+      end
+      return counts_arr
     end
   end
 
