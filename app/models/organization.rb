@@ -15,6 +15,7 @@ class Organization < ActiveRecord::Base
     has_many :venues, dependent: :nullify
     has_many :domains
     has_many :channels
+    has_many :contest_phrases
     accepts_nested_attributes_for :domains
 
     def users

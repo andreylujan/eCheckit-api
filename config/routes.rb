@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :contests
   match '/*path', to: 'application#cors_preflight_check', via: :options
   resources :feedbacks, only: [ :create ]
   resources :access_tokens, only: [ :create ]

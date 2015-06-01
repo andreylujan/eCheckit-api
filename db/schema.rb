@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150601020815) do
+ActiveRecord::Schema.define(version: 20150601051719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,28 @@ ActiveRecord::Schema.define(version: 20150601020815) do
   end
 
   add_index "contacts", ["venue_id"], name: "index_contacts_on_venue_id", using: :btree
+
+  create_table "contest_phrases", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.integer  "tier",            null: false
+    t.text     "phrase",          null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "contest_phrases", ["organization_id"], name: "index_contest_phrases_on_organization_id", using: :btree
+
+  create_table "contests", force: :cascade do |t|
+    t.integer  "workspace_id"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.text     "prize"
+    t.float    "tier_steps",   default: [0.33, 0.66], null: false, array: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "contests", ["workspace_id"], name: "index_contests_on_workspace_id", using: :btree
 
   create_table "domains", force: :cascade do |t|
     t.integer  "organization_id"
@@ -363,6 +385,8 @@ ActiveRecord::Schema.define(version: 20150601020815) do
   add_foreign_key "channels", "organizations"
   add_foreign_key "communes", "regions"
   add_foreign_key "contacts", "venues"
+  add_foreign_key "contest_phrases", "organizations"
+  add_foreign_key "contests", "workspaces"
   add_foreign_key "domains", "organizations"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "pictures", "reports"

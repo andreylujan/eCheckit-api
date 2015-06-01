@@ -11,4 +11,5 @@
 class OrganizationSerializer < ActiveModel::Serializer
   attributes :id, :name
   has_many :domains
+  has_many :contest_phrases
 end

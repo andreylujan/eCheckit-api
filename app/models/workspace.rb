@@ -19,6 +19,7 @@ class Workspace < ActiveRecord::Base
   has_many :report_states, dependent: :nullify
   has_many :workspace_invitations
   has_many :zone_assignments
+  has_many :contests
   
   after_create :create_default_states
 

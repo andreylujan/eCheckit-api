@@ -16,6 +16,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
   has_many :reports
   has_many :report_field_types
   has_many :report_states
+  has_many :contests
   
   def reports
   	object_reports = object.reports.order('created_at desc')
