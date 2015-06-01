@@ -11,7 +11,7 @@
 #
 
 class WorkspaceSerializer < ActiveModel::Serializer
-  attributes :id, :name, :organization_id, :users
+  attributes :id, :name, :organization_id, :users, :report_counts
   
   has_many :reports
   has_many :report_field_types

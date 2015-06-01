@@ -23,11 +23,22 @@ class Workspace < ActiveRecord::Base
   
   after_create :create_default_states
 
+  def report_counts
+    contest = self.contests.last
+    if contest.present?
+      reports = Report.where("created_at > ? and created_at < ?", contest.starts_at, contest.ends_at)
+      counts = reports.group(:creator_id).count
+    end
+  end
+
   def users
     workspace_users = User.joins(:workspace_invitations).where("workspace_invitations.accepted = true and workspace_id = ?", self.id)
     maps = workspace_users.map do |u|
       WorkspaceUserSerializer.new u
     end
+
+    
+
     json = maps.as_json
 
     json.each do |u|
@@ -45,12 +56,13 @@ class Workspace < ActiveRecord::Base
         u[:is_admin] = false
       end
     end
+
     json
   end
 
   private
   def create_default_states
   	ReportState.create workspace: self, name: "Creado"
-	ReportState.create workspace: self, name: "Asignado"
-  end
+   ReportState.create workspace: self, name: "Asignado"
+ end
 end
