@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150601001926) do
+ActiveRecord::Schema.define(version: 20150601010726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "unaccent"
 
   create_table "channels", force: :cascade do |t|
     t.text     "name"
@@ -258,15 +259,11 @@ ActiveRecord::Schema.define(version: 20150601001926) do
   create_table "subchannels", force: :cascade do |t|
     t.integer  "channel_id"
     t.text     "name"
-    t.integer  "direct_manager_id"
-    t.integer  "indirect_manager_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "subchannels", ["channel_id"], name: "index_subchannels_on_channel_id", using: :btree
-  add_index "subchannels", ["direct_manager_id"], name: "index_subchannels_on_direct_manager_id", using: :btree
-  add_index "subchannels", ["indirect_manager_id"], name: "index_subchannels_on_indirect_manager_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

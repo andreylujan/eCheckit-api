@@ -11,4 +11,9 @@
 
 class Commune < ActiveRecord::Base
   belongs_to :region
+
+  def self.find_by_name(name)
+   	where("lower(unaccent(name)) = ?", I18n.transliterate(name).downcase).first
+  end
+
 end

@@ -13,6 +13,4 @@
 
 class Subchannel < ActiveRecord::Base
   belongs_to :channel
-  belongs_to :direct_manager, foreign_key: :direct_manager_id, class_name: :User
-  belongs_to :indirect_manager, foreign_key: :indirect_manager_id, class_name: :User
 end

@@ -1,3 +1,5 @@
+problems = []
+
 f = File.open("./db/responsables_moderno.csv", "r")
 workspace = Workspace.first
 f.each_line do |line|
@@ -5,9 +7,11 @@ f.each_line do |line|
 	channel_name = data[0].downcase
 	subchannel_name = data[1].downcase
 	address = data[2].downcase
-	commune_name = data[4].downcase
+	commune_name = I18n.transliterate(data[4]).downcase
 	manager = data[5]
 	indirect_manager = data[7]
+	region_name = data[3]
+
 	channel = Channel.find_by_organization_id_and_name(1, channel_name)
 
 	if channel.nil?
@@ -29,8 +33,25 @@ f.each_line do |line|
 		WorkspaceInvitation.create workspace: workspace, accepted: true, user_id: user.id
 	end
 	subchannel.update_attribute :direct_manager, user
+
+	region = Region.find_by_roman_numeral(region_name)
+	if region.nil?
+		puts "Region #{region_name} does not exist"
+	else
+		commune = region.communes.where("lower(unaccent(name)) = ?", commune_name).first
+		if commune.nil?
+			puts "Commune #{commune_name} does not exist"
+			problems << "#{region_name} - #{commune_name}"
+		elsif user.present?
+			za = ZoneAssignment.find_or_create_by channel: channel, subchannel: subchannel, region: region,
+			commune: commune
+			ZoneManager.find_or_create_by user: user, zone_assignment: za
+		end
+	end
+
 end
 f.close
+
 
 f = File.open("./db/responsables_tradicional.csv", "r")
 workspace = Workspace.first
@@ -39,7 +60,9 @@ f.each_line do |line|
 	channel_name = data[0].downcase
 	subchannel_name = data[1].downcase
 	manager = data[5]
+	region_name = data[3]
 	channel = Channel.find_by_organization_id_and_name(1, channel_name)
+	commune_name = I18n.transliterate(data[4]).downcase
 
 	if channel.nil?
 		puts "Creating channel #{channel_name}"
@@ -60,5 +83,26 @@ f.each_line do |line|
 		WorkspaceInvitation.create workspace: workspace, accepted: true, user_id: user.id
 	end
 	subchannel.update_attribute :direct_manager, user
+
+	region = Region.find_by_roman_numeral(region_name)
+	if region.nil?
+		puts "Region #{region_name} does not exist"
+		byebug
+		a = 2
+	else
+		commune = region.communes.where("lower(unaccent(name)) = ?", commune_name).first
+		if commune.nil?
+			puts "Commune #{commune_name} does not exist"
+			problems << "#{region_name} - #{commune_name}"
+		elsif user.present?
+			za = ZoneAssignment.find_or_create_by channel: channel, subchannel: subchannel, region: region,
+			commune: commune
+			ZoneManager.find_or_create_by user: user, zone_assignment: za
+		end
+	end
+
+
 end
 f.close
+
+ap problems.uniq

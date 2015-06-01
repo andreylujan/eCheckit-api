@@ -1,6 +1,6 @@
 class WorkspacesController < ApplicationController
 
-	before_action :doorkeeper_authorize!
+	# before_action :doorkeeper_authorize!
 
 	def show
 		@workspace = Workspace.find(params[:id])
