@@ -11,5 +11,4 @@
 
 class SubchannelSerializer < ActiveModel::Serializer
   attributes :id, :name
-  has_one :channel
 end

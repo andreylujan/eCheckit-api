@@ -13,37 +13,31 @@
 #
 
 class ZoneAssignmentSerializer < ActiveModel::Serializer
-	attributes :id, :channel, :subchannel, :region, :commune
+	attributes :id, :managers, :region
+	has_one :channel
+	has_one :subchannel
+	has_one :commune
 
 	def managers
 		m = []
 		object.managers.each do |manager|
-			m << manager.name
+			m << {
+				name: manager.name,
+				id: manager.id
+			}
 		end
 		m
 	end
 
-	def channel
-		if object.channel
-			object.channel.name
-		end
-	end
-
-	def subchannel
-		if object.subchannel
-			object.subchannel.name
-		end
-	end
-
 	def region
-		if object.region
-			object.region.name
-		end
-	end
-
-	def commune
-		if object.commune
-			object.commune.name
+		r = object.region
+		if r.present?
+			{
+				id: r.id,
+				name: r.name,
+				number: r.number,
+				roman_numeral: r.roman_numeral
+			}
 		end
 	end
 end
