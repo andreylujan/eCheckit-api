@@ -12,6 +12,6 @@
 #
 
 class SubchannelSerializer < ActiveModel::Serializer
-  attributes :id, :name, :direct_manager_id, :indirect_manager_id
+  attributes :id, :name
   has_one :channel
 end

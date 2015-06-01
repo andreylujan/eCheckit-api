@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150601010726) do
+ActiveRecord::Schema.define(version: 20150601020158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -341,12 +341,14 @@ ActiveRecord::Schema.define(version: 20150601010726) do
     t.integer  "commune_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.integer  "workspace_id"
   end
 
   add_index "zone_assignments", ["channel_id"], name: "index_zone_assignments_on_channel_id", using: :btree
   add_index "zone_assignments", ["commune_id"], name: "index_zone_assignments_on_commune_id", using: :btree
   add_index "zone_assignments", ["region_id"], name: "index_zone_assignments_on_region_id", using: :btree
   add_index "zone_assignments", ["subchannel_id"], name: "index_zone_assignments_on_subchannel_id", using: :btree
+  add_index "zone_assignments", ["workspace_id"], name: "index_zone_assignments_on_workspace_id", using: :btree
 
   create_table "zone_managers", force: :cascade do |t|
     t.integer  "zone_assignment_id"
@@ -388,6 +390,7 @@ ActiveRecord::Schema.define(version: 20150601010726) do
   add_foreign_key "zone_assignments", "communes"
   add_foreign_key "zone_assignments", "regions"
   add_foreign_key "zone_assignments", "subchannels"
+  add_foreign_key "zone_assignments", "workspaces"
   add_foreign_key "zone_managers", "users"
   add_foreign_key "zone_managers", "zone_assignments"
 end

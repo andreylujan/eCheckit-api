@@ -18,7 +18,8 @@ class Workspace < ActiveRecord::Base
   has_many :report_field_types
   has_many :report_states, dependent: :nullify
   has_many :workspace_invitations
-
+  has_many :zone_assignments
+  
   after_create :create_default_states
 
   def users
