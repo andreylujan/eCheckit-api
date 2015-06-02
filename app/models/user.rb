@@ -86,15 +86,15 @@ class User < ActiveRecord::Base
   def organizations
     orgs = {}
     works = self.workspaces
-    pruned = [ "created_at", "updated_at", "organization_id" ]
+    pruned = [ :domains ]
     works.each do |w|
       org = w.organization
       if orgs[org.id].nil?
-        orgs[org.id] = org.as_json.reject! { |k, v| pruned.include? k }
+        orgs[org.id] = OrganizationSerializer.new(org).as_json.reject! { |k, v| pruned.include? k }
         orgs[org.id][:workspaces] = []
       end
       invitation = self.workspace_invitations.find_by_workspace_id w.id
-      workspace_json = w.as_json.reject! { |k, v| pruned.include? k }
+      workspace_json = w.as_json.reject { |k, v| pruned.include? k }
        if invitation.present?
         workspace_json[:accepted] = invitation.accepted?
         orgs[org.id][:workspaces] << workspace_json
