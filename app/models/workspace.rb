@@ -28,6 +28,22 @@ class Workspace < ActiveRecord::Base
     if contest.present?
       reports = Report.where("created_at > ? and created_at < ?", contest.starts_at, contest.ends_at)
       counts = reports.group(:creator_id).count
+      counts_arr = []
+      counts.each do |k, v|
+        counts_arr << {
+          user_id: k,
+          num_reports: v
+        }
+        
+      end
+      return counts_arr
+    end
+  end
+
+  def current_contest
+    active_contest = Contest.where("starts_at < ? and ends_at > ?", DateTime.now, DateTime.now).first
+    if active_contest
+      ContestSerializer.new(active_contest).as_json
     end
   end
 
