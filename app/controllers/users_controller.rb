@@ -36,7 +36,10 @@ class UsersController < ApplicationController
         user_json[:workspace_invitation] = WorkspaceInvitationSerializer.new(invitation).as_json
         render json: user_json, status: :ok
       else
-        render nothing: true, status: :not_found
+        user_json = {
+          workspace_invitation: WorkspaceInvitationSerializer.new(invitation).as_json
+        }
+        render json: user_json, status: :ok
       end
     else
       organization_id = params.require(:organization_id).to_i
