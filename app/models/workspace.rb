@@ -71,6 +71,13 @@ class Workspace < ActiveRecord::Base
       else
         u[:is_admin] = false
       end
+      u[:is_registered] = true
+    end
+    WorkspaceInvitation.where(user: nil, workspace: self).each do |unregistered|
+      json << {
+        email: unregistered.user_email,
+        is_registered: false
+      }
     end
 
     json
