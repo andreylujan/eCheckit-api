@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150601051719) do
+ActiveRecord::Schema.define(version: 20150605172609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(version: 20150601051719) do
     t.datetime "updated_at",                                  null: false
   end
 
+  add_index "domains", ["domain", "default_email"], name: "index_domains_on_domain_and_default_email", unique: true, using: :btree
   add_index "domains", ["domain"], name: "index_domains_on_domain", unique: true, using: :btree
-  add_index "domains", ["organization_id", "default_email"], name: "index_domains_on_organization_id_and_default_email", unique: true, using: :btree
   add_index "domains", ["organization_id"], name: "index_domains_on_organization_id", using: :btree
 
   create_table "feedbacks", force: :cascade do |t|
