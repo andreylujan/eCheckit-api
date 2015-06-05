@@ -15,7 +15,7 @@ class Domain < ActiveRecord::Base
   belongs_to :organization
 
   validates_presence_of [ :organization, :domain, :default_email ]
-  validates_uniqueness_of [ :default_email ], scope: :organization
+  validates_uniqueness_of [ :default_email ], scope: :domain
   validates_uniqueness_of [ :domain ]
 
   before_save :downcase_attributes
