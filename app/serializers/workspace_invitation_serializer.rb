@@ -13,5 +13,5 @@
 #
 
 class WorkspaceInvitationSerializer < ActiveModel::Serializer
-  attributes :id, :workspace_id, :user_id, :accepted, :confirmation_token
+  attributes :id, :workspace_id, :user_id, :user_email, :accepted, :confirmation_token
 end

@@ -31,10 +31,17 @@ class UsersController < ApplicationController
     if params[:confirmation_token]
       invitation = WorkspaceInvitation.find_by_confirmation_token params[:confirmation_token]
       if invitation.present?
-        @user = invitation.user
-        user_json = UserSerializer.new(@user).as_json
-        user_json[:workspace_invitation] = WorkspaceInvitationSerializer.new(invitation).as_json
-        render json: user_json, status: :ok
+        if @user.present?
+          @user = invitation.user
+          user_json = UserSerializer.new(@user).as_json
+          user_json[:workspace_invitation] = WorkspaceInvitationSerializer.new(invitation).as_json
+          render json: user_json, status: :ok
+        else
+          user_json = {
+            workspace_invitation: WorkspaceInvitationSerializer.new(invitation).as_json
+          }
+          render json: user_json, status: :ok
+        end
       else
         render nothing: true, status: :not_found
       end
