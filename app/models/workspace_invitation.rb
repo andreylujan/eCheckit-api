@@ -26,21 +26,23 @@ class WorkspaceInvitation < ActiveRecord::Base
   after_save :check_accepted
 
   def send_email
-    gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
-    url = ""
-    user_email = self.user_email
-    token = self.confirmation_token
-    gmail.deliver! do
-      to user_email
-      subject "Confirme su usuario eCheckit"
-      text_part do
-        body 'Bienvenido a eCheckit! Para confirmar su correo, por favor haga ingrese a http://52.0.24.103/#/core/signup' +
-        '?confirmation_token=' + token
-      end
-      html_part do
-        content_type 'text/html; charset=UTF-8'
-        body 'Bienvenido a eCheckit! Para confirmar su correo, por favor haga click <a href="http://52.0.24.103/#/core/signup' +
-        '?confirmation_token=' + token + '">aquí</a>'
+    if not self.accepted?
+      gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
+      url = ""
+      user_email = self.user_email
+      token = self.confirmation_token
+      gmail.deliver! do
+        to user_email
+        subject "Confirme su usuario eCheckit"
+        text_part do
+          body 'Bienvenido a eCheckit! Para confirmar su correo, por favor haga ingrese a http://52.0.24.103/#/core/signup' +
+          '?confirmation_token=' + token
+        end
+        html_part do
+          content_type 'text/html; charset=UTF-8'
+          body 'Bienvenido a eCheckit! Para confirmar su correo, por favor haga click <a href="http://52.0.24.103/#/core/signup' +
+          '?confirmation_token=' + token + '">aquí</a>'
+        end
       end
     end
   end
@@ -48,7 +50,7 @@ class WorkspaceInvitation < ActiveRecord::Base
   def regenerate_token
   	self.confirmation_token = SecureRandom.urlsafe_base64(64)
     send_email
-  	self.save
+    self.save
   end
 
   private
