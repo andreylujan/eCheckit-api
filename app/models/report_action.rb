@@ -38,6 +38,14 @@ class ReportAction < ActiveRecord::Base
           end
         end
       end
+    else
+      if data.present?
+        assigned_user = self.report.assigned_user
+        if assigned_user.present?
+          data["assigned_user_name"] = assigned_user.name
+          data["assigned_user_id"] = assigned_user.id
+        end
+      end
     end
   end
 
