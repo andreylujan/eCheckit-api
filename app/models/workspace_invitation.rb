@@ -20,9 +20,11 @@ class WorkspaceInvitation < ActiveRecord::Base
   validates_uniqueness_of :user_email, scope: :workspace
 
   before_create :generate_confirmation_token
-  before_create :verify_user
+  
   # before_save :add_user
   after_create :send_email
+
+  before_save :verify_user
   after_save :check_accepted
 
   def send_email
