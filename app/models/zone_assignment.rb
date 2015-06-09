@@ -24,5 +24,18 @@ class ZoneAssignment < ActiveRecord::Base
   validates_presence_of :workspace
   accepts_nested_attributes_for :zone_managers, allow_destroy: true
 
+  validate :assigned_user_exists?
+  validate :attribute_presence
 
+  def assigned_user_exists?
+    if self.zone_managers.length == 0
+      errors.add(:zone_managers, "Debe haber al menos un usuario asignado")
+    end
+  end
+
+  def attribute_presence
+    if not(channel.present? or region.present? or commune.present?)
+      errors.add(:info, "Debe existir estar presente al menos canal, región o comuna")
+    end
+  end
 end
