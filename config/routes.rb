@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :zone_assignments, only: [ :index, :create, :update, :destroy ]
   end
 
+  resources :organizations, only: [ :show ]
   resources :report_actions, only: [ :index, :create ]
   resources :reports, only: [ :show, :index, :create, :update ]
   resources :users, only: [ :create, :show, :update, :index ]
