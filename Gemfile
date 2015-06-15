@@ -22,6 +22,7 @@ gem 'rolify', '~> 4.0.0'
 gem 'cancan', '~> 1.6.10'
 gem 'gmail', '~> 0.5.0'
 gem 'awesome_print', '~> 1.6.1'
+gem 'apipie-rails', :github => 'Apipie/apipie-rails'
 
 group :development do
 	gem 'thin', '~> 1.6.3'
@@ -30,7 +31,6 @@ group :development do
   gem 'capistrano-rails', '~> 1.1.3'
   gem 'capistrano-rvm', '~> 0.1.2'
   gem 'capistrano-passenger', '~> 0.0.5'
-  gem 'apipie-rails', :github => 'Apipie/apipie-rails'
 end
 
 group :development, :test do
