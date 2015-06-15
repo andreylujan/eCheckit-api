@@ -22,7 +22,7 @@ class Workspace < ActiveRecord::Base
   has_many :contests
   
   after_create :create_default_states
-
+  
   def report_counts
     contest = self.contests.last
     if contest.present?

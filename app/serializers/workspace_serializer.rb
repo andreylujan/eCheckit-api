@@ -12,10 +12,9 @@
 
 class WorkspaceSerializer < ActiveModel::Serializer
   attributes :id, :name, :organization_id, :users, :report_counts,
-  :current_contest, :server_time
+  :current_contest, :server_time, :report_field_types
   
   has_many :reports
-  has_many :report_field_types
   has_many :report_states
   has_many :contests
   
@@ -26,6 +25,15 @@ class WorkspaceSerializer < ActiveModel::Serializer
     	reports_json << ReportIndexSerializer.new(report).as_json
     end
   	reports_json
+  end
+
+  def report_field_types
+    types = []
+    ordered = object.report_field_types.order 'index ASC'
+    ordered.each do |o|
+      types << ReportFieldTypeSerializer.new(o).as_json
+    end
+    types
   end
 
   def server_time

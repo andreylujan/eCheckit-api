@@ -2,6 +2,8 @@ class ZoneAssignmentsController < ApplicationController
 
 	before_action :doorkeeper_authorize!
 
+	api :GET, "/workspace/:workspace_id/zone_assignments", "Show zone assignments"
+	param :workspace_id, Integer, desc: "Workspace id", required: true
 	def index
 		workspace = Workspace.find(params[:workspace_id])
 		@zone_assignments = workspace.zone_assignments

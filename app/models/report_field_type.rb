@@ -10,6 +10,7 @@
 #  widget_id    :integer
 #  translations :json
 #  data         :json
+#  index        :integer
 #
 
 class ReportFieldType < ActiveRecord::Base

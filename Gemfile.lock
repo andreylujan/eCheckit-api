@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/Apipie/apipie-rails.git
+  revision: a47c0550e9954eb3e285bd8c1e27e1784e5a2a86
+  specs:
+    apipie-rails (0.3.4)
+      json
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -218,6 +225,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.9.3)
   annotate (~> 2.6.10)
+  apipie-rails!
   awesome_print (~> 1.6.1)
   byebug (~> 4.0.5)
   cancan (~> 1.6.10)

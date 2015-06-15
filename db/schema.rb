@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150605172609) do
+ActiveRecord::Schema.define(version: 20150615180601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 20150605172609) do
     t.integer  "widget_id"
     t.json     "translations"
     t.json     "data"
+    t.integer  "index"
   end
 
   add_index "report_field_types", ["widget_id"], name: "index_report_field_types_on_widget_id", using: :btree
