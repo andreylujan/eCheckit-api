@@ -48,7 +48,7 @@ class Workspace < ActiveRecord::Base
   end
 
   def users
-    workspace_users = User.joins(:workspace_invitations).where("workspace_invitations.accepted = true and workspace_id = ?", self.id)
+    workspace_users = User.joins(:workspace_invitations).where("workspace_id = ?", self.id).order(:id)
     maps = workspace_users.map do |u|
       WorkspaceUserSerializer.new u
     end
