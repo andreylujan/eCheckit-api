@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :access_tokens, only: [ :create ]
   resources :workspaces, only: [ :show, :index ] do
     post :admins
+    get :dashboard
     resources :zone_assignments, only: [ :index, :create, :update, :destroy ]
   end
 

@@ -23,4 +23,10 @@ class WorkspacesController < ApplicationController
 		render json: role, status: :ok
 	end
 
+	def dashboard
+		workspace = Workspace.find(params[:workspace_id])
+		@dashboard = workspace.dashboard
+		render json: @dashboard, status: :ok
+	end
+
 end

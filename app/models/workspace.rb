@@ -40,6 +40,41 @@ class Workspace < ActiveRecord::Base
     end
   end
 
+  def local_dashboard(reports)
+    reason_counts = {}
+    reports_count = reports.count
+    reports.each do |report|
+      report.report_fields.each do |report_field|
+        if report_field.report_field_type_id == 1
+          if report_field.value.present? and report_field.value["title"].present?
+            reason_counts[report_field.value["title"]] ||= 0
+            reason_counts[report_field.value["title"]] += 1
+          end 
+        end
+      end
+    end
+    return {
+      reports_count: reports_count,
+      reason_counts: reason_counts
+    }
+  end
+
+  def dashboard
+    if self.organization_id == 1
+      reports = self.reports
+      global_info = local_dashboard(reports)
+      regions = []
+      Region.all.each do |region|
+        region_reports = reports.where("lower(unaccent(region)) = ?", I18n.transliterate(region.name).downcase)
+        local_info = local_dashboard(region_reports)
+        local_info[:region_id] = region.id
+        regions << local_info
+      end
+      global_info[:regions] = regions
+      return global_info
+    end
+  end
+
   def current_contest
     active_contest = Contest.where("starts_at < ? and ends_at > ?", DateTime.now, DateTime.now).first
     if active_contest
