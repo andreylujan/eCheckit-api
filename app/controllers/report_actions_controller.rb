@@ -1,11 +1,13 @@
 class ReportActionsController < ApplicationController
 
+    require 'amazon'
+
     before_action :doorkeeper_authorize!
     
     def create
         report_action_type_name = params.require(:report_action_type_name)
-        report = Report.find(params.require(:report_id))
-        organization_id = report.workspace.organization
+        @report = Report.find(params.require(:report_id))
+        organization_id = @report.workspace.organization
         report_action_type = ReportActionType.find_by_organization_id_and_name(
             organization_id, report_action_type_name)
         if report_action_type.nil?
@@ -35,5 +37,15 @@ class ReportActionsController < ApplicationController
             whitelisted[:data] = params[:data]
         end
     end
+
+    def generate_pdf
+        pdf = WickedPdf.new.pdf_from_string(
+          render_to_string('templates/report.html.erb')
+          )
+        url = Amazon.upload_pdf(pdf)
+        if not url.nil?
+          @report.update_attribute :pdf, url
+      end
+  end
 
 end

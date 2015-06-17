@@ -11,5 +11,17 @@
 #
 
 class Picture < ActiveRecord::Base
-  belongs_to :report
+
+	require 'amazon'
+	belongs_to :report
+
+	after_destroy :amazon_destroy
+
+	def key
+		url[url.rindex(/\//) + 1..url.length - 1]
+	end
+
+	def amazon_destroy
+		Amazon.delete_object(key)
+	end
 end

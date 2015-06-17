@@ -17,4 +17,23 @@ class Amazon
 			return nil
 		end
 	end
+
+	def self.delete_object(key)
+		begin
+			s3 = Aws::S3::Resource.new(region:'sa-east-1', 
+				credentials: Aws::Credentials.new("AKIAIYVFMP4RZQBQ2DLA", "uuaKp4MePXJ6DRJDXNdMAt92wdVDyb445RUmqxp2"))
+			bucket = s3.bucket('echeckit')
+			bucket.delete_objects({
+				delete: {
+					objects: [
+						{
+							key: key
+						}
+					],
+					quiet: true
+				}
+			})
+		rescue
+		end
+	end
 end
