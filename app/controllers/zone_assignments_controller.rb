@@ -1,5 +1,7 @@
 class ZoneAssignmentsController < ApplicationController
 
+	before_action :doorkeeper_authorize!
+
 	api :GET, "/workspace/:workspace_id/zone_assignments", "Show zone assignments"
 	# param :workspace_id, Integer, desc: "Workspace id", required: true
 	def index
@@ -9,6 +11,7 @@ class ZoneAssignmentsController < ApplicationController
 	end
 
 	def create
+		
 		if params[:zone_managers_attributes].present?
 			params[:zone_assignment][:zone_managers_attributes] = params[:zone_managers_attributes]
 		end
@@ -24,6 +27,7 @@ class ZoneAssignmentsController < ApplicationController
 	end
 
 	def update
+		
 		@zone_assignment = ZoneAssignment.find(params[:id])
 
 		if params[:zone_managers_attributes].present?
