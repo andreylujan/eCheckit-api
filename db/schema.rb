@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150615180601) do
+ActiveRecord::Schema.define(version: 20150617155040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,10 +60,11 @@ ActiveRecord::Schema.define(version: 20150615180601) do
     t.integer  "workspace_id"
     t.datetime "starts_at"
     t.datetime "ends_at"
-    t.text     "prize"
-    t.float    "tier_steps",   default: [0.33, 0.66], null: false, array: true
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.text     "prize_image"
+    t.float    "tier_steps",        default: [0.33, 0.66], null: false, array: true
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.text     "prize_description"
   end
 
   add_index "contests", ["workspace_id"], name: "index_contests_on_workspace_id", using: :btree
