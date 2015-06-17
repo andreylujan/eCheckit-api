@@ -26,7 +26,7 @@ class ZoneAssignmentsController < ApplicationController
 	end
 
 	def update
-
+		
 		@zone_assignment = ZoneAssignment.find(params[:id])
 
 		if params[:zone_managers_attributes].present?

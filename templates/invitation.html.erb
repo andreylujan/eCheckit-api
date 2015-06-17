@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title></title>
+</head>
+<body>
+	<div style="width: 650px">
+		<div id="header" style="width: 100%">
+			<div id="title" style="background-color: #a51e29; border-bottom: 7px solid #e32526;">
+				<img src="https://d21zid65ggdxzg.cloudfront.net/4a315f47486daac50bde1042194d3011.png" style="width: 200px; padding: 10px">
+			</div>
+		</div>
+		<div id="content">
+			<div id="text" style="font-family: calibri; color: #4b4b4b; text-align: center; padding: 50px">
+				<h1>Estimado <%= user_name %></h1>
+				<p>Ha sido invitado al workspace <%= workspace_name %></p>
+				<p>Para aceptar la invitación presione el siguiente botón</p>
+				<form action="<%= signup_url %>">
+					<button id="boton" style="padding: 10px 14px; border-radius: 5px; background-color: #ca2122; color: white; font-size: 1.2em; border:none; cursor: pointer; margin-top: 15px;">Aceptar invitación</button>
+				</form>
+			</div>
+		</div>
+		<div id="footer" style="width: 100%">
+			<div id="lineFooter" style="background-color: #3a3a3c; height: 70px"></div>
+		</div>
+	</div>
+
+</body>
+</html>

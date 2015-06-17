@@ -23,6 +23,7 @@ gem 'cancan', '~> 1.6.10'
 gem 'gmail', '~> 0.5.0'
 gem 'awesome_print', '~> 1.6.1'
 gem 'apipie-rails', :github => 'Apipie/apipie-rails'
+gem 'erubis', '~> 2.7.0'
 
 group :development do
 	gem 'thin', '~> 1.6.3'
