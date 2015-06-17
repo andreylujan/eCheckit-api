@@ -20,6 +20,7 @@
 #  latitude         :float            not null
 #  reference        :text
 #  comment          :text
+#  pdf              :text
 #
 
 class Report < ActiveRecord::Base
