@@ -24,6 +24,9 @@ gem 'gmail', '~> 0.5.0'
 gem 'awesome_print', '~> 1.6.1'
 gem 'apipie-rails', :github => 'Apipie/apipie-rails'
 gem 'erubis', '~> 2.7.0'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+gem 'aws-sdk', '~> 2.1.0'
 
 group :development do
 	gem 'thin', '~> 1.6.3'

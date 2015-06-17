@@ -70,6 +70,7 @@ class Report < ActiveRecord::Base
             end
         end
 
+
         private
         def verify_state
             if report_state.nil?

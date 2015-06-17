@@ -1,5 +1,9 @@
 class ReportsController < ApplicationController
 
+
+  BUCKET = "echeckit";
+  CDN = "http://d21zid65ggdxzg.cloudfront.net/";
+
   before_action :doorkeeper_authorize!
 
   def create
@@ -19,6 +23,7 @@ class ReportsController < ApplicationController
 
     @report.creator = current_user
     if @report.save
+      # generate_pdf
       render json: @report, status: :created
     else
       render json: @report, status: :unprocessable_entity
@@ -62,5 +67,22 @@ class ReportsController < ApplicationController
 
   def update_params
     params.require(:report).permit(:assigned_user_id, :comment, :report_state_id)
+  end
+
+  def generate_pdf
+
+    pdf = WickedPdf.new.pdf_from_string(
+      render_to_string('templates/report.html.erb')
+      )
+
+    s3 = Aws::S3::Resource.new(region:'sa-east-1', 
+      credentials: Aws::Credentials.new("AKIAIYVFMP4RZQBQ2DLA", "uuaKp4MePXJ6DRJDXNdMAt92wdVDyb445RUmqxp2"))
+    bucket = s3.bucket('echeckit')
+    md5 = Digest::MD5.new
+    md5.update pdf
+    byebug
+    bucket.put_object body: pdf, acl: "public-read"
+    byebug
+    r = @report
   end
 end
