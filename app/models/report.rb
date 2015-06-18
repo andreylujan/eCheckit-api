@@ -27,10 +27,10 @@ class Report < ActiveRecord::Base
 
 	belongs_to :creator, foreign_key: :creator_id, class_name: :User
 	belongs_to :assigned_user, foreign_key: :assigned_user_id, class_name: :User
-    has_many :report_actions
+    has_many :report_actions, dependent: :destroy
     has_many :pictures, dependent: :destroy
     accepts_nested_attributes_for :pictures
-    has_many :report_fields
+    has_many :report_fields, dependent: :destroy
     accepts_nested_attributes_for :report_fields
     belongs_to :report_state
     belongs_to :workspace
