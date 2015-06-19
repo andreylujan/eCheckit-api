@@ -36,6 +36,15 @@ class Workspace < ActiveRecord::Base
         }
         
       end
+
+      if counts_arr.length == 0
+        self.user_ids.each do |user_id|
+          counts_arr << {
+            user_id: user_id,
+            num_reports: 0
+          }
+        end
+      end
       return counts_arr
     end
   end
@@ -80,6 +89,11 @@ class Workspace < ActiveRecord::Base
     if active_contest
       ContestSerializer.new(active_contest).as_json
     end
+  end
+
+  def user_ids    
+    invitations = self.workspace_invitations.where(accepted: true)
+    invitations.pluck(:user_id)
   end
 
   def users
