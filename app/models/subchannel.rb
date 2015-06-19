@@ -11,4 +11,5 @@
 
 class Subchannel < ActiveRecord::Base
   belongs_to :channel
+  has_many :zone_assignments
 end
