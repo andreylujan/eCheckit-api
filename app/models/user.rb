@@ -70,6 +70,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def admin_workspace_ids
+    roles.where(name: "admin").pluck :resource_id
+  end
 
   def name
     name = first_name

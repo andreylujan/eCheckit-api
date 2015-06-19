@@ -23,7 +23,7 @@
 
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :first_name, :last_name, :picture, :is_demo,
-  :organizations
+  :organizations, :admin_workspace_ids
 
   has_one :access_token, serializer: AccessTokenSerializer
 
