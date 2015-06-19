@@ -38,12 +38,10 @@ class Workspace < ActiveRecord::Base
       end
 
       if counts_arr.length == 0
-        self.user_ids.each do |user_id|
-          counts_arr << {
-            user_id: user_id,
-            num_reports: 0
-          }
-        end
+        counts_arr << {
+          user_id: -1,
+          num_reports: 1
+        }
       end
       return counts_arr
     end
