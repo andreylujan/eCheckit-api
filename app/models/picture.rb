@@ -22,6 +22,8 @@ class Picture < ActiveRecord::Base
 	end
 
 	def amazon_destroy
-		Amazon.delete_object(key)
-	end
+        if Rails.env.production? and url.present?
+            Amazon.delete_object(key)
+        end
+    end
 end

@@ -35,7 +35,7 @@ class Report < ActiveRecord::Base
     belongs_to :report_state
     belongs_to :workspace
     belongs_to :venue
-    
+    after_destroy :delete_pdf
 
     validates_presence_of [ :workspace, :creator, 
     	:title, :longitude, :latitude ]
@@ -76,6 +76,13 @@ class Report < ActiveRecord::Base
         def verify_state
             if report_state.nil?
                 self.report_state = ReportState.find_by_workspace_id_and_name self.workspace_id, "Asignado"
+            end
+        end
+
+        def delete_pdf
+            if Rails.env.production? and self.pdf.present?
+                pdf_key = pdf[pdf.rindex(/\//) + 1..pdf.length - 1]
+                Amazon.delete_object(pdf_key)
             end
         end
 
