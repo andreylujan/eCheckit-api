@@ -25,6 +25,10 @@ class ReportActionSerializer < ActiveModel::Serializer
     object.report_action_type.formatted_name
   end
 
+  def report_state_name
+    object.report_state.name
+  end
+
   def user_name
   	object.user.name
   end
