@@ -23,8 +23,17 @@
 
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :first_name, :last_name, :picture, :is_demo,
-  :organizations, :admin_workspace_ids
+  :organizations, :admin_workspace_ids, :amazon_info
 
   has_one :access_token, serializer: AccessTokenSerializer
+
+  def amazon_info
+  	{
+  		key: ENV["AMAZON_KEY"],
+  		secret: ENV["AMAZON_SECRET"],
+  		bucket: ENV["AMAZON_BUCKET"],
+  		cdn: ENV["AMAZON_CDN"] 
+  	}
+  end
 
 end
