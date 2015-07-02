@@ -22,9 +22,13 @@ class ChannelsController < ApplicationController
 	end
 
 	def update
+		
 	end
 
 	def destroy
+		@channel = Channel.find(params[:id])
+		@channel.destroy
+		render nothing: true, status: :no_content
 	end
 
 	def channel_attributes

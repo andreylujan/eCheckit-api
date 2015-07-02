@@ -12,7 +12,7 @@
 
 class Channel < ActiveRecord::Base
   belongs_to :workspace
-  has_many :subchannels
+  has_many :subchannels, dependent: :destroy
 
   accepts_nested_attributes_for :subchannels, allow_destroy: true
 end
