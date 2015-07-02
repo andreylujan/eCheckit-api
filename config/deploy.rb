@@ -6,7 +6,7 @@ set :repo_url, 'git@github.com:pelluch/echeckit-api.git'
 set :branch, 'master'
 
 set :ssh_options, {
- keys: [ "/home/pablo/.ssh/ubuntu.pem", "/home/pablo/.ssh/echeckit_api_rsa" ],
+ keys: [ "#{ENV['HOME']}/.ssh/ubuntu.pem", "#{ENV['HOME']}/.ssh/echeckit_api_rsa" ],
  forward_agent: true,
  auth_methods: ["publickey"]
 }

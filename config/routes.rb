@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :zone_assignments, only: [ :index, :create, :update, :destroy ]
     resources :channels, only: [ :index, :create, :update, :destroy ]
     resources :reasons, only: [ :index, :create, :update, :destroy ]
+    resources :contests, only: [ :index, :create, :update, :destroy, :show ]
   end
 
   resources :organizations, only: [ :show ]
@@ -21,4 +22,5 @@ Rails.application.routes.draw do
   resources :regions, only: [ :index ] do
     resources :communes, only: [ :index ]
   end
+
 end
