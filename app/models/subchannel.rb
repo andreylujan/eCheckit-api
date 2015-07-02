@@ -12,4 +12,6 @@
 class Subchannel < ActiveRecord::Base
   belongs_to :channel
   has_many :zone_assignments
+
+  validates_uniqueness_of :name, scope: :channel_id
 end
