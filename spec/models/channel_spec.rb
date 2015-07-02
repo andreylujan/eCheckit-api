@@ -8,6 +8,7 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  image           :text
+#  workspace_id    :integer
 #
 
 require 'rails_helper'

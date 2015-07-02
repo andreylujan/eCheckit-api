@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     post :admins
     get :dashboard
     resources :zone_assignments, only: [ :index, :create, :update, :destroy ]
+    resources :channels, only: [ :index, :create, :update, :destroy ]
+    resources :reasons, only: [ :index, :create, :update, :destroy ]
   end
 
   resources :organizations, only: [ :show ]
