@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150702160917) do
+ActiveRecord::Schema.define(version: 20150702161319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,14 +19,12 @@ ActiveRecord::Schema.define(version: 20150702160917) do
 
   create_table "channels", force: :cascade do |t|
     t.text     "name"
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.text     "image"
     t.integer  "workspace_id"
   end
 
-  add_index "channels", ["organization_id"], name: "index_channels_on_organization_id", using: :btree
   add_index "channels", ["workspace_id"], name: "index_channels_on_workspace_id", using: :btree
 
   create_table "communes", force: :cascade do |t|
@@ -388,7 +386,6 @@ ActiveRecord::Schema.define(version: 20150702160917) do
   add_index "zone_managers", ["user_id"], name: "index_zone_managers_on_user_id", using: :btree
   add_index "zone_managers", ["zone_assignment_id"], name: "index_zone_managers_on_zone_assignment_id", using: :btree
 
-  add_foreign_key "channels", "organizations"
   add_foreign_key "channels", "workspaces"
   add_foreign_key "communes", "regions"
   add_foreign_key "contacts", "venues"
