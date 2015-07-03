@@ -21,6 +21,8 @@
 #  reference        :text
 #  comment          :text
 #  pdf              :text
+#  reason_id        :integer
+#  channel_id       :integer
 #
 
 class Report < ActiveRecord::Base
@@ -35,6 +37,8 @@ class Report < ActiveRecord::Base
     belongs_to :report_state
     belongs_to :workspace
     belongs_to :venue
+    belongs_to :channel
+    belongs_to :reason
     after_destroy :delete_pdf
 
     validates_presence_of [ :workspace, :creator, 
@@ -42,6 +46,7 @@ class Report < ActiveRecord::Base
     	
         before_create :verify_state
         after_create :assign_user
+        after_create :assign_reason
 
         def assigned_at
             assigned_action_type = ReportActionType.find_by_organization_id_and_name(
@@ -86,6 +91,20 @@ class Report < ActiveRecord::Base
             end
         end
 
+        def assign_reason
+            reason_field = self.report_fields.where(report_field_type_id: 1).first
+            if reason_field
+                reason_title = reason_field.value["title"]
+                if reason_title.present?
+                    reason = Reason.find_by_workspace_id_and_name(
+                        self.workspace_id, reason_title)
+                    if reason.present?
+                        self.update_attribute :reason, reason
+                    end
+                end
+            end
+        end
+
         def assign_user
             channel_field = self.report_fields.where(report_field_type_id: 2).first
             action_type = self.assign_action_type
@@ -96,9 +115,10 @@ class Report < ActiveRecord::Base
                 subitem = channel_field.value["subitem"]
                
                 if channel.present? and subitem.present?
-                    channel = Channel.find_by_organization_id_and_name(
-                        self.workspace.organization_id, channel)
+                    channel = Channel.find_by_workspace_id_and_name(
+                        self.workspace_id, channel)
                     if channel.present?
+                        self.update_attribute :channel, channel
                         subchannel = Subchannel.find_by_channel_id_and_name(
                             channel.id, subitem)
                         if subchannel.present?

@@ -21,6 +21,8 @@
 #  reference        :text
 #  comment          :text
 #  pdf              :text
+#  reason_id        :integer
+#  channel_id       :integer
 #
 
 class ReportSerializer < ActiveModel::Serializer

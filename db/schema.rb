@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150702161319) do
+ActiveRecord::Schema.define(version: 20150703190056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,6 +164,16 @@ ActiveRecord::Schema.define(version: 20150702161319) do
 
   add_index "pictures", ["report_id"], name: "index_pictures_on_report_id", using: :btree
 
+  create_table "reasons", force: :cascade do |t|
+    t.integer  "workspace_id"
+    t.text     "name",         null: false
+    t.text     "image"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "reasons", ["workspace_id"], name: "index_reasons_on_workspace_id", using: :btree
+
   create_table "regions", force: :cascade do |t|
     t.text     "name",          null: false
     t.text     "roman_numeral", null: false
@@ -263,10 +273,14 @@ ActiveRecord::Schema.define(version: 20150702161319) do
     t.text     "reference"
     t.text     "comment"
     t.text     "pdf"
+    t.integer  "reason_id"
+    t.integer  "channel_id"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
+  add_index "reports", ["channel_id"], name: "index_reports_on_channel_id", using: :btree
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
+  add_index "reports", ["reason_id"], name: "index_reports_on_reason_id", using: :btree
   add_index "reports", ["report_state_id"], name: "index_reports_on_report_state_id", using: :btree
   add_index "reports", ["venue_id"], name: "index_reports_on_venue_id", using: :btree
   add_index "reports", ["workspace_id"], name: "index_reports_on_workspace_id", using: :btree
@@ -394,6 +408,7 @@ ActiveRecord::Schema.define(version: 20150702161319) do
   add_foreign_key "domains", "organizations"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "pictures", "reports"
+  add_foreign_key "reasons", "workspaces"
   add_foreign_key "report_action_types", "organizations"
   add_foreign_key "report_actions", "report_action_types"
   add_foreign_key "report_actions", "report_states"
@@ -404,6 +419,8 @@ ActiveRecord::Schema.define(version: 20150702161319) do
   add_foreign_key "report_fields", "report_field_types"
   add_foreign_key "report_fields", "reports"
   add_foreign_key "report_states", "workspaces"
+  add_foreign_key "reports", "channels"
+  add_foreign_key "reports", "reasons"
   add_foreign_key "reports", "report_states"
   add_foreign_key "reports", "users", column: "assigned_user_id"
   add_foreign_key "reports", "users", column: "creator_id"

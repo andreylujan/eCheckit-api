@@ -1,19 +1,21 @@
 # == Schema Information
 #
-# Table name: channels
+# Table name: reasons
 #
 #  id           :integer          not null, primary key
-#  name         :text
+#  workspace_id :integer
+#  name         :text             not null
+#  image        :text
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  image        :text
-#  workspace_id :integer
 #
 
-class Channel < ActiveRecord::Base
+class Reason < ActiveRecord::Base
   belongs_to :workspace
-  has_many :subchannels, dependent: :destroy
+
+  belongs_to :workspace
   has_many :reports
+  validates_presence_of  :name
+  validates_presence_of  :workspace
   validates_uniqueness_of :name, scope: :workspace_id
-  accepts_nested_attributes_for :subchannels, allow_destroy: true
 end
