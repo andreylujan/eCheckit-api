@@ -35,4 +35,7 @@ class ReportSerializer < ActiveModel::Serializer
   has_many :pictures
   has_many :report_fields
   has_many :report_actions
+  has_one :channel
+  has_one :subchannel
+  has_one :reason
 end

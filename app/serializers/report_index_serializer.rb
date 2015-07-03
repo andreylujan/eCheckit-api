@@ -28,4 +28,7 @@ class ReportIndexSerializer < ActiveModel::Serializer
   :assigned_at, :assigned_user_name, :creator_name
   has_one :report_state
   has_many :report_fields
+  has_one :channel
+  has_one :subchannel
+  has_one :reason
 end
