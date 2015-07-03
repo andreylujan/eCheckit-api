@@ -23,6 +23,7 @@
 #  pdf              :text
 #  reason_id        :integer
 #  channel_id       :integer
+#  subchannel_id    :integer
 #
 
 class Report < ActiveRecord::Base
@@ -38,6 +39,7 @@ class Report < ActiveRecord::Base
     belongs_to :workspace
     belongs_to :venue
     belongs_to :channel
+    belongs_to :subchannel
     belongs_to :reason
     after_destroy :delete_pdf
 
@@ -114,31 +116,33 @@ class Report < ActiveRecord::Base
                 channel = channel_field.value["title"]
                 subitem = channel_field.value["subitem"]
                
-                if channel.present? and subitem.present?
+                if channel.present?
                     channel = Channel.find_by_workspace_id_and_name(
                         self.workspace_id, channel)
                     if channel.present?
                         self.update_attribute :channel, channel
-                        subchannel = Subchannel.find_by_channel_id_and_name(
-                            channel.id, subitem)
-                        if subchannel.present?
-                            
-                            region = Region.find_by_name self.region
-                            if region.present?
-                                commune = Commune.find_by_name self.commune
-                                if commune.present?
-                                    assignment = ZoneAssignment.where(
-                                        channel: channel,
-                                        subchannel: subchannel,
-                                        region: region,
-                                        commune: commune
-                                        ).first
-                                    if assignment.present?
-                                        managers = assignment.managers
-                                        if managers.count == 1
-                                            self.update_attribute :assigned_user, managers.first
-                                        else
-                                            self.update_attribute :assigned_user_id, 28
+                        if subitem.present?
+                            subchannel = Subchannel.find_by_channel_id_and_name(
+                                channel.id, subitem)
+                            if subchannel.present?
+                                self.update_attribute :subchannel, subchannel
+                                region = Region.find_by_name self.region
+                                if region.present?
+                                    commune = Commune.find_by_name self.commune
+                                    if commune.present?
+                                        assignment = ZoneAssignment.where(
+                                            channel: channel,
+                                            subchannel: subchannel,
+                                            region: region,
+                                            commune: commune
+                                            ).first
+                                        if assignment.present?
+                                            managers = assignment.managers
+                                            if managers.count == 1
+                                                self.update_attribute :assigned_user, managers.first
+                                            else
+                                                self.update_attribute :assigned_user_id, 28
+                                            end
                                         end
                                     end
                                 end

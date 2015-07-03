@@ -23,6 +23,7 @@
 #  pdf              :text
 #  reason_id        :integer
 #  channel_id       :integer
+#  subchannel_id    :integer
 #
 
 class ReportSerializer < ActiveModel::Serializer

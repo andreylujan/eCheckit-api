@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150703190056) do
+ActiveRecord::Schema.define(version: 20150703193735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -275,6 +275,7 @@ ActiveRecord::Schema.define(version: 20150703190056) do
     t.text     "pdf"
     t.integer  "reason_id"
     t.integer  "channel_id"
+    t.integer  "subchannel_id"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
@@ -282,6 +283,7 @@ ActiveRecord::Schema.define(version: 20150703190056) do
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
   add_index "reports", ["reason_id"], name: "index_reports_on_reason_id", using: :btree
   add_index "reports", ["report_state_id"], name: "index_reports_on_report_state_id", using: :btree
+  add_index "reports", ["subchannel_id"], name: "index_reports_on_subchannel_id", using: :btree
   add_index "reports", ["venue_id"], name: "index_reports_on_venue_id", using: :btree
   add_index "reports", ["workspace_id"], name: "index_reports_on_workspace_id", using: :btree
 
@@ -422,6 +424,7 @@ ActiveRecord::Schema.define(version: 20150703190056) do
   add_foreign_key "reports", "channels"
   add_foreign_key "reports", "reasons"
   add_foreign_key "reports", "report_states"
+  add_foreign_key "reports", "subchannels"
   add_foreign_key "reports", "users", column: "assigned_user_id"
   add_foreign_key "reports", "users", column: "creator_id"
   add_foreign_key "reports", "venues"
