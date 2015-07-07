@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :reasons
   apipie
-  resources :contests
   match '/*path', to: 'application#cors_preflight_check', via: :options
   resources :feedbacks, only: [ :create ]
   resources :access_tokens, only: [ :create ]
@@ -21,6 +19,7 @@ Rails.application.routes.draw do
   resources :report_actions, only: [ :index, :create ]
   resources :reports, only: [ :show, :index, :create, :update ]
   resources :users, only: [ :create, :show, :update, :index ]
+  resources :devices, only: [ :create, :update, :destroy ]
   resources :workspace_invitations, only: [ :show,  :create, :update ]
   resources :regions, only: [ :index ] do
     resources :communes, only: [ :index ]

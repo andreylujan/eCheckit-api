@@ -41,7 +41,8 @@ class User < ActiveRecord::Base
   has_many :workspace_invitations, dependent: :destroy
   has_many :zone_managers
   has_many :zone_assignments, through: :zone_managers
-
+  has_many :devices, dependent: :destroy
+  
   def create_token
     app = doorkeeper_app
     if not app
