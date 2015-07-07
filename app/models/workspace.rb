@@ -65,17 +65,31 @@ class Workspace < ActiveRecord::Base
     }
   end
 
-  def dashboard
+  def dashboard(start_date = nil, end_date = nil)
     if self.organization_id == 1
       reports = self.reports
+      if start_date.present? and end_date.present?
+        
+      end
+
       global_info = local_dashboard(reports)
       regions = []
+      channels = []
       Region.all.each do |region|
         region_reports = reports.where("lower(unaccent(region)) = ?", I18n.transliterate(region.name).downcase)
         local_info = local_dashboard(region_reports)
         local_info[:region_id] = region.id
         regions << local_info
       end
+
+      Channel.all.each do |channel|
+        channel_reports = reports.where(channel: channel)
+        local_info = local_dashboard(channel_reports)
+        local_info[:channel_id] = channel.id
+        channels << local_info
+      end
+
+      global_info[:channels] = channels
       global_info[:regions] = regions
       return global_info
     end

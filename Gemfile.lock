@@ -105,6 +105,8 @@ GEM
       railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
     gmail (0.5.0)
@@ -125,6 +127,7 @@ GEM
     mini_portile (0.6.2)
     minitest (5.7.0)
     multi_json (1.11.1)
+    multipart-post (2.0.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
@@ -251,6 +254,7 @@ DEPENDENCIES
   erubis (~> 2.7.0)
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
+  faraday (~> 0.9.1)
   gmail (~> 0.5.0)
   omniauth (~> 1.2.2)
   pg (~> 0.18.1)
@@ -265,3 +269,6 @@ DEPENDENCIES
   web-console (~> 2.1.2)
   wicked_pdf
   wkhtmltopdf-binary
+
+BUNDLED WITH
+   1.10.5

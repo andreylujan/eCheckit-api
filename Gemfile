@@ -27,6 +27,7 @@ gem 'erubis', '~> 2.7.0'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'aws-sdk', '~> 2.1.0'
+gem 'faraday', '~> 0.9.1'
 
 group :development do
 	gem 'thin', '~> 1.6.3'
