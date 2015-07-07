@@ -4,6 +4,12 @@ class DevicesController < ApplicationController
 
 	def create
 		user = current_user
+		if device_params[:uuid]
+			device = Device.find_by_uuid(device_params[:uuid])
+			if device.present?
+				device.destroy
+			end
+		end
 		@device = Device.new(device_params)
 		@device.user = user
 		if @device.save
