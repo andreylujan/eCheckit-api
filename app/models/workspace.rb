@@ -59,10 +59,11 @@ class Workspace < ActiveRecord::Base
         end
       end
     end
-    return {
+    local = {
       reports_count: reports_count,
       reason_counts: reason_counts
     }
+    return local
   end
 
   def dashboard(params)
@@ -99,13 +100,15 @@ class Workspace < ActiveRecord::Base
         region_reports = reports.where("lower(unaccent(region)) = ?", I18n.transliterate(region.name).downcase)
         local_info = local_dashboard(region_reports)
         local_info[:region_id] = region.id
+        local_info[:region_name] = region.name
         regions << local_info
       end
 
-      Channel.all.each do |channel|
+      self.channels.each do |channel|
         channel_reports = reports.where(channel: channel)
         local_info = local_dashboard(channel_reports)
         local_info[:channel_id] = channel.id
+        local_info[:channel_name] = channel.name
         channels << local_info
       end
 
