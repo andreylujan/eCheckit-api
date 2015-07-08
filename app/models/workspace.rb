@@ -65,11 +65,31 @@ class Workspace < ActiveRecord::Base
     }
   end
 
-  def dashboard(start_date = nil, end_date = nil)
+  def dashboard(params)
     if self.organization_id == 1
       reports = self.reports
-      if start_date.present? and end_date.present?
+      
+
+      if params[:start_date]
+        begin
+           start_date = Date.parse params[:start_date]
+           reports = reports.where("created_at > ?", start_date)
+        rescue ArgumentError
+           return {
+              error: "Invalid start_date"
+           }
+        end
         
+      end
+      if params[:end_date]
+        begin
+           end_date = Date.parse params[:end_date]
+           reports = reports.where("created_at < ?", end_date)
+        rescue ArgumentError
+           return {
+              error: "Invalid end_date"
+           }
+        end
       end
 
       global_info = local_dashboard(reports)
