@@ -185,7 +185,9 @@ class Report < ActiveRecord::Base
                                 self.update_attribute :assigned_user_id, 28
                             end
                             generate_assign_action
-
+                        elsif self.workspace.organization_id == 1
+                            self.update_attribute :assigned_user_id, 28
+                            generate_assign_action
                         end
                     end
                 end

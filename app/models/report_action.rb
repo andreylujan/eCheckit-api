@@ -60,7 +60,9 @@ class ReportAction < ActiveRecord::Base
           emails << {
             destinatary: self.report.assigned_user.email,
             message: "Se le ha asignado un reporte",
-            user_name: self.report.assigned_user.name
+            user_name: self.report.assigned_user.name,
+            workspace_name: self.report.workspace.name,
+            pdf: self.report.pdf
           }
         end
         first_assigned_user_id = self.report.report_actions.first.data["assigned_user_id"]
@@ -68,7 +70,9 @@ class ReportAction < ActiveRecord::Base
         emails << {
           destinatary: first_assigned_user.email,
           message: "Un reporte que fue originalmente asignado a usted ha sido reasignado",
-          user_name: first_assigned_user.name
+          user_name: first_assigned_user.name,
+          workspace_name: self.report.workspace.name,
+          pdf: self.report.pdf
         }
       elsif self.report_action_type.name == "change_state" and 
         self.report_state.name == "Cerrado"
@@ -78,42 +82,16 @@ class ReportAction < ActiveRecord::Base
           emails << {
             destinatary:  assigned_user.email,
             message: "Un reporte al cual fue asignado ha sido cerrado",
-            user_name: assigned_user.name
+            user_name: assigned_user.name,
+            workspace_name: self.report.workspace.name,
+            pdf: self.report.pdf
           }
         end
       end
       emails.uniq! { |e| e[:destinatary] }
-      gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
+      
       emails.each do |email|
-        
-        f = File.open('./templates/reports/create.html.erb')
-        template = f.read
-        f.close
-        params = {
-          workspace_name: self.report.workspace.name,
-          user_name: email[:user_name],
-          pdf: self.report.pdf,
-          message: email[:message]
-        }
-
-
-        html = Erubis::Eruby.new(template).result params
-        f = File.open('./templates/reports/create.txt.erb')
-        template = f.read
-        f.close
-        text = Erubis::Eruby.new(template).result params
-
-        gmail.deliver! do
-          to email[:destinatary]
-          subject "Se le ha asignado un reporte"
-          text_part do
-            body text
-          end
-          html_part do
-            content_type 'text/html; charset=UTF-8'
-            body html
-          end
-        end
+        SendEmailJob.perform_later email
       end
       
     end

@@ -28,6 +28,7 @@ gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'aws-sdk', '~> 2.1.0'
 gem 'faraday', '~> 0.9.1'
+gem 'sidekiq', '~> 3.4.1'
 
 group :development do
 	gem 'thin', '~> 1.6.3'
