@@ -136,6 +136,9 @@ class Report < ActiveRecord::Base
                 if channel.present?
                     channel = Channel.find_by_workspace_id_and_name(
                         self.workspace_id, channel)
+                    region = nil
+                    commune = nil
+                    subchannel = nil
                     if channel.present?
                         self.update_attribute :channel, channel
                         if subitem.present?
@@ -143,35 +146,51 @@ class Report < ActiveRecord::Base
                                 channel.id, subitem)
                             if subchannel.present?
                                 self.update_attribute :subchannel, subchannel
-                                region = Region.find_by_name self.region
-                                if region.present?
-                                    commune = Commune.find_by_name self.commune
-                                    if commune.present?
-                                        assignment = ZoneAssignment.where(
-                                            channel: channel,
-                                            subchannel: subchannel,
-                                            region: region,
-                                            commune: commune
-                                            ).first
-                                        if assignment.present?
-                                            managers = assignment.managers
-                                            if managers.count == 1
-                                                self.update_attribute :assigned_user, managers.first
-                                            else
-                                                self.update_attribute :assigned_user_id, 28
-                                            end
-                                            generate_assign_action
-                                        end
-                                    end
-                                end
                             end
+                        end
+
+                        region = Region.find_by_name self.region
+                        if region.present?
+                            commune = Commune.find_by_name self.commune
+                        end
+
+                        byebug
+                        channel_assignments = ZoneAssignment.where(
+                            channel: channel)
+                        assignments = channel_assignments
+                        subchannel_assignments = channel_assignments.where(
+                            subchannel: subchannel
+                        )
+                        if subchannel_assignments.count > 0
+                            assignments = subchannel_assignments
+                        end
+                        region_assignments = assignments.where(
+                            region: region)
+                        if region_assignments.count > 0
+                            assignments = region_assignments
+                            commune_assignments = assignments.where(commune:
+                                commune)
+                            if commune_assignments.count > 0
+                                assignments = commune_assignments
+                            end
+                        end
+                        assignment = assignments.first
+
+                        if assignment.present?
+                            managers = assignment.managers
+                            if managers.count == 1
+                                self.update_attribute :assigned_user, managers.first
+                            else
+                                self.update_attribute :assigned_user_id, 28
+                            end
+                            generate_assign_action
                         end
                     end
                 end
             end
-            if self.assigned_user.nil? and self.workspace.organization_id == 1
-                self.update_attribute :assigned_user_id, 28
-                generate_assign_action
-            end
+            # if self.assigned_user.nil? and self.workspace.organization_id == 1
+            #    self.update_attribute :assigned_user_id, 28
+            #    generate_assign_action
+            # end
         end
     end
