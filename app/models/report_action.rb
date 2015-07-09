@@ -59,7 +59,7 @@ class ReportAction < ActiveRecord::Base
         if self.report.assign_actions.count > 1
           emails << {
             destinatary: self.report.assigned_user.email,
-            message: "Un reporte que fue originalmente asignado a usted ha sido reasignado",
+            message: "Se le ha asignado un reporte",
             user_name: self.report.assigned_user.name
           }
         end
