@@ -49,7 +49,6 @@ class Report < ActiveRecord::Base
         before_create :verify_state
         after_create :assign_user
         after_create :assign_reason
-        after_create :send_create_email
 
         def assigned_at
             assigned_action_type = ReportActionType.find_by_organization_id_and_name(
@@ -60,6 +59,10 @@ class Report < ActiveRecord::Base
                     last_assign.created_at
                 end
             end
+        end
+
+        def assign_actions
+            report_actions.joins(:report_action_type).where("report_action_types.name = ?", "assign")
         end
 
         def assign_action_type
@@ -77,48 +80,6 @@ class Report < ActiveRecord::Base
             if creator.present?
                 creator.name
             end
-        end
-
-
-
-
-        def send_create_email
-            
-            gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
-            
-            
-            f = File.open('./templates/reports/create.html.erb')
-            template = f.read
-            f.close
-            params = {
-                workspace_name: self.workspace.name,
-                user_name: self.creator.name,
-                pdf: self.pdf
-            }
-
-            if not self.assigned_user_id
-                return nil
-            end
-
-            assigned_email = self.assigned_user.email
-
-            html = Erubis::Eruby.new(template).result params
-            f = File.open('./templates/reports/create.txt.erb')
-            template = f.read
-            f.close
-            text = Erubis::Eruby.new(template).result params
-            gmail.deliver! do
-                to assigned_email
-                subject "Se le ha asignado un reporte"
-                text_part do
-                    body text
-                end
-                html_part do
-                    content_type 'text/html; charset=UTF-8'
-                    body html
-                end
-            end
-
         end
 
         def verify_state
@@ -144,6 +105,21 @@ class Report < ActiveRecord::Base
                     if reason.present?
                         self.update_attribute :reason, reason
                     end
+                end
+            end
+        end
+
+        def generate_assign_action
+            if self.workspace.organization.name == "Koandina"
+                assign_action_type = self.workspace.organization.report_action_types.where(name: "assign").first
+                if assign_action_type
+                    ReportAction.create report_action_type: assign_action_type, user: self.creator,
+                    report: self, data: {
+                        assigned_user_id: self.assigned_user.id,
+                        comment: "Asignación automática",
+                        assigned_user_name: self.assigned_user.name,
+                        report_state_id: self.report_state_id
+                    }
                 end
             end
         end
@@ -184,6 +160,7 @@ class Report < ActiveRecord::Base
                                             else
                                                 self.update_attribute :assigned_user_id, 28
                                             end
+                                            generate_assign_action
                                         end
                                     end
                                 end
@@ -194,6 +171,7 @@ class Report < ActiveRecord::Base
             end
             if self.assigned_user.nil? and self.workspace.organization_id == 1
                 self.update_attribute :assigned_user_id, 28
+                generate_assign_action
             end
         end
     end

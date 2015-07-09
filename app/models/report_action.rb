@@ -17,10 +17,12 @@ class ReportAction < ActiveRecord::Base
   belongs_to :user
   belongs_to :report
   after_create :perform_action
+  after_create :send_create_email
   validates_presence_of [ :report, :user, :report_action_type, :data ]
   validate :data_attributes_present
   belongs_to :report_state
   before_create :check_report_state
+  
 
   def data_attributes_present
     if self.report_action_type.name == "assign"
@@ -64,5 +66,73 @@ class ReportAction < ActiveRecord::Base
     self.report.update_attribute :report_state_id, self.report_state_id
   end
 
+  def send_create_email
+    if self.report.workspace.organization.name == "Koandina"
+
+      message = ""
+      emails = []
+      if self.report_action_type.name == "assign"
+        if self.report.assign_actions.count > 1
+          emails << {
+            destinatary: self.report.assigned_user.email,
+            message: "Un reporte que fue originalmente asignado a usted ha sido reasignado",
+            user_name: self.report.assigned_user.name
+          }
+        end
+        first_assigned_user_id = self.report.report_actions.first.data["assigned_user_id"]
+        first_assigned_user = User.find(first_assigned_user_id)
+        emails << {
+          destinatary: first_assigned_user.email,
+          message: "Un reporte que fue originalmente asignado a usted ha sido reasignado",
+          user_name: first_assigned_user.name
+        }
+      elsif self.report_action_type.name == "change_state" and 
+        self.report_state.name == "Cerrado"
+        self.report.assign_actions.each do |action|
+          assigned_user_id = action.data["assigned_user_id"]
+          assigned_user = User.find(assigned_user_id)
+          emails << {
+            destinatary:  assigned_user.email,
+            message: "Un reporte al cual fue asignado ha sido cerrado",
+            user_name: assigned_user.name
+          }
+        end
+      end
+      emails.uniq! { |e| e[:destinatary] }
+      gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
+      emails.each do |email|
+        
+        f = File.open('./templates/reports/create.html.erb')
+        template = f.read
+        f.close
+        params = {
+          workspace_name: self.report.workspace.name,
+          user_name: email[:user_name],
+          pdf: self.report.pdf,
+          message: email[:message]
+        }
+
+
+        html = Erubis::Eruby.new(template).result params
+        f = File.open('./templates/reports/create.txt.erb')
+        template = f.read
+        f.close
+        text = Erubis::Eruby.new(template).result params
+
+        gmail.deliver! do
+          to email[:destinatary]
+          subject "Se le ha asignado un reporte"
+          text_part do
+            body text
+          end
+          html_part do
+            content_type 'text/html; charset=UTF-8'
+            body html
+          end
+        end
+      end
+      
+    end
+  end
   
 end
