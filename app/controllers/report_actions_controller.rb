@@ -18,6 +18,7 @@ class ReportActionsController < ApplicationController
             @report_action.report_action_type = report_action_type
 
             if @report_action.save
+                generate_pdf
                 render json: @report_action, status: :created
             else
                 render json: @report_action, status: :unprocessable_entity
