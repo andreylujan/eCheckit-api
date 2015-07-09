@@ -18,6 +18,7 @@ class ReportActionsController < ApplicationController
             @report_action.report_action_type = report_action_type
 
             if @report_action.save
+                @report = Report.find(params.require(:report_id))
                 generate_pdf
                 @report_action.report = @report
                 @report_action.send_create_email
