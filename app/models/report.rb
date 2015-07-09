@@ -49,6 +49,7 @@ class Report < ActiveRecord::Base
         before_create :verify_state
         after_create :assign_user
         after_create :assign_reason
+        after_create :send_create_email
 
         def assigned_at
             assigned_action_type = ReportActionType.find_by_organization_id_and_name(
@@ -79,7 +80,48 @@ class Report < ActiveRecord::Base
         end
 
 
-        private
+
+
+        def send_create_email
+            
+            gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
+           
+       
+            f = File.open('./templates/reports/create.html.erb')
+            template = f.read
+            f.close
+            params = {
+                workspace_name: self.workspace.name,
+                user_name: self.creator.name,
+                pdf: 'http://d21zid65ggdxzg.cloudfront.net/e536587a86262b423bdc2818c1a6e942.pdf'
+            }
+
+            byebug
+            if not self.assigned_user_id
+                return nil
+            end
+
+            assigned_email = "pablo.lluch@gmail.com"
+
+            html = Erubis::Eruby.new(template).result params
+            f = File.open('./templates/reports/create.txt.erb')
+            template = f.read
+            f.close
+            text = Erubis::Eruby.new(template).result params
+            gmail.deliver! do
+                to assigned_email
+                subject "Se le ha asignado un reporte"
+                text_part do
+                    body text
+                end
+                html_part do
+                    content_type 'text/html; charset=UTF-8'
+                    body html
+                end
+            end
+
+        end
+
         def verify_state
             if report_state.nil?
                 self.report_state = ReportState.find_by_workspace_id_and_name self.workspace_id, "Asignado"
@@ -115,7 +157,7 @@ class Report < ActiveRecord::Base
             if channel_field
                 channel = channel_field.value["title"]
                 subitem = channel_field.value["subitem"]
-               
+
                 if channel.present?
                     channel = Channel.find_by_workspace_id_and_name(
                         self.workspace_id, channel)
