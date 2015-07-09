@@ -154,7 +154,7 @@ class Report < ActiveRecord::Base
                             commune = Commune.find_by_name self.commune
                         end
 
-                        byebug
+                 
                         channel_assignments = ZoneAssignment.where(
                             channel: channel)
                         assignments = channel_assignments
