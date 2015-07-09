@@ -20,7 +20,7 @@ class ReportActionsController < ApplicationController
             if @report_action.save
                 generate_pdf
                 @report_action.report = @report
-                @report.action.send_create_email
+                @report_action.send_create_email
                 render json: @report_action, status: :created
             else
                 render json: @report_action, status: :unprocessable_entity
