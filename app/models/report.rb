@@ -113,13 +113,14 @@ class Report < ActiveRecord::Base
             if self.workspace.organization.name == "Koandina"
                 assign_action_type = self.workspace.organization.report_action_types.where(name: "assign").first
                 if assign_action_type
-                    ReportAction.create report_action_type: assign_action_type, user: self.creator,
+                    action = ReportAction.create report_action_type: assign_action_type, user: self.creator,
                     report: self, data: {
                         assigned_user_id: self.assigned_user.id,
                         comment: "Asignación automática",
                         assigned_user_name: self.assigned_user.name,
                         report_state_id: self.report_state_id
                     }
+                   
                 end
             end
         end
@@ -184,6 +185,7 @@ class Report < ActiveRecord::Base
                                 self.update_attribute :assigned_user_id, 28
                             end
                             generate_assign_action
+
                         end
                     end
                 end
