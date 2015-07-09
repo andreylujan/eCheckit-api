@@ -49,9 +49,13 @@ class WorkspaceSerializer < ActiveModel::Serializer
         channels = object.channels
         channels.each do |channel|
           subitems = channel.subchannels.map { |s| s.name }
+          image = channel.image
+          if image.nil?
+            image = "/images/reports/channel_others.png"
+          end
           items << {
             title: channel.name,
-            image: channel.image,
+            image: image,
             id: channel.id,
             subitems: subitems
           }         
