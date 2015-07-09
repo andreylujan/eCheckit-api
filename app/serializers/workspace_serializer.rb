@@ -17,7 +17,9 @@ class WorkspaceSerializer < ActiveModel::Serializer
   has_many :reports
   has_many :report_states
   has_many :contests
-  
+  has_many :reasons
+  has_many :channels
+
   def reports
   	object_reports = object.reports.order('created_at desc')
   	reports_json = []
@@ -31,6 +33,31 @@ class WorkspaceSerializer < ActiveModel::Serializer
     types = []
     ordered = object.report_field_types.order 'index ASC'
     ordered.each do |o|
+      if o.id == 1
+        items = []
+        reasons = object.reasons
+        reasons.each do |reason|
+          items << {
+            title: reason.name,
+            image: reason.image,
+            id: reason.id
+          }
+        end
+        o.data["items"] = items
+      elsif o.id == 2
+        items = []
+        channels = object.channels
+        channels.each do |channel|
+          subitems = channel.subchannels.map { |s| s.name }
+          items << {
+            title: channel.name,
+            image: channel.image,
+            id: channel.id,
+            subitems: subitems
+          }         
+        end
+        o.data["items"] = items
+      end
       types << ReportFieldTypeSerializer.new(o).as_json
     end
     types

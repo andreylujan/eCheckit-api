@@ -96,10 +96,10 @@ class Report < ActiveRecord::Base
         def assign_reason
             reason_field = self.report_fields.where(report_field_type_id: 1).first
             if reason_field
-                reason_title = reason_field.value["title"]
-                if reason_title.present?
+                reason_name = reason_field.value["name"]
+                if reason_name.present?
                     reason = Reason.find_by_workspace_id_and_name(
-                        self.workspace_id, reason_title)
+                        self.workspace_id, reason_name)
                     if reason.present?
                         self.update_attribute :reason, reason
                     end
@@ -113,7 +113,7 @@ class Report < ActiveRecord::Base
 
 
             if channel_field
-                channel = channel_field.value["title"]
+                channel = channel_field.value["name"]
                 subitem = channel_field.value["subitem"]
                
                 if channel.present?
