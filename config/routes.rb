@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
 
   resources :organizations, only: [ :show ] do
-    resources :contest_phrases, only: [ :create, :index, :show, :destroy ]
+    resources :contest_phrases, only: [ :create, :index, :show, :destroy, :update ]
   end
   resources :report_actions, only: [ :index, :create ]
   resources :reports, only: [ :show, :index, :create, :update ]

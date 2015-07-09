@@ -19,10 +19,15 @@ class ContestPhrasesController < ApplicationController
 	def update
 		@contest_phrase = ContestPhrase.find(params[:id])
 		if @contest_phrase.update_attributes(contest_phrase_params)
-			render json: @contest_phrase, status: :created
+			render json: @contest_phrase, status: :ok
 		else
 			render json: @contest_phrase, status: :unprocessable_entity
 		end
+	end
+
+	def show
+		@contest_phrase = ContestPhrase.find(params[:id])
+		render json: @contest_phrase
 	end
 
 	def destroy
