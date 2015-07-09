@@ -22,7 +22,6 @@ class ReportsController < ApplicationController
 
     @report.creator = current_user
     if @report.save
-      generate_pdf
       render json: @report, status: :created
     else
       render json: @report, status: :unprocessable_entity

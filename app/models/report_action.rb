@@ -17,7 +17,6 @@ class ReportAction < ActiveRecord::Base
   belongs_to :user
   belongs_to :report
   after_create :perform_action
-  after_create :send_create_email
   validates_presence_of [ :report, :user, :report_action_type, :data ]
   validate :data_attributes_present
   belongs_to :report_state
@@ -49,21 +48,6 @@ class ReportAction < ActiveRecord::Base
         end
       end
     end
-  end
-
-  private
-
-  def check_report_state
-    if self.report_state.nil?
-      self.report_state = self.report.report_state
-    end
-  end
-
-  def perform_action
-    if self.report_action_type.name == "assign"
-      self.report.update_attribute :assigned_user_id, self.data["assigned_user_id"]
-    end
-    self.report.update_attribute :report_state_id, self.report_state_id
   end
 
   def send_create_email
@@ -134,5 +118,22 @@ class ReportAction < ActiveRecord::Base
       
     end
   end
+  
+  private
+
+  def check_report_state
+    if self.report_state.nil?
+      self.report_state = self.report.report_state
+    end
+  end
+
+  def perform_action
+    if self.report_action_type.name == "assign"
+      self.report.update_attribute :assigned_user_id, self.data["assigned_user_id"]
+    end
+    self.report.update_attribute :report_state_id, self.report_state_id
+  end
+
+  
   
 end
