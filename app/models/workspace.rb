@@ -66,7 +66,7 @@ class Workspace < ActiveRecord::Base
     return local
   end
 
-  def dashboard(params)
+  def dashboard(params = {})
     if self.organization_id == 1
       reports = self.reports
       
@@ -96,6 +96,8 @@ class Workspace < ActiveRecord::Base
       global_info = local_dashboard(reports)
       regions = []
       channels = []
+      states = []
+
       Region.all.each do |region|
         region_reports = reports.where("lower(unaccent(region)) = ?", I18n.transliterate(region.name).downcase)
         local_info = local_dashboard(region_reports)
@@ -112,8 +114,19 @@ class Workspace < ActiveRecord::Base
         channels << local_info
       end
 
+      self.report_states.each do |report_state|
+        state_reports = reports.where(report_state: report_state)
+        states << {
+          state_id: report_state.id,
+          state_name: report_state.name,
+          reports_count: state_reports.count
+        }
+      end
+
       global_info[:channels] = channels
       global_info[:regions] = regions
+      global_info[:states] = states
+
       return global_info
     end
   end
