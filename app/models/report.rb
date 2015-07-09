@@ -85,23 +85,22 @@ class Report < ActiveRecord::Base
         def send_create_email
             
             gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
-           
-       
+            
+            
             f = File.open('./templates/reports/create.html.erb')
             template = f.read
             f.close
             params = {
                 workspace_name: self.workspace.name,
                 user_name: self.creator.name,
-                pdf: 'http://d21zid65ggdxzg.cloudfront.net/e536587a86262b423bdc2818c1a6e942.pdf'
+                pdf: self.pdf
             }
 
-            byebug
             if not self.assigned_user_id
                 return nil
             end
 
-            assigned_email = "pablo.lluch@gmail.com"
+            assigned_email = self.assigned_user.email
 
             html = Erubis::Eruby.new(template).result params
             f = File.open('./templates/reports/create.txt.erb')
