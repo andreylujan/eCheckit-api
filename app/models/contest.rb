@@ -21,6 +21,15 @@ class Contest < ActiveRecord::Base
 
   validate :valid_tiers
 
+  def self.active_contest
+    where("starts_at < ? and ends_at > ?", DateTime.now, DateTime.now).last
+  end
+
+  def is_active
+    active_contest = Contest.active_contest
+    self == active_contest
+  end
+
   private
   def valid_tiers
   	if not(tier_steps.present? and tier_steps.length == 2 and 

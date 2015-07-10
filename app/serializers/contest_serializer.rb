@@ -14,5 +14,6 @@
 #
 
 class ContestSerializer < ActiveModel::Serializer
-  attributes :id, :starts_at, :ends_at, :prize_image, :prize_description, :tier_steps
+  attributes :id, :starts_at, :ends_at, :prize_image, :prize_description, :tier_steps,
+  :is_active
 end
