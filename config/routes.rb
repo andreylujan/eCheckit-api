@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   resources :reports, only: [ :show, :index, :create, :update ]
   resources :users, only: [ :create, :show, :update, :index ]
   resources :devices, only: [ :create, :update, :destroy ]
-  resources :workspace_invitations, only: [ :show,  :create, :update ]
+  resources :workspace_invitations, only: [ :show,  :create, :update ] 
+  delete '/workspace_invitations', to: 'workspace_invitations#destroy'
   resources :regions, only: [ :index ] do
     resources :communes, only: [ :index ]
   end
