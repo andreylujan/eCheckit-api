@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable
-  has_many :created_reports, foreign_key: :creator_id, class_name: :Report
-  has_many :assigned_reports, foreign_key: :assigned_user_id, class_name: :Report
+  has_many :created_reports, foreign_key: :creator_id, class_name: :Report, dependent: :nullify
+  has_many :assigned_reports, foreign_key: :assigned_user_id, class_name: :Report, dependent: :nullify
   has_many :report_actions, dependent: :nullify
   has_many :feedbacks
   
