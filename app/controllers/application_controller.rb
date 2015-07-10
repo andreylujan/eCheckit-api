@@ -43,15 +43,6 @@ class ApplicationController < ActionController::Base
     render json: error_message(e), status: :bad_request
   end
 
-  def generate_pdf
-    pdf = WickedPdf.new.pdf_from_string(
-      render_to_string('templates/report.html.erb')
-      )
-    url = Amazon.get_pdf_url(pdf)
-    @report.update_attribute :pdf, url
-    
-    UploadPdfJob.perform_later(pdf)
-  end
 
   private
   def error_message(e)

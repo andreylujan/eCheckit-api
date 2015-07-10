@@ -17,9 +17,9 @@ class Amazon
 			md5 = Digest::MD5.new
 			md5.update pdf
 			bucket.put_object body: pdf, acl: "private", key: md5.to_s + ".pdf"
-			return true
+			return "#{CDN}#{md5.to_s}.pdf"
 		rescue
-			return false
+			return nil
 		end
 	end
 
