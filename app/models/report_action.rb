@@ -59,7 +59,7 @@ class ReportAction < ActiveRecord::Base
         if self.report.assign_actions.count > 1
           emails << {
             destinatary: self.report.assigned_user.email,
-            message: "Se le ha asignado un reporte",
+            message: "Se le ha asignado el reporte #{self.report.title}",
             user_name: self.report.assigned_user.name,
             workspace_name: self.report.workspace.name,
             pdf: self.report.pdf,
@@ -70,7 +70,7 @@ class ReportAction < ActiveRecord::Base
         first_assigned_user = User.find(first_assigned_user_id)
         emails << {
           destinatary: first_assigned_user.email,
-          message: "Un reporte que fue originalmente asignado a usted ha sido reasignado",
+          message: "El reporte #{self.report.title} ha sido reasignado a #{self.report.assigned_user_name}",
           user_name: first_assigned_user.name,
           workspace_name: self.report.workspace.name,
           pdf: self.report.pdf,
@@ -83,7 +83,7 @@ class ReportAction < ActiveRecord::Base
           assigned_user = User.find(assigned_user_id)
           emails << {
             destinatary:  assigned_user.email,
-            message: "Un reporte al cual fue asignado ha sido cerrado",
+            message: "El reporte #{self.report.title} cambió de estado a cerrado",
             user_name: assigned_user.name,
             workspace_name: self.report.workspace.name,
             pdf: self.report.pdf,
