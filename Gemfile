@@ -15,7 +15,7 @@ end
 
 # Authentication
 gem 'omniauth', '~> 1.2.2'
-gem 'dotenv-rails', '~> 2.0.1'
+gem 'dotenv-rails', '~> 2.0.2'
 gem 'devise', '~> 3.4.1'
 gem 'doorkeeper', '~> 2.1.4'
 gem 'rolify', '~> 4.0.0'
@@ -26,7 +26,7 @@ gem 'apipie-rails', :github => 'Apipie/apipie-rails'
 gem 'erubis', '~> 2.7.0'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
-gem 'aws-sdk', '~> 2.1.0'
+gem 'aws-sdk', '~> 2.1.4'
 gem 'faraday', '~> 0.9.1'
 gem 'sidekiq', '~> 3.4.1'
 gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
