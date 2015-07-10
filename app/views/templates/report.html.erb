@@ -43,9 +43,14 @@
 
 		img {
 			margin-top: 10px;
+			margin-left: 10px;
 		}
 
 		.value.map {
+			display: block;
+		}
+
+		.value.images {
 			display: block;
 		}
 
@@ -106,7 +111,7 @@
 	</div>
 	<div class="field">
 		<div class="label">Fotos</div> 
-		<div class="value">
+		<div class="value images">
 			<% @report.pictures.each do |picture| %>
 				<img src="<%= picture.url %>" width="175px"/>
 			<% end %>
