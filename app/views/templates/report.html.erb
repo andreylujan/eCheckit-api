@@ -124,7 +124,7 @@
 		</div> 
 	</div>
 	<h3>Actividad en el reporte</h3>
-	<% @report.report_actions.each_with_index do |action, idx| %>
+	<% @report.report_actions.order("created_at DESC").each_with_index do |action, idx| %>
 		<% if idx > 0 %>
 			<hr/>
 		<% end %>

@@ -68,9 +68,11 @@ class ReportAction < ActiveRecord::Base
         end
         first_assigned_user_id = self.report.report_actions.first.data["assigned_user_id"]
         first_assigned_user = User.find(first_assigned_user_id)
+        message = self.report.assign_actions.count == 1 ? "Se le ha asignado el reporte #{self.report.title}" : 
+          "El reporte #{self.report.title} ha sido reasignado a #{self.report.assigned_user_name}"
         emails << {
           destinatary: first_assigned_user.email,
-          message: "El reporte #{self.report.title} ha sido reasignado a #{self.report.assigned_user_name}",
+          message: message,
           user_name: first_assigned_user.name,
           workspace_name: self.report.workspace.name,
           pdf: self.report.pdf,
