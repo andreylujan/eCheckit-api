@@ -22,7 +22,7 @@ class SendEmailJob < ActiveJob::Base
 
     gmail.deliver! do
       to email[:destinatary]
-      subject "Se le ha asignado un reporte"
+      subject "Embajadores de Coca Cola | #{email[:subject]}"
       text_part do
         body text
       end

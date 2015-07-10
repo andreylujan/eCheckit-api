@@ -62,7 +62,8 @@ class ReportAction < ActiveRecord::Base
             message: "Se le ha asignado un reporte",
             user_name: self.report.assigned_user.name,
             workspace_name: self.report.workspace.name,
-            pdf: self.report.pdf
+            pdf: self.report.pdf,
+            subject: "Reporte asignado"
           }
         end
         first_assigned_user_id = self.report.report_actions.first.data["assigned_user_id"]
@@ -72,7 +73,8 @@ class ReportAction < ActiveRecord::Base
           message: "Un reporte que fue originalmente asignado a usted ha sido reasignado",
           user_name: first_assigned_user.name,
           workspace_name: self.report.workspace.name,
-          pdf: self.report.pdf
+          pdf: self.report.pdf,
+          subject: "Reporte reasignado"
         }
       elsif self.report_action_type.name == "change_state" and 
         self.report_state.name == "Cerrado"
@@ -84,7 +86,8 @@ class ReportAction < ActiveRecord::Base
             message: "Un reporte al cual fue asignado ha sido cerrado",
             user_name: assigned_user.name,
             workspace_name: self.report.workspace.name,
-            pdf: self.report.pdf
+            pdf: self.report.pdf,
+            subject: "Reporte cerrado"
           }
         end
       end

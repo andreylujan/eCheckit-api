@@ -36,6 +36,7 @@ class User < ActiveRecord::Base
   after_create :assign_default_workspace
   after_create :check_organization
   after_create :check_invitations
+  after_create :send_welcome_email
   validates_presence_of [ :first_name ]
   before_create :downcase_attributes
   has_many :workspace_invitations, dependent: :destroy
@@ -55,6 +56,34 @@ class User < ActiveRecord::Base
     access_tokens.last
   end
   
+  def send_welcome_email
+    gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
+    f = File.open('./templates/welcome.html.erb')
+    template = f.read
+    f.close
+    params = {
+      user_name: self.name
+    }
+
+    html = Erubis::Eruby.new(template).result params
+    f = File.open('./templates/welcome.txt.erb')
+    template = f.read
+    f.close
+    text = Erubis::Eruby.new(template).result params
+    user_email = self.email
+    gmail.deliver! do
+      to user_email
+      subject "Embajadores de Coca Cola | Bienvenid@"
+      text_part do
+        body text
+      end
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body html
+      end
+    end
+  end
+
   def send_confirmation_email
     gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
     user_email = self.email
@@ -99,12 +128,12 @@ class User < ActiveRecord::Base
       end
       invitation = self.workspace_invitations.find_by_workspace_id w.id
       workspace_json = w.as_json.reject { |k, v| pruned.include? k }
-       if invitation.present?
+      if invitation.present?
         workspace_json[:accepted] = invitation.accepted?
         orgs[org.id][:workspaces] << workspace_json
       end
       
-     
+
     end
     orgs.values
   end
