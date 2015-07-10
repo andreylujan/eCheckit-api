@@ -130,7 +130,7 @@
 		<% end %>
 		<div class="field">
 			<div class="label">Fecha:</div> 
-			<div class="value"><%= I18n.l Date.parse action.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
+			<div class="value"><%= action.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
 		</div>
 		<div class="field">
 			<div class="label">Tipo de actividad:</div> 
