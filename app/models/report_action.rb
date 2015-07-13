@@ -17,6 +17,7 @@ class ReportAction < ActiveRecord::Base
   belongs_to :user
   belongs_to :report
   after_create :perform_action
+  # after_create :notify_action
   validates_presence_of [ :report, :user, :report_action_type, :data ]
   validate :data_attributes_present
   belongs_to :report_state
@@ -50,6 +51,41 @@ class ReportAction < ActiveRecord::Base
     end
   end
 
+  def notify_action
+    
+    apns_app_name = "embajadores_ios_production"
+    gcm_app_name = "embajadores_android"
+
+
+    if self.report_action_type.name == "assign"
+      new_user = self.report.assigned_user
+      devices = new_user.devices
+      conn = Faraday.new(:url => ENV["PUSH_ENGINE_HOST"])
+        params = {
+          alert: "Se le ha asignado el reporte #{self.report.title}",
+          data: {
+            message: "Se le ha asignado el reporte #{self.report.title}",
+            title: "Reporte asignado" 
+          },
+          gcm_app_name: "embajadores_android"
+        }
+      devices.each do |device|
+        if device.name == "android"
+          body = params.merge({ registration_id: device.registration_id })
+        else
+          body = params.merge({ device_token: device.device_token })
+        end
+        response = conn.post do |req|
+          req.url '/notifications'
+          req.headers['Content-Type'] = 'application/json'
+          req.body = body.to_json
+        end
+        
+      end
+    elsif self.report_action_type.name == "change_state"
+    end
+  end
+
   def send_create_email
     if self.report.workspace.organization.name == "Koandina"
 
@@ -69,7 +105,7 @@ class ReportAction < ActiveRecord::Base
         first_assigned_user_id = self.report.report_actions.first.data["assigned_user_id"]
         first_assigned_user = User.find(first_assigned_user_id)
         message = self.report.assign_actions.count == 1 ? "Se le ha asignado el reporte #{self.report.title}" : 
-          "El reporte #{self.report.title} ha sido reasignado a #{self.report.assigned_user_name}"
+        "El reporte #{self.report.title} ha sido reasignado a #{self.report.assigned_user_name}"
         emails << {
           destinatary: first_assigned_user.email,
           message: message,

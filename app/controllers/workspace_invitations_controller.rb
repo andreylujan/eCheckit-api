@@ -41,7 +41,7 @@ class WorkspaceInvitationsController < ApplicationController
 		user_email = params.require(:user_email)
 		workspace_id = params.require(:workspace_id)
 		@workspace_invitation = WorkspaceInvitation.find_by_user_email_and_workspace_id(user_email, workspace_id)
-		if workspace_invitation.present?
+		if @workspace_invitation.present?
 			@workspace_invitation.destroy
 			render nothing: true, status: :no_content
 		else
