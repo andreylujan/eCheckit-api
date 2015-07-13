@@ -17,7 +17,7 @@ class ReportAction < ActiveRecord::Base
   belongs_to :user
   belongs_to :report
   after_create :perform_action
-  # after_create :notify_action
+  after_create :notify_action
   validates_presence_of [ :report, :user, :report_action_type, :data ]
   validate :data_attributes_present
   belongs_to :report_state
@@ -65,7 +65,9 @@ class ReportAction < ActiveRecord::Base
           alert: "Se le ha asignado el reporte #{self.report.title}",
           data: {
             message: "Se le ha asignado el reporte #{self.report.title}",
-            title: "Reporte asignado" 
+            title: "Reporte asignado",
+            report_id: self.report.id,
+            type: "assign"
           },
           gcm_app_name: "embajadores_android"
         }

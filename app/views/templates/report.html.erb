@@ -112,8 +112,8 @@
 		<div class="label">Fotos</div> 
 		<div class="value images">
 			<% @report.pictures.each do |picture| %>
-				<div style="height: 175px; display: inline-block; margin-top: 10px; margin-left: 10px;" >
-					<img src="<%= picture.url %>" width="175px"/>
+				<div style="display: inline-block; margin-top: 10px; margin-left: 10px;" >
+					<img src="<%= picture.url %>" width="150px" style="max-height: 150px;" />
 				</div> 
 			<% end %>
 	</div>
@@ -137,6 +137,12 @@
 			<div class="label">Tipo de actividad:</div> 
 			<div class="value"><%= action.report_action_type.formatted_name %></div> 
 		</div>
+		<% if action.report_action_type.name == "change_state" %>
+		<div class="field">
+			<div class="label">Nuevo estado:</div> 
+			<div class="value"><%= action.report_state.name %></div> 
+		</div>
+		<% end %>
 		<div class="field">
 			<div class="label">Comentario:</div> 
 			<div class="value"><%= action.data["comment"] if action.data and action.data["comment"] %></div> 

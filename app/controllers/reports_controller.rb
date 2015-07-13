@@ -70,6 +70,7 @@ class ReportsController < ApplicationController
   end
 
   def generate_pdf
+    byebug
     pdf = WickedPdf.new.pdf_from_string(
       render_to_string('templates/report.html.erb')
       )
