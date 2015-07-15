@@ -53,7 +53,7 @@ class ReportAction < ActiveRecord::Base
 
   def notify_action
     
-    apns_app_name = "embajadores_ios_production"
+    apns_app_name = "embajadores_ios_development"
     gcm_app_name = "embajadores_android"
 
 
@@ -69,8 +69,8 @@ class ReportAction < ActiveRecord::Base
             report_id: self.report.id,
             type: "assign"
           },
-          gcm_app_name: "embajadores_android",
-          ios_app_name: "embajadores_ios_development"
+          gcm_app_name: gcm_app_name,
+          apns_app_name: apns_app_name
         }
       devices.each do |device|
         if device.name == "android"
