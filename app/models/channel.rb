@@ -22,7 +22,7 @@ class Channel < ActiveRecord::Base
   validate :unique_name
 
   def unique_name
-  	if Channel.where(name: self.name, workspace_id: self.workspace_id).count > 0
+  	if not persisted? and Channel.where(name: self.name, workspace_id: self.workspace_id).count > 0
   		errors.add(:name, "ya está en uso")
   	end
   end
