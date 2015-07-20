@@ -48,20 +48,27 @@ class Workspace < ActiveRecord::Base
 
   def local_dashboard(reports)
     reason_counts = {}
+    state_counts = {}
     reports_count = reports.count
+
+    self.report_states.each do |state|
+      state_counts[state.name] = 0
+    end
+
     reports.each do |report|
-      report.report_fields.each do |report_field|
-        if report_field.report_field_type_id == 1
-          if report_field.value.present? and report_field.value["title"].present?
-            reason_counts[report_field.value["title"]] ||= 0
-            reason_counts[report_field.value["title"]] += 1
-          end 
-        end
+      if report.reason.present?
+        reason_counts[report.reason.name] ||= 0
+        reason_counts[report.reason.name] += 1
+      end
+      if report.report_state.present?
+        state_counts[report.report_state.name] ||= 0
+        state_counts[report.report_state.name] += 1
       end
     end
     local = {
       reports_count: reports_count,
-      reason_counts: reason_counts
+      reason_counts: reason_counts,
+      state_counts: state_counts
     }
     return local
   end
@@ -103,6 +110,17 @@ class Workspace < ActiveRecord::Base
         local_info = local_dashboard(region_reports)
         local_info[:region_id] = region.id
         local_info[:region_name] = region.name
+
+        channel_info = []
+        self.channels.each do |channel|
+          data = {}
+          channel_reports = region_reports.where(channel: channel)
+          data = local_dashboard(channel_reports)
+          data[:channel_id] = channel.id
+          data[:channel_name] = channel.name
+          channel_info << data
+        end
+        local_info[:channels] = channel_info
         regions << local_info
       end
 
