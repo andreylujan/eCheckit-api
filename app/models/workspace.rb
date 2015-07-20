@@ -57,9 +57,13 @@ class Workspace < ActiveRecord::Base
 
     reports.each do |report|
       if report.reason.present?
-        reason_counts[report.reason.name] ||= 0
-        reason_counts[report.reason.name] += 1
-      end
+        reason_counts[report.reason.name] ||= {}
+        reason_counts[report.reason.name][:total] ||= 0
+        reason_counts[report.reason.name][:total] += 1
+        reason_counts[report.reason.name][:states] ||= {}
+        reason_counts[report.reason.name][:states][report.report_state.name] ||= 0
+        reason_counts[report.reason.name][:states][report.report_state.name] += 1
+      end 
       if report.report_state.present?
         state_counts[report.report_state.name] ||= 0
         state_counts[report.report_state.name] += 1
