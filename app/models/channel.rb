@@ -8,9 +8,12 @@
 #  updated_at   :datetime         not null
 #  image        :text
 #  workspace_id :integer
+#  deleted_at   :datetime
 #
 
 class Channel < ActiveRecord::Base
+
+  acts_as_paranoid
   belongs_to :workspace
   has_many :subchannels, dependent: :destroy
   has_many :zone_assignments, dependent: :destroy

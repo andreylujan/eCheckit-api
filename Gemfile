@@ -30,6 +30,7 @@ gem 'aws-sdk', '~> 2.1.4'
 gem 'faraday', '~> 0.9.1'
 gem 'sidekiq', '~> 3.4.1'
 gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
+gem 'paranoia', '~> 2.1.3'
 
 group :development do
 	gem 'thin', '~> 1.6.3'

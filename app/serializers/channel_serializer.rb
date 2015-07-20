@@ -8,6 +8,7 @@
 #  updated_at   :datetime         not null
 #  image        :text
 #  workspace_id :integer
+#  deleted_at   :datetime
 #
 
 class ChannelSerializer < ActiveModel::Serializer

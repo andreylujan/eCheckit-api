@@ -8,11 +8,11 @@
 #  image        :text
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  deleted_at   :datetime
 #
 
 class Reason < ActiveRecord::Base
-  belongs_to :workspace
-
+  acts_as_paranoid
   belongs_to :workspace
   has_many :reports
   validates_presence_of  :name

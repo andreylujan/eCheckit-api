@@ -112,7 +112,7 @@ class Workspace < ActiveRecord::Base
         local_info[:region_name] = region.name
 
         channel_info = []
-        self.channels.each do |channel|
+        self.channels.with_deleted.each do |channel|
           data = {}
           channel_reports = region_reports.where(channel: channel)
           data = local_dashboard(channel_reports)
@@ -124,7 +124,7 @@ class Workspace < ActiveRecord::Base
         regions << local_info
       end
 
-      self.channels.each do |channel|
+      self.channels.with_deleted.each do |channel|
         channel_reports = reports.where(channel: channel)
         local_info = local_dashboard(channel_reports)
         local_info[:channel_id] = channel.id
