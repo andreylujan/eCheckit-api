@@ -12,10 +12,16 @@
 #
 
 class Reason < ActiveRecord::Base
-  acts_as_paranoid
-  belongs_to :workspace
-  has_many :reports
-  validates_presence_of  :name
-  validates_presence_of  :workspace
-  validates_uniqueness_of :name, scope: :workspace_id
+	acts_as_paranoid
+	belongs_to :workspace
+	has_many :reports
+	validates_presence_of  :name
+	validates_presence_of  :workspace
+	validate :unique_name
+	def unique_name
+		if Reason.where(name: self.name, workspace_id: self.workspace_id).count > 0
+			errors.add(:name, "ya está en uso")
+		end
+	end
+
 end
