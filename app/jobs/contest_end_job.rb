@@ -1,7 +1,7 @@
 class ContestEndJob < ActiveJob::Base
 	queue_as :default
 
-	def perform(contest_id, message)
+	def perform(contest_id, title, message)
 		contest = Contest.find(contest_id)
 		apns_app_name = "embajadores_ios_development"
 		gcm_app_name = "embajadores_android"
@@ -12,8 +12,8 @@ class ContestEndJob < ActiveJob::Base
 			params = {
 				alert: "#{message}",
 				data: {
-					message: "#{message}",
-					title: "Concurso",
+					message: message,
+					title: title,
 					type: "contest"
 					},
 					gcm_app_name: gcm_app_name,
