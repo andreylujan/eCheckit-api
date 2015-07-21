@@ -165,6 +165,10 @@ class Workspace < ActiveRecord::Base
     invitations.pluck(:user_id)
   end
 
+  def registered_users
+    workspace_users = User.joins(:workspace_invitations).where("workspace_id = ? and accepted = ?", self.id, true).order(:id)
+  end
+
   def users
     workspace_users = User.joins(:workspace_invitations).where("workspace_id = ?", self.id).order(:id)
     maps = workspace_users.map do |u|
