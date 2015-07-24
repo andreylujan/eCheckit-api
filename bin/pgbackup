@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo 'Backing up to file...'
-ssh -i $HOME/.ssh/ubuntu.pem ubuntu@52.0.24.103 'pg_dump -d echeckit_api_production -U echeckit > ~/dump.sql'
+ssh -i $HOME/.ssh/echeckit_production.pem ubuntu@52.3.170.85 'pg_dump -d echeckit_api_production > ~/dump.sql'
 echo 'Done. Downloading to current folder...'
-scp -i $HOME/.ssh/ubuntu.pem ubuntu@52.0.24.103:~/dump.sql db/dump.sql
+scp -i $HOME/.ssh/echeckit_production.pem ubuntu@52.3.170.85:~/dump.sql db/dump.sql
 echo 'Done. Deleting remote file...'
-ssh -i $HOME/.ssh/ubuntu.pem ubuntu@52.0.24.103 'rm ~/dump.sql'
+ssh -i $HOME/.ssh/echeckit_production.pem ubuntu@52.3.170.85 'rm ~/dump.sql'
 echo 'Done.'

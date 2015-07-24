@@ -79,7 +79,7 @@ class Workspace < ActiveRecord::Base
 
   def dashboard(params = {})
     if self.organization_id == 1
-      reports = self.reports
+      reports = self.reports.where("channel_id is not null and reason_id is not null")
       
 
       if params[:start_date]
@@ -116,7 +116,7 @@ class Workspace < ActiveRecord::Base
         local_info[:region_name] = region.name
 
         channel_info = []
-        self.channels.with_deleted.each do |channel|
+        self.channels.each do |channel|
           data = {}
           channel_reports = region_reports.where(channel: channel)
           data = local_dashboard(channel_reports)
@@ -128,7 +128,7 @@ class Workspace < ActiveRecord::Base
         regions << local_info
       end
 
-      self.channels.with_deleted.each do |channel|
+      self.channels.each do |channel|
         channel_reports = reports.where(channel: channel)
         local_info = local_dashboard(channel_reports)
         local_info[:channel_id] = channel.id

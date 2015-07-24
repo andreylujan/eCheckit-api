@@ -2,11 +2,11 @@
 lock '3.4.0'
 
 set :application, 'api'
-set :repo_url, 'git@github.com:pelluch/echeckit-api.git'
+set :repo_url, 'git@github.com:andreylujan/eCheckit-api.git'
 set :branch, 'master'
 
 set :ssh_options, {
- keys: [ "#{ENV['HOME']}/.ssh/ubuntu.pem", "#{ENV['HOME']}/.ssh/echeckit_api_rsa" ],
+ keys: [ "#{ENV['HOME']}/.ssh/echeckit_production.pem", "#{ENV['HOME']}/.ssh/id_rsa" ],
  forward_agent: true,
  auth_methods: ["publickey"]
 }
