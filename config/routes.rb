@@ -18,7 +18,11 @@ Rails.application.routes.draw do
   end
   resources :report_actions, only: [ :index, :create ]
   resources :reports, only: [ :show, :index, :create, :update ]
-  resources :users, only: [ :create, :show, :update, :index ]
+  resources :users, only: [ :create, :show, :update, :index ] do
+    collection do 
+      post :reset_password
+    end
+  end
   resources :devices, only: [ :create, :update, :destroy ]
   resources :workspace_invitations, only: [ :show,  :create, :update ] 
   delete '/workspace_invitations', to: 'workspace_invitations#destroy'

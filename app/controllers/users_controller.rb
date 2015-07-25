@@ -27,6 +27,12 @@ class UsersController < ApplicationController
     render json: @user
   end
 
+  def reset_password
+    email = params.require(:email)
+    @user = User.find_by_email(email)
+    render nothing: true, status: :ok
+  end
+
   def index
     if params[:confirmation_token]
       invitation = WorkspaceInvitation.find_by_confirmation_token params[:confirmation_token]
