@@ -23,7 +23,10 @@ class ReportsController < ApplicationController
     @report.creator = current_user
     if @report.save
       generate_pdf
-      @report.report_actions.first.send_create_email
+      first_action = @report.report_actions.first
+      if first_action
+        first_action.send_create_email
+      end
       render json: @report, status: :created
     else
       render json: @report, status: :unprocessable_entity
