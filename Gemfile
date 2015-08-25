@@ -29,6 +29,7 @@ gem 'wkhtmltopdf-binary'
 gem 'aws-sdk', '~> 2.1.4'
 gem 'faraday', '~> 0.9.1'
 gem 'sidekiq', '~> 3.4.1'
+gem 'net-ssh', '~> 2.10.1.rc1'
 gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 gem 'paranoia', '~> 2.1.3'
 
