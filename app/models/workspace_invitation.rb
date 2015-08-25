@@ -38,7 +38,7 @@ class WorkspaceInvitation < ActiveRecord::Base
       f.close
       params = {
         workspace_name: self.workspace.name,
-        signup_url: "http://52.0.24.103/#/core/signup?confirmation_token=#{self.confirmation_token}"
+        signup_url: "http://52.3.170.85/#/core/signup?confirmation_token=#{self.confirmation_token}"
       }
       if self.user.nil?
         params[:user_name] = self.user_email
