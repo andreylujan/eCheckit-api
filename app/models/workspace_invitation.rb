@@ -52,7 +52,7 @@ class WorkspaceInvitation < ActiveRecord::Base
       text = Erubis::Eruby.new(template).result params
       gmail.deliver! do
         to user_email
-        subject "Embajadores de Coca Cola | Confirme su usuario"
+        subject "Embajadores en acción | Confirme su usuario"
         text_part do
           body text
         end

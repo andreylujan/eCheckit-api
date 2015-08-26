@@ -102,7 +102,7 @@ class ReportAction < ActiveRecord::Base
             user_name: self.report.assigned_user.name,
             workspace_name: self.report.workspace.name,
             pdf: self.report.pdf,
-            subject: "Reporte asignado"
+            subject: "Embajadores en acción | Reporte asignado"
           }
         end
         first_assigned_user_id = self.report.report_actions.first.data["assigned_user_id"]
@@ -115,7 +115,7 @@ class ReportAction < ActiveRecord::Base
           user_name: first_assigned_user.name,
           workspace_name: self.report.workspace.name,
           pdf: self.report.pdf,
-          subject: "Reporte reasignado"
+          subject: "Embajadores en acción | Reporte reasignado"
         }
       elsif self.report_action_type.name == "change_state" and 
         self.report_state.name == "Cerrado"
@@ -128,7 +128,7 @@ class ReportAction < ActiveRecord::Base
             user_name: assigned_user.name,
             workspace_name: self.report.workspace.name,
             pdf: self.report.pdf,
-            subject: "Reporte cerrado"
+            subject: "Embajadores en acción | Reporte cerrado"
           }
         end
       end

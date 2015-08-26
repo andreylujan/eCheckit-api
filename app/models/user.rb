@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
     user_email = self.email
     gmail.deliver! do
       to user_email
-      subject "Embajadores de Coca Cola | Bienvenid@"
+      subject "Ya eres parte de Embajadores en acción"
       text_part do
         body text
       end
