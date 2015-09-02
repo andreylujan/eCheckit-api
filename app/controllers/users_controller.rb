@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   end
 
   def reset_password
-    email = params.require(:email)
+    email = params.require(:email).downcase
     @user = User.find_by_email(email)
     render nothing: true, status: :ok
   end

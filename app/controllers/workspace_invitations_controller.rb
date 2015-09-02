@@ -6,7 +6,7 @@ class WorkspaceInvitationsController < ApplicationController
 			update and return
 		end
 
-		user_email = params.require(:user_email)
+		user_email = params.require(:user_email).downcase
 		workspace_invitation = WorkspaceInvitation.find_by_user_email_and_workspace_id(user_email, workspace_invitations_params[:workspace_id])
 		if workspace_invitation.present?
 			workspace_invitation.regenerate_token
@@ -38,7 +38,7 @@ class WorkspaceInvitationsController < ApplicationController
 	end
 
 	def destroy
-		user_email = params.require(:user_email)
+		user_email = params.require(:user_email).downcase
 		workspace_id = params.require(:workspace_id)
 		@workspace_invitation = WorkspaceInvitation.find_by_user_email_and_workspace_id(user_email, workspace_id)
 		if @workspace_invitation.present?

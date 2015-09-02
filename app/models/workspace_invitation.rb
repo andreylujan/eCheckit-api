@@ -20,7 +20,7 @@ class WorkspaceInvitation < ActiveRecord::Base
   validates_uniqueness_of :user_email, scope: :workspace
 
   before_create :generate_confirmation_token
-  
+  before_validation :lowercase_email
   # before_save :add_user
   after_create :send_email
 
@@ -71,6 +71,10 @@ class WorkspaceInvitation < ActiveRecord::Base
   end
 
   private
+
+  def lowercase_email
+    self.email = self.email.downcase if self.email.present?
+  end
 
   def verify_user
     if self.user_email.present?
