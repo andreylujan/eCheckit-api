@@ -73,7 +73,7 @@ class WorkspaceInvitation < ActiveRecord::Base
   private
 
   def lowercase_email
-    self.email = self.email.downcase if self.email.present?
+    self.user_email = self.user_email.downcase if self.user_email.present?
   end
 
   def verify_user
