@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :users, only: [ :create, :show, :update, :index ] do
     collection do 
       post :reset_password
+      post :change_password
     end
   end
   resources :devices, only: [ :create, :update, :destroy ]

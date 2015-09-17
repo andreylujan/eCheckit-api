@@ -56,6 +56,29 @@ class User < ActiveRecord::Base
     access_tokens.last
   end
   
+  def clear_reset_token
+    self.reset_password_token = nil
+    self.reset_password_sent_at = nil
+    save
+  end
+
+  def valid_reset_token?(token)
+    valid = (self.reset_password_token.present? and 
+      token == self.reset_password_token and 
+      DateTime.now < reset_password_sent_at + 10.minutes)
+  end
+
+  def generate_reset_token
+    token = ""
+    4.times do |i|
+      token = token + rand(10).to_s
+    end
+    self.reset_password_token = token
+    self.reset_password_sent_at = DateTime.now
+    save
+  end
+
+
   def send_welcome_email
     gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
     f = File.open('./templates/welcome.html.erb')
