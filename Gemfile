@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 0.18.1'
+gem 'pg', '~> 0.18.3'
 
 gem 'active_model_serializers', '~> 0.9.3'
 
@@ -26,7 +26,7 @@ gem 'apipie-rails', :github => 'Apipie/apipie-rails'
 gem 'erubis', '~> 2.7.0'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
-gem 'aws-sdk', '~> 2.1.4'
+gem 'aws-sdk', '~> 2.1.22'
 gem 'faraday', '~> 0.9.1'
 gem 'sidekiq', '~> 3.4.1'
 gem 'net-ssh', '~> 2.10.1.rc1'
