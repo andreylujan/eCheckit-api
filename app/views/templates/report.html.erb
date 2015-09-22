@@ -58,24 +58,20 @@
 	</div>
 	<h3>Información Reporte</h3>
 	<div class="field">
+		<div class="label">Motivo:</div> 
+		<div class="value"><%= @report.reason.name if @report.reason %></div> 
+	</div>
+	<div class="field">
 		<div class="label">Título:</div> 
 		<div class="value"><%= @report.title %></div>
 	</div>
 	<div class="field">
-		<div class="label">Creado por:</div>
-		<div class="value"><%= @report.creator_name %></div> 
+		<div class="label">Comentario:</div> 
+		<div class="value"><%= @report.comment %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Asignado a:</div>
-		<div class="value"><%= @report.assigned_user_name %></div> 
-	</div>
-	<div class="field">
-		<div class="label">Fecha de Creación:</div>
-		<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
-	</div>
-	<div class="field">
-		<div class="label">Estado:</div> 
-		<div class="value"><%= @report.report_state.name %></div> 
+		<div class="label">Canal:</div> 
+		<div class="value"><%= @report.channel.name if @report.channel %></div> 
 	</div>
 	<div class="field">
 		<div class="label">Región:</div> 
@@ -89,23 +85,17 @@
 		<div class="label">Calle:</div> 
 		<div class="value"><%= @report.address %></div> 
 	</div>
-	<% if @report.reference.present? and @report.reference != "" %>
 	<div class="field">
-		<div class="label">Referencia:</div> 
-		<div class="value"><%= @report.reference %></div> 
-	</div>
-	<% end %>
-	<div class="field">
-		<div class="label">Comentario:</div> 
-		<div class="value"><%= @report.comment %></div> 
+		<div class="label">Fecha de Creación:</div>
+		<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Motivo:</div> 
-		<div class="value"><%= @report.reason.name if @report.reason %></div> 
+		<div class="label">Creado por:</div>
+		<div class="value"><%= @report.creator_name %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Canal:</div> 
-		<div class="value"><%= @report.channel.name if @report.channel %></div> 
+		<div class="label">Asignado a:</div>
+		<div class="value"><%= @report.assigned_user_name %></div> 
 	</div>
 	<% if @report.pictures.count > 0 %>
 	<div class="field">
@@ -116,33 +106,18 @@
 					<img src="<%= picture.url %>" width="150px" style="max-height: 150px;" />
 				</div> 
 			<% end %>
+		</div>
 	</div>
 	<% end %>
-	<div class="field">
-		<div class="label">Mapa Ubicación</div> 
-		<div class="value map">
-			<img src="https://maps.googleapis.com/maps/api/staticmap?size=512x250&maptype=roadmap&size=500x250&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
-		</div> 
-	</div>
 	<h3>Actividad en el reporte</h3>
 	<% @report.report_actions.order("created_at DESC").each_with_index do |action, idx| %>
 		<% if idx > 0 %>
 			<hr/>
 		<% end %>
 		<div class="field">
-			<div class="label">Fecha:</div> 
-			<div class="value"><%= action.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
-		</div>
-		<div class="field">
 			<div class="label">Tipo de actividad:</div> 
 			<div class="value"><%= action.report_action_type.formatted_name %></div> 
 		</div>
-		<% if action.report_action_type.name == "change_state" %>
-		<div class="field">
-			<div class="label">Nuevo estado:</div> 
-			<div class="value"><%= action.report_state.name %></div> 
-		</div>
-		<% end %>
 		<div class="field">
 			<div class="label">Comentario:</div> 
 			<div class="value"><%= action.data["comment"] if action.data and action.data["comment"] %></div> 

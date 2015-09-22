@@ -123,6 +123,35 @@ class User < ActiveRecord::Base
     end
   end
 
+  def send_password_confirmation_token
+    gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
+    f = File.open('./templates/passToken.html.erb')
+    template = f.read
+    f.close
+    params = {
+      user_name: self.name,
+      pass_token: self.reset_password_token
+    }
+
+    html = Erubis::Eruby.new(template).result params
+    f = File.open('./templates/passToken.txt.erb')
+    template = f.read
+    f.close
+    text = Erubis::Eruby.new(template).result params
+    user_email = self.email
+    gmail.deliver! do
+      to user_email
+      subject "Solicitud para reestablecer tu contraseña de eCheckit"
+      text_part do
+        body text
+      end
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body html
+      end
+    end
+  end
+
   def admin_workspace_ids
     roles.where(name: "admin").pluck :resource_id
   end

@@ -56,15 +56,16 @@ class UsersController < ApplicationController
     render json: @user
   end
 
-  def reset_password
+  def request_validation_token
     email = params.require(:email).downcase
-    @user = User.find_by_email(email)
+    user = User.find_by_email(email)
     # Check if user exists
-    if @user.present?
-      @user.generate_reset_token
+    if user.present?
+      user.generate_reset_token
+      user.send_password_confirmation_token
       render json: {
-        reset_password_token: @user.reset_password_token,
-        reset_password_sent_at: @user.reset_password_sent_at
+        reset_password_token: user.reset_password_token,
+        reset_password_sent_at: user.reset_password_sent_at
       }, status: :ok
     else
       render nothing: true, status: :not_found
