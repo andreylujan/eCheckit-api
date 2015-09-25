@@ -22,15 +22,54 @@ class UsersController < ApplicationController
     end
   end
 
+  def change_password
+    @user = User.find_by_email(params.require(:email).downcase)
+    password = params.require(:password)
+    password_confirmation = params.require(:password_confirmation)
+    reset_password_token = params.require(:reset_password_token)
+
+    # First check if email is valid
+    if @user.present?
+      # Now see if reset token is valid and hasn't expired
+      if @user.valid_reset_token?(reset_password_token)
+        @user.password = password
+        @user.password_confirmation = password_confirmation
+        # Change password
+        if @user.save
+          @user.clear_reset_token
+          render json: @user, status: :ok
+        else
+          render json: {
+            errors: @user.errors.full_messages
+            }, status: :unprocessable_entity
+        end
+      else
+        render nothing: true, status: :unauthorized
+      end
+    else
+      render nothing: true, status: :not_found
+    end
+  end
+
   def show
     @user = User.find(params[:id])
     render json: @user
   end
 
-  def reset_password
+  def request_validation_token
     email = params.require(:email).downcase
-    @user = User.find_by_email(email)
-    render nothing: true, status: :ok
+    user = User.find_by_email(email)
+    # Check if user exists
+    if user.present?
+      user.generate_reset_token
+      user.send_password_confirmation_token
+      render json: {
+        reset_password_token: user.reset_password_token,
+        reset_password_sent_at: user.reset_password_sent_at
+      }, status: :ok
+    else
+      render nothing: true, status: :not_found
+    end
   end
 
   def index

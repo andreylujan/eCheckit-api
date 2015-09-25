@@ -56,6 +56,29 @@ class User < ActiveRecord::Base
     access_tokens.last
   end
   
+  def clear_reset_token
+    self.reset_password_token = nil
+    self.reset_password_sent_at = nil
+    save
+  end
+
+  def valid_reset_token?(token)
+    valid = (self.reset_password_token.present? and 
+      token == self.reset_password_token and 
+      DateTime.now < reset_password_sent_at + 10.minutes)
+  end
+
+  def generate_reset_token
+    token = ""
+    4.times do |i|
+      token = token + rand(10).to_s
+    end
+    self.reset_password_token = token
+    self.reset_password_sent_at = DateTime.now
+    save
+  end
+
+
   def send_welcome_email
     gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
     f = File.open('./templates/welcome.html.erb')
@@ -96,6 +119,35 @@ class User < ActiveRecord::Base
       html_part do
         content_type 'text/html; charset=UTF-8'
         body "Welcome, #{user_email}"
+      end
+    end
+  end
+
+  def send_password_confirmation_token
+    gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
+    f = File.open('./templates/passToken.html.erb')
+    template = f.read
+    f.close
+    params = {
+      user_name: self.name,
+      pass_token: self.reset_password_token
+    }
+
+    html = Erubis::Eruby.new(template).result params
+    f = File.open('./templates/passToken.txt.erb')
+    template = f.read
+    f.close
+    text = Erubis::Eruby.new(template).result params
+    user_email = self.email
+    gmail.deliver! do
+      to user_email
+      subject "Solicitud para reestablecer tu contraseña de eCheckit"
+      text_part do
+        body text
+      end
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body html
       end
     end
   end

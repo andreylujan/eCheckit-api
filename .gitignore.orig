@@ -14,6 +14,9 @@
 erd.pdf
 dump.sql
 *.backup
+<<<<<<< HEAD
 Prod-eCheckIt.pem
 .idea
+=======
 /keys
+>>>>>>> 7793574d7b3e302f3dafa5e6530b2a299ff0dcc6

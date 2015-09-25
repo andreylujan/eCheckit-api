@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   resources :reports, only: [ :show, :index, :create, :update ]
   resources :users, only: [ :create, :show, :update, :index ] do
     collection do 
-      post :reset_password
+      post :request_validation_token
+      post :change_password
     end
   end
   resources :devices, only: [ :create, :update, :destroy ]
