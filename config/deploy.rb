@@ -6,7 +6,8 @@ set :repo_url, 'git@github.com:andreylujan/eCheckit-api.git'
 set :branch, 'master'
 
 set :ssh_options, {
- keys: [ "./keys/Prod-eCheckIt.pem", "Users/Alvaro/.ssh/id_rsa", "/home/pablo/.ssh/ubuntu.pem", "./keys/Dev-eCheckIt.pem" ],
+ keys: [ "./keys/Prod-eCheckIt.pem", "Users/Alvaro/.ssh/id_rsa", "/home/pablo/.ssh/ubuntu.pem", "./keys/Dev-eCheckIt.pem",
+ "/home/pablo/.ssh/echeckit_production.pem" ],
  forward_agent: true,
  auth_methods: ["publickey"]
 }
