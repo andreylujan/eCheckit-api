@@ -42,14 +42,6 @@ class ReportActionsController < ApplicationController
         end
     end
 
-    def generate_pdf
-        pdf = WickedPdf.new.pdf_from_string(
-          render_to_string('templates/report.html.erb')
-          )
-        url = Amazon.upload_pdf(pdf)
-        if not url.nil?
-          @report.update_attribute :pdf, url
-      end
-  end
+    
 
 end

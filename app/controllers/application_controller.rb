@@ -8,7 +8,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   after_filter :cors_set_access_control_headers
-  
+  before_action :start_benchmark
+  after_action :end_benchmark
+
   def cors_preflight_check
     logger.info ">>> responding to CORS request"
     render :text => '', :content_type => 'text/plain'
@@ -43,6 +45,21 @@ class ApplicationController < ActionController::Base
     render json: error_message(e), status: :bad_request
   end
 
+  def start_benchmark
+    @start = Time.now
+  end
+
+  def end_benchmark
+    @end = Time.now
+    diff = @end - @start
+    Rails.logger.warn("Url: #{request.url}")
+    Rails.logger.warn("Time: #{diff}")
+  end
+
+  protected
+  def generate_pdf
+    UploadPdfJob.perform_later @report.id
+  end
 
   private
   def error_message(e)
