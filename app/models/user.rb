@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
     if not app
       app = Doorkeeper::Application.create name: "echeckit", redirect_uri: "https://127.0.0.1"
     end
-    Doorkeeper::AccessToken.create resource_owner_id: self.id, application_id: app.id
+    Doorkeeper::AccessToken.create resource_owner_id: self.id, application_id: app.id, scopes: :user
   end
 
   def access_token

@@ -19,7 +19,7 @@ Doorkeeper.configure do
     u if u && u.valid_password?(params[:password])
   end
 
-  default_scopes :public
+  default_scopes :user
 
   optional_scopes :admin, :write
 
