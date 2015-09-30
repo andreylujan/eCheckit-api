@@ -6,6 +6,15 @@ class ReportsController < ApplicationController
   before_action :doorkeeper_authorize!
 
   def create
+
+    if params[:internal_id].present?
+      @report = Report.find_by_internal_id(params[:internal_id])
+      if @report.present?
+        render json: @report, status: :ok
+        return
+      end
+    end
+
     if params[:pictures_attributes].present?
       params[:report][:pictures_attributes] = params[:pictures_attributes]
     end

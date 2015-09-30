@@ -16,8 +16,8 @@
 #  region           :text
 #  commune          :text
 #  country          :text
-#  longitude        :float            default(0.0), not null
-#  latitude         :float            default(0.0), not null
+#  longitude        :float            default(0.0)
+#  latitude         :float            default(0.0)
 #  reference        :text
 #  comment          :text
 #  pdf              :text

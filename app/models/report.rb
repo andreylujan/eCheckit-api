@@ -16,8 +16,8 @@
 #  region           :text
 #  commune          :text
 #  country          :text
-#  longitude        :float            default(0.0), not null
-#  latitude         :float            default(0.0), not null
+#  longitude        :float            default(0.0)
+#  latitude         :float            default(0.0)
 #  reference        :text
 #  comment          :text
 #  pdf              :text
@@ -45,6 +45,7 @@ class Report < ActiveRecord::Base
     after_destroy :delete_pdf
     before_create :validate_geolocation
 
+    validates_uniqueness_of :internal_id
     validates_presence_of [ :workspace, :creator, 
     	:title  ]
     	
