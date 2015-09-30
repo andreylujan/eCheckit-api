@@ -16,8 +16,8 @@
 #  region           :text
 #  commune          :text
 #  country          :text
-#  longitude        :float            not null
-#  latitude         :float            not null
+#  longitude        :float            default(0.0), not null
+#  latitude         :float            default(0.0), not null
 #  reference        :text
 #  comment          :text
 #  pdf              :text
@@ -43,9 +43,10 @@ class Report < ActiveRecord::Base
     belongs_to :subchannel
     belongs_to :reason
     after_destroy :delete_pdf
+    before_create :validate_geolocation
 
     validates_presence_of [ :workspace, :creator, 
-    	:title, :longitude, :latitude ]
+    	:title  ]
     	
         before_create :verify_state
         after_create :assign_user
@@ -59,6 +60,15 @@ class Report < ActiveRecord::Base
                 if last_assign
                     last_assign.created_at
                 end
+            end
+        end
+
+        def validate_geolocation
+            if self.latitude.nil?
+                self.latitude = 0
+            end
+            if self.longitude.nil?
+                self.longitude = 0
             end
         end
 

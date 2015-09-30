@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930015723) do
+ActiveRecord::Schema.define(version: 20150930161255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -282,28 +282,28 @@ ActiveRecord::Schema.define(version: 20150930015723) do
   add_index "report_types", ["organization_id"], name: "index_report_types_on_organization_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
-    t.integer  "creator_id",       null: false
+    t.integer  "creator_id",                     null: false
     t.integer  "assigned_user_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.integer  "report_state_id"
     t.integer  "workspace_id"
     t.integer  "venue_id"
-    t.text     "title",            null: false
+    t.text     "title",                          null: false
     t.text     "address"
     t.text     "city"
     t.text     "region"
     t.text     "commune"
     t.text     "country"
-    t.float    "longitude",        null: false
-    t.float    "latitude",         null: false
+    t.float    "longitude",        default: 0.0
+    t.float    "latitude",         default: 0.0
     t.text     "reference"
     t.text     "comment"
     t.text     "pdf"
     t.integer  "reason_id"
     t.integer  "channel_id"
     t.integer  "subchannel_id"
-    t.text     "internal_id",      null: false
+    t.text     "internal_id",                    null: false
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
