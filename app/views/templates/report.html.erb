@@ -41,9 +41,10 @@
 			margin-top: 10px;
 		}
 
-
 		.value.map {
 			display: block;
+			margin-top: 20px;
+			margin-bottom: 20px;
 		}
 
 		.value.images {
@@ -56,60 +57,70 @@
 	<div>
 		<img src="http://www.bolsadesantiago.com/Imaganes%20Empresa/ANDINA.PNG" width="40%" />
 	</div>
-	<h3>Información Reporte</h3>
+	<h3>INFORMACIÓN DEL REPORTE</h3>
 	<div class="field">
-		<div class="label">Motivo:</div> 
+		<div class="label">MOTIVO:</div> 
 		<div class="value"><%= @report.reason.name if @report.reason %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Título:</div> 
+		<div class="label">TÍTULO:</div> 
 		<div class="value"><%= @report.title %></div>
 	</div>
 	<div class="field">
-		<div class="label">Comentario:</div> 
+		<div class="label">COMENTARIO:</div> 
 		<div class="value"><%= @report.comment %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Canal:</div> 
+		<div class="label">CANAL:</div> 
 		<div class="value"><%= @report.channel.name if @report.channel %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Región:</div> 
+		<div class="label">SUB CANAL:</div> 
+		<div class="value"><%= @report.subchannel.name if @report.subchannel %></div> 
+	</div>
+	<div class="field">
+		<div class="label">REGIÓN:</div> 
 		<div class="value"><%= @report.region %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Comuna:</div> 
+		<div class="label">COMUNA:</div> 
 		<div class="value"><%= @report.commune %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Calle:</div> 
+		<div class="label">CALLE:</div> 
 		<div class="value"><%= @report.address %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Fecha de Creación:</div>
-		<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
-	</div>
-	<div class="field">
-		<div class="label">Creado por:</div>
+		<div class="label">CREADO POR:</div>
 		<div class="value"><%= @report.creator_name %></div> 
 	</div>
 	<div class="field">
-		<div class="label">Asignado a:</div>
+		<div class="label">FECHA DE CREACIÓN:</div>
+		<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
+	</div>
+	<div class="field">
+		<div class="label">ASIGNADO A:</div>
 		<div class="value"><%= @report.assigned_user_name %></div> 
+	</div>
+	<div class="field">
+		<div class="label">Mapa Ubicación</div> 
+		<div class="value map">
+			<img src="https://maps.googleapis.com/maps/api/staticmap?size=512x250&maptype=roadmap&size=500x250&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
+		</div> 
 	</div>
 	<% if @report.pictures.count > 0 %>
 	<div class="field">
-		<div class="label">Fotos</div> 
+		<div class="label">FOTOS:</div> 
 		<div class="value images">
 			<% @report.pictures.each do |picture| %>
 				<div style="display: inline-block; margin-top: 10px; margin-left: 10px;" >
-					<img src="<%= picture.url %>" width="150px" style="max-height: 150px;" />
+					<img src="<%= picture.url %>" width="250px" style="max-height: 250px;" />
 				</div> 
 			<% end %>
 		</div>
 	</div>
 	<% end %>
-	<h3>Actividad en el reporte</h3>
+	<h3>ACTIVIDAD DEL REPORTE:</h3>
 	<% @report.report_actions.order("created_at DESC").each_with_index do |action, idx| %>
 		<% if idx > 0 %>
 			<hr/>
