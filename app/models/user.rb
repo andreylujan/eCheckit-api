@@ -80,31 +80,7 @@ class User < ActiveRecord::Base
 
 
   def send_welcome_email
-    gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
-    f = File.open('./templates/welcome.html.erb')
-    template = f.read
-    f.close
-    params = {
-      user_name: self.name
-    }
-
-    html = Erubis::Eruby.new(template).result params
-    f = File.open('./templates/welcome.txt.erb')
-    template = f.read
-    f.close
-    text = Erubis::Eruby.new(template).result params
-    user_email = self.email
-    gmail.deliver! do
-      to user_email
-      subject "Ya eres parte de Embajadores en acción"
-      text_part do
-        body text
-      end
-      html_part do
-        content_type 'text/html; charset=UTF-8'
-        body html
-      end
-    end
+    UserMailer.welcome_email(self).deliver_later
   end
 
   def send_confirmation_email
