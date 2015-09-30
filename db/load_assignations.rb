@@ -85,8 +85,6 @@ f.each_line do |line|
 	region = Region.find_by_roman_numeral(region_name)
 	if region.nil?
 		puts "Region #{region_name} does not exist"
-		byebug
-		a = 2
 	else
 		commune = region.communes.where("lower(unaccent(name)) = ?", commune_name).first
 		if commune.nil?

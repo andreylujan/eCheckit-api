@@ -29,7 +29,6 @@ class ReportsController < ApplicationController
       end
       render json: @report, status: :created
     else
-      byebug
       render json: @report, status: :unprocessable_entity
     end
   end
