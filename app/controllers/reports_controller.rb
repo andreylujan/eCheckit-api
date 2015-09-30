@@ -29,6 +29,7 @@ class ReportsController < ApplicationController
       end
       render json: @report, status: :created
     else
+      byebug
       render json: @report, status: :unprocessable_entity
     end
   end
@@ -63,7 +64,7 @@ class ReportsController < ApplicationController
     params.require(:report).permit(:workspace_id, :venue_id, :title, 
       :report_state_id, :assigned_user_id,
       :longitude, :latitude, :address, :city, :country,
-      :region, :commune, :reference, :comment,
+      :region, :commune, :reference, :comment, :internal_id,
       pictures_attributes: [ :url, :comment ],
       report_fields_attributes: [ :report_field_type_id, :value ])
   end

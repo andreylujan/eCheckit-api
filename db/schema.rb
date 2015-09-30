@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150720021116) do
+ActiveRecord::Schema.define(version: 20150930015723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -303,11 +303,13 @@ ActiveRecord::Schema.define(version: 20150720021116) do
     t.integer  "reason_id"
     t.integer  "channel_id"
     t.integer  "subchannel_id"
+    t.text     "internal_id",      null: false
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
   add_index "reports", ["channel_id"], name: "index_reports_on_channel_id", using: :btree
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
+  add_index "reports", ["internal_id"], name: "index_reports_on_internal_id", unique: true, using: :btree
   add_index "reports", ["reason_id"], name: "index_reports_on_reason_id", using: :btree
   add_index "reports", ["report_state_id"], name: "index_reports_on_report_state_id", using: :btree
   add_index "reports", ["subchannel_id"], name: "index_reports_on_subchannel_id", using: :btree

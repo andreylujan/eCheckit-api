@@ -24,6 +24,7 @@
 #  reason_id        :integer
 #  channel_id       :integer
 #  subchannel_id    :integer
+#  internal_id      :text             not null
 #
 
 require 'rails_helper'
