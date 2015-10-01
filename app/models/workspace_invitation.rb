@@ -29,38 +29,7 @@ class WorkspaceInvitation < ActiveRecord::Base
 
   def send_email
     if not self.accepted?
-      gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
-      url = ""
-      user_email = self.user_email
-      token = self.confirmation_token
-      f = File.open('./templates/invitation.html.erb')
-      template = f.read
-      f.close
-      params = {
-        workspace_name: self.workspace.name,
-        signup_url: "http://52.3.170.85/#/core/signup?confirmation_token=#{self.confirmation_token}"
-      }
-      if self.user.nil?
-        params[:user_name] = self.user_email
-      else
-        params[:user_name] = self.user.name
-      end
-      html = Erubis::Eruby.new(template).result params
-      f = File.open('./templates/invitation.txt.erb')
-      template = f.read
-      f.close
-      text = Erubis::Eruby.new(template).result params
-      gmail.deliver! do
-        to user_email
-        subject "Embajadores en acción | Confirme su usuario"
-        text_part do
-          body text
-        end
-        html_part do
-          content_type 'text/html; charset=UTF-8'
-          body html
-        end
-      end
+      UserMailer.invite_email(self).deliver_now!
     end
   end
 
