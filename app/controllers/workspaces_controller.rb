@@ -1,6 +1,6 @@
 class WorkspacesController < ApplicationController
 
-	# before_action :doorkeeper_authorize!
+	before_action :doorkeeper_authorize!
 
 	def show
 		@workspace = Workspace.find(params[:id])
@@ -28,6 +28,21 @@ class WorkspacesController < ApplicationController
 		@dashboard = workspace.dashboard start_date: params[:start_date],
 			end_date: params[:end_date]
 		render json: @dashboard, status: :ok
+	end
+
+	def delete_user
+		user = User.find(params.require(:id))
+		invitation = user.workspace_invitations.find_by_workspace_id(params.require(:workspace_id))
+		if invitation.present?
+			invitation.destroy
+			roles = user.roles.where(resource_id: params.require(:workspace_id))
+			roles.destroy_all
+			render nothing: true, status: :no_content
+		else
+			render json: {
+				error: "El usuario no pertenece al workspace seleccionado"
+			}, status: :not_found
+		end
 	end
 
 end

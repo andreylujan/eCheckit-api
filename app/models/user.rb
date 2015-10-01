@@ -80,52 +80,11 @@ class User < ActiveRecord::Base
 
 
   def send_welcome_email
-    UserMailer.welcome_email(self).deliver_later
-  end
-
-  def send_confirmation_email
-    gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
-    user_email = self.email
-    gmail.deliver! do
-      to user_email
-      subject "Welcome to eWin"
-      text_part do
-        body "Welcome, #{user_email}"
-      end
-      html_part do
-        content_type 'text/html; charset=UTF-8'
-        body "Welcome, #{user_email}"
-      end
-    end
+    UserMailer.welcome_email(self).deliver_now!
   end
 
   def send_password_confirmation_token
-    gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
-    f = File.open('./templates/passToken.html.erb')
-    template = f.read
-    f.close
-    params = {
-      user_name: self.name,
-      pass_token: self.reset_password_token
-    }
-
-    html = Erubis::Eruby.new(template).result params
-    f = File.open('./templates/passToken.txt.erb')
-    template = f.read
-    f.close
-    text = Erubis::Eruby.new(template).result params
-    user_email = self.email
-    gmail.deliver! do
-      to user_email
-      subject "Solicitud para reestablecer tu contraseña de eCheckit"
-      text_part do
-        body text
-      end
-      html_part do
-        content_type 'text/html; charset=UTF-8'
-        body html
-      end
-    end
+    UserMailer.password_confirmation_token_email(self).deliver_now!
   end
 
   def admin_workspace_ids

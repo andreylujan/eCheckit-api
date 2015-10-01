@@ -10,4 +10,9 @@ class UserMailer < ApplicationMailer
         @workspace_invitation = invitation
         mail(to: @workspace_invitation.user_email, subject: "Embajadores en acción | Confirme su usuario")
     end
+
+    def password_confirmation_token_email(user)
+        @user = user
+        mail(to: @user.email, subject: "Solicitud para reestablecer tu contraseña de eCheckit")
+    end
 end
