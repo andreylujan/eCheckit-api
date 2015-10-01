@@ -32,9 +32,9 @@ gem 'sidekiq', '~> 3.5.0'
 gem 'net-ssh', '~> 3.0.1'
 gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 gem 'paranoia', '~> 2.1.3'
+gem 'mailcatcher', '~> 0.6.1'
 
 group :development do
-	gem 'thin', '~> 1.6.3'
 	gem 'annotate', '~> 2.6.10'	
 	gem 'rails-erd', '~> 1.3.1'
   gem 'capistrano-rails', '~> 1.1.3'
