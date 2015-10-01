@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-
+  
   require 'amazon'
   include SessionsHelper
   

@@ -2,6 +2,7 @@ class DevicesController < ApplicationController
 
 	before_action :doorkeeper_authorize!
 
+	api!
 	def create
 		user = current_user
 		if device_params[:uuid]
@@ -21,6 +22,7 @@ class DevicesController < ApplicationController
 		end
 	end
 
+	api!
 	def update
 		@device = Device.find(params[:id])
 		if @device.update_attributes device_params
@@ -32,6 +34,7 @@ class DevicesController < ApplicationController
 		end
 	end
 
+	api!
 	def destroy
 		@device = Device.find(params[:id])
 		@device.destroy

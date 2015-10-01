@@ -2,14 +2,14 @@ class ZoneAssignmentsController < ApplicationController
 
 	before_action :doorkeeper_authorize!
 
-	api :GET, "/workspace/:workspace_id/zone_assignments", "Show zone assignments"
-	# param :workspace_id, Integer, desc: "Workspace id", required: true
+	api!
 	def index
 		workspace = Workspace.find(params[:workspace_id])
 		@zone_assignments = workspace.zone_assignments
 		render json: @zone_assignments
 	end
 
+	api!
 	def create
 		
 		if params[:zone_managers_attributes].present?
@@ -26,6 +26,7 @@ class ZoneAssignmentsController < ApplicationController
 		end
 	end
 
+	api!
 	def update
 		
 		@zone_assignment = ZoneAssignment.find(params[:id])
@@ -56,6 +57,7 @@ class ZoneAssignmentsController < ApplicationController
 
 	end
 
+	api!
 	def destroy
 		@zone_assignment = ZoneAssignment.find(params[:id])
 		@zone_assignment.destroy

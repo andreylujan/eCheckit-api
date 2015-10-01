@@ -2,6 +2,7 @@ class ContestsController < ApplicationController
 
 	before_action :doorkeeper_authorize!
 
+	api!
 	def create
 		@contest = Contest.new(contest_params)
 		@contest.workspace = Workspace.find(params[:workspace_id])
@@ -14,11 +15,13 @@ class ContestsController < ApplicationController
 		end
 	end
 
+	api!
 	def show
 		@contest = Contest.find(params[:id])
 		render json: @contest, status: :ok
 	end
 
+	api!
 	def update
 		@contest = Contest.find(params[:id])
 		if @contest.update_attributes contest_params
@@ -30,11 +33,13 @@ class ContestsController < ApplicationController
 		end
 	end
 
+	api!
 	def index
 		workspace = Workspace.find(params[:workspace_id])
 		render json: workspace.contests, status: :ok
 	end
 
+	api!
 	def destroy
 		@contest = Contest.find(params[:id])
 		@contest.destroy

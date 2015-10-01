@@ -2,11 +2,13 @@ class ReasonsController < ApplicationController
 
 	before_action :doorkeeper_authorize!
 	
+	api!
 	def index
 		workspace = Workspace.find(params[:workspace_id])
 		render json: workspace.reasons, status: :ok
 	end
 
+	api!
 	def update
 		@reason = Reason.find(params[:id])
 		if @reason.update_attributes reason_params
@@ -16,12 +18,14 @@ class ReasonsController < ApplicationController
 		end
 	end
 
+	api!
 	def destroy
 		@reason = Reason.find(params[:id])
 		@reason.destroy
 		render nothing: true, status: :no_content
 	end
 
+	api!
 	def create
 		@reason = Reason.new(reason_params)
 		@reason.workspace = Workspace.find(params[:workspace_id])

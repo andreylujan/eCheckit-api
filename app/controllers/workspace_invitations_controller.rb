@@ -1,5 +1,6 @@
 class WorkspaceInvitationsController < ApplicationController
 
+	api!
 	def create
 
 		if params[:confirmation_token].present?
@@ -21,6 +22,7 @@ class WorkspaceInvitationsController < ApplicationController
 		end		
 	end
 
+	api!
 	def update
 		confirmation_token = params.require(:confirmation_token)
 		@workspace_invitation = WorkspaceInvitation.find_by_confirmation_token confirmation_token
@@ -37,6 +39,7 @@ class WorkspaceInvitationsController < ApplicationController
 		
 	end
 
+	api!
 	def destroy
 		user_email = params.require(:user_email).downcase
 		workspace_id = params.require(:workspace_id)
@@ -49,6 +52,7 @@ class WorkspaceInvitationsController < ApplicationController
 		end
 	end
 
+	api!
 	def show
 		if params[:user_id] and params[:workspace_id]
 			@workspace_invitation = WorkspaceInvitation.find_by_user_id_and_workspace_id params[:user_id], params[:workspace_id]	

@@ -5,6 +5,7 @@ class ReportsController < ApplicationController
 
   before_action :doorkeeper_authorize!
 
+  api!
   def create
 
     if params[:internal_id].present?
@@ -42,6 +43,7 @@ class ReportsController < ApplicationController
     end
   end
 
+  api!
   def index
     workspace_id = params.require(:workspace_id)
     workspace = Workspace.find(workspace_id)
@@ -53,11 +55,13 @@ class ReportsController < ApplicationController
     render json: reports_json, status: :ok
   end
 
+  api!
   def show
     @report = Report.find(params[:id])
     render json: @report, status: :ok
   end
 
+  api!
   def update
     @report = Report.find(params[:id])
     if @report.update_attributes(update_params)
