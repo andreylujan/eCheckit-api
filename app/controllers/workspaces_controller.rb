@@ -33,7 +33,7 @@ class WorkspacesController < ApplicationController
 		render json: @dashboard, status: :ok
 	end
 
-	api :DELETE, '/workspaces/:workspace_id/users/:workspace_id', "Remove a user from a workspace"
+	api :DELETE, '/workspaces/:workspace_id/users/:id', "Remove a user from a workspace"
 	param :workspace_id, :number, required: true
 	param :id, :number, required: true
 	description 'Remove a user from a workspace'
