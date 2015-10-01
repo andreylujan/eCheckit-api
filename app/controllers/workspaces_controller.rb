@@ -42,8 +42,8 @@ class WorkspacesController < ApplicationController
 		invitation = user.workspace_invitations.find_by_workspace_id(params.require(:workspace_id))
 		if invitation.present?
 			invitation.destroy
-			roles = user.roles.where(resource_id: params.require(:workspace_id))
-			roles.destroy_all
+			user.remove_role :user, invitation.workspace
+			user.remove_role :admin, invitation.workspace
 			render nothing: true, status: :no_content
 		else
 			render json: {
