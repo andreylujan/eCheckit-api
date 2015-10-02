@@ -33,7 +33,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
     types = []
     ordered = object.report_field_types.order 'index ASC'
     ordered.each do |o|
-      if o.id == 1
+      if o.name == "reason"
         items = []
         reasons = object.reasons
         reasons.each do |reason|
@@ -44,7 +44,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
           }
         end
         o.data["items"] = items
-      elsif o.id == 2
+      elsif o.name == "channel"
         items = []
         channels = object.channels
         channels.each do |channel|
@@ -61,6 +61,16 @@ class WorkspaceSerializer < ActiveModel::Serializer
           }         
         end
         o.data["items"] = items
+      elsif o.name == "checklist"
+        items = []
+        checklists = object.checklists
+        checklists.each do |checklist|
+          cats = checklist.categories
+          categories = []
+          cats.each do | category |
+            
+          end
+        end
       end
       types << ReportFieldTypeSerializer.new(o).as_json
     end
