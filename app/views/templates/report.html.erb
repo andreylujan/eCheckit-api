@@ -134,6 +134,10 @@
 			<div class="value"><%= action.report_action_type.formatted_name %></div> 
 		</div>
 		<div class="field">
+			<div class="label">Estado:</div> 
+			<div class="value"><%= action.report_state.name %></div> 
+		</div>
+		<div class="field">
 			<div class="label">Comentario:</div> 
 			<div class="value"><%= action.data["comment"] if action.data and action.data["comment"] %></div> 
 		</div>
