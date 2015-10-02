@@ -16,6 +16,10 @@
 			text-align: center;
 		}
 
+		.a4_page{
+			height: 300mm;
+		}
+
 		h3 {
 			text-align: center;
 			background-color: #bdbec2;
@@ -54,63 +58,65 @@
 	</style>
 </head>
 <body>
-	<div>
-		<img src="http://www.bolsadesantiago.com/Imaganes%20Empresa/ANDINA.PNG" width="40%" />
-	</div>
-	<h3>INFORMACIÓN DEL REPORTE</h3>
-	<div class="field">
-		<div class="label">MOTIVO:</div> 
-		<div class="value"><%= @report.reason.name if @report.reason %></div> 
-	</div>
-	<div class="field">
-		<div class="label">TÍTULO:</div> 
-		<div class="value"><%= @report.title %></div>
-	</div>
-	<div class="field">
-		<div class="label">COMENTARIO:</div> 
-		<div class="value"><%= @report.comment %></div> 
-	</div>
-	<div class="field">
-		<div class="label">CANAL:</div> 
-		<div class="value"><%= @report.channel.name if @report.channel %></div> 
-	</div>
-	<div class="field">
-		<div class="label">SUB CANAL:</div> 
-		<div class="value"><%= @report.subchannel.name if @report.subchannel %></div> 
-	</div>
-	<div class="field">
-		<div class="label">REGIÓN:</div> 
-		<div class="value"><%= @report.region %></div> 
-	</div>
-	<div class="field">
-		<div class="label">COMUNA:</div> 
-		<div class="value"><%= @report.commune %></div> 
-	</div>
-	<div class="field">
-		<div class="label">CALLE:</div> 
-		<div class="value"><%= @report.address %></div> 
-	</div>
-	<div class="field">
-		<div class="label">REFERENCIA:</div> 
-		<div class="value"><%= @report.reference %></div> 
-	</div>
-	<div class="field">
-		<div class="label">CREADO POR:</div>
-		<div class="value"><%= @report.creator_name %></div> 
-	</div>
-	<div class="field">
-		<div class="label">FECHA DE CREACIÓN:</div>
-		<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
-	</div>
-	<div class="field">
-		<div class="label">ASIGNADO A:</div>
-		<div class="value"><%= @report.assigned_user_name %></div> 
-	</div>
-	<div class="field">
-		<div class="label">MAPA UBICACIÓN</div> 
-		<div class="value map">
-			<img src="https://maps.googleapis.com/maps/api/staticmap?size=512x250&maptype=roadmap&size=500x250&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
-		</div> 
+	<div class="a4_page">
+		<div>
+			<img src="http://www.bolsadesantiago.com/Imaganes%20Empresa/ANDINA.PNG" width="40%" />
+		</div>
+		<h3>INFORMACIÓN DEL REPORTE</h3>
+		<div class="field">
+			<div class="label">MOTIVO:</div> 
+			<div class="value"><%= @report.reason.name if @report.reason %></div> 
+		</div>
+		<div class="field">
+			<div class="label">TÍTULO:</div> 
+			<div class="value"><%= @report.title %></div>
+		</div>
+		<div class="field">
+			<div class="label">COMENTARIO:</div> 
+			<div class="value"><%= @report.comment %></div> 
+		</div>
+		<div class="field">
+			<div class="label">CANAL:</div> 
+			<div class="value"><%= @report.channel.name if @report.channel %></div> 
+		</div>
+		<div class="field">
+			<div class="label">SUB CANAL:</div> 
+			<div class="value"><%= @report.subchannel.name if @report.subchannel %></div> 
+		</div>
+		<div class="field">
+			<div class="label">REGIÓN:</div> 
+			<div class="value"><%= @report.region %></div> 
+		</div>
+		<div class="field">
+			<div class="label">COMUNA:</div> 
+			<div class="value"><%= @report.commune %></div> 
+		</div>
+		<div class="field">
+			<div class="label">CALLE:</div> 
+			<div class="value"><%= @report.address %></div> 
+		</div>
+		<div class="field">
+			<div class="label">REFERENCIA:</div> 
+			<div class="value"><%= @report.reference %></div> 
+		</div>
+		<div class="field">
+			<div class="label">CREADO POR:</div>
+			<div class="value"><%= @report.creator_name %></div> 
+		</div>
+		<div class="field">
+			<div class="label">FECHA DE CREACIÓN:</div>
+			<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
+		</div>
+		<div class="field">
+			<div class="label">ASIGNADO A:</div>
+			<div class="value"><%= @report.assigned_user_name %></div> 
+		</div>
+		<div class="field">
+			<div class="label">MAPA UBICACIÓN</div> 
+			<div class="value map">
+				<img src="https://maps.googleapis.com/maps/api/staticmap?size=512x250&maptype=roadmap&size=500x250&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
+			</div> 
+		</div>
 	</div>
 	<% if @report.pictures.count > 0 %>
 	<div class="field">
