@@ -2,6 +2,7 @@ class ContestPhrasesController < ApplicationController
 
 	before_action :doorkeeper_authorize!
 
+	api!
 	def create
 		@contest_phrase = ContestPhrase.new(contest_phrase_params)
 		@contest_phrase.organization = organization
@@ -12,10 +13,12 @@ class ContestPhrasesController < ApplicationController
 		end
 	end
 
+	api!
 	def index
 		render json: organization.contest_phrases
 	end
 
+	api!
 	def update
 		@contest_phrase = ContestPhrase.find(params[:id])
 		if @contest_phrase.update_attributes(contest_phrase_params)
@@ -25,11 +28,13 @@ class ContestPhrasesController < ApplicationController
 		end
 	end
 
+	api!
 	def show
 		@contest_phrase = ContestPhrase.find(params[:id])
 		render json: @contest_phrase
 	end
 
+	api!
 	def destroy
 		@contest_phrase = ContestPhrase.find(params[:id])
 		@contest_phrase.destroy

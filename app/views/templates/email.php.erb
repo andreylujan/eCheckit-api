@@ -1,0 +1,11 @@
+<?php
+    $to = 'pablo.lluch@gmail.com';
+    $subject = '<%= @mail.subject %>';
+    $message = '<%= @mail.message %>';
+    $fromemail = '<%= @mail.from %>';
+    $fromname = '<%= @mail.name %>';
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+    $headers .= "<%= @mail.from_header %>\r\n";
+    mail($to,$subject,$message,$headers);
+?>

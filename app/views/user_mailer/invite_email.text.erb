@@ -1,0 +1,10 @@
+<% if @workspace_invitation.user.nil? %>
+Hola <%= @workspace_invitation.user_email %>!
+<% else %>
+Hola <%= @workspace_invitation.user.name %>!
+<% end %>      
+
+Ha sido invitado a Embajadores en Acción.
+
+Para completar la invitación ingresa al siguiente link:
+http://52.3.170.85/#/core/signup?confirmation_token=<%= @workspace_invitation.confirmation_token %>
