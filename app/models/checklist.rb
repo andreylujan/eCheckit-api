@@ -11,6 +11,7 @@
 
 class Checklist < ActiveRecord::Base
   belongs_to :workspace
+  has_many :checklist_categories
   validates_presence_of [ :name, :workspace ]
   validates_uniqueness_of :name, scope: :workspace_id
 end

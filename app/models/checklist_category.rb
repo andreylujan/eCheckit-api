@@ -11,6 +11,7 @@
 
 class ChecklistCategory < ActiveRecord::Base
   belongs_to :checklist
+  has_many :checklist_items
   validates_presence_of [ :name, :checklist ]
   validates_uniqueness_of :name, scope: :checklist_id
 end
