@@ -71,10 +71,14 @@ class WorkspaceSerializer < ActiveModel::Serializer
                 cats.each do | category |
                     items = []
                     category.checklist_items.each do |item|
-                        items << item.name
+                        items << {
+                            name: item.name,
+                            checklist_item_id: item.id
+                        }
                     end
                     new_cat = {
                         name: category.name,
+                        checklist_category_id: category.id,
                         checklist_items: items
                     }      
                     categories << new_cat      
