@@ -80,7 +80,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
                     categories << new_cat      
                 end
                 o.data = {
-                    id: checklist_id,
+                    checklist_id: checklist_id,
                     name: checklist.name,
                     checklist_categories: categories
                 }

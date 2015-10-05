@@ -13,4 +13,10 @@ class ChecklistItem < ActiveRecord::Base
   belongs_to :checklist_category
   validates_presence_of [ :name, :checklist_category ]
   validates_uniqueness_of :name, scope: :checklist_category_id
+  before_save :capitalize_name
+  
+  private
+  def capitalize_name
+        self.name = self.name.capitalize
+  end
 end
