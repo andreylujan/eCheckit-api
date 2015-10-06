@@ -85,6 +85,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
                 end
                 o.data = {
                     checklist_id: checklist_id,
+                    image: checklist.image,
                     name: checklist.name,
                     checklist_categories: categories
                 }
