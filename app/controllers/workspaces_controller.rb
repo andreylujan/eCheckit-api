@@ -4,7 +4,6 @@ class WorkspacesController < ApplicationController
 
 	api!
 	def show
-		byebug
 		@workspace = Workspace.find(params[:id])
 		render json: @workspace
 	end

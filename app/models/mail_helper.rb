@@ -24,6 +24,7 @@ class MailHelper
         ac = ActionController::Base.new()
         html = ac.render_to_string('templates/invite_email.html.erb', 
             locals: { :@workspace_invitation => workspace_invitation } )
+        byebug
         mail = MailHelper.new message: html,
         to: workspace_invitation.user_email,
         subject: "Embajadores en acción | Confirme su usuario"
