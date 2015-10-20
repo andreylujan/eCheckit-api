@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930161255) do
+ActiveRecord::Schema.define(version: 20151006140428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,37 @@ ActiveRecord::Schema.define(version: 20150930161255) do
 
   add_index "channels", ["deleted_at"], name: "index_channels_on_deleted_at", using: :btree
   add_index "channels", ["workspace_id"], name: "index_channels_on_workspace_id", using: :btree
+
+  create_table "checklist_categories", force: :cascade do |t|
+    t.text     "name",         null: false
+    t.integer  "checklist_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "checklist_categories", ["checklist_id", "name"], name: "index_checklist_categories_on_checklist_id_and_name", unique: true, using: :btree
+  add_index "checklist_categories", ["checklist_id"], name: "index_checklist_categories_on_checklist_id", using: :btree
+
+  create_table "checklist_items", force: :cascade do |t|
+    t.integer  "checklist_category_id"
+    t.text     "name",                  null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "checklist_items", ["checklist_category_id", "name"], name: "index_checklist_items_on_checklist_category_id_and_name", unique: true, using: :btree
+  add_index "checklist_items", ["checklist_category_id"], name: "index_checklist_items_on_checklist_category_id", using: :btree
+
+  create_table "checklists", force: :cascade do |t|
+    t.text     "name",         null: false
+    t.integer  "workspace_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.text     "image"
+  end
+
+  add_index "checklists", ["workspace_id", "name"], name: "index_checklists_on_workspace_id_and_name", unique: true, using: :btree
+  add_index "checklists", ["workspace_id"], name: "index_checklists_on_workspace_id", using: :btree
 
   create_table "communes", force: :cascade do |t|
     t.integer  "region_id",  null: false
@@ -432,6 +463,9 @@ ActiveRecord::Schema.define(version: 20150930161255) do
   add_index "zone_managers", ["zone_assignment_id"], name: "index_zone_managers_on_zone_assignment_id", using: :btree
 
   add_foreign_key "channels", "workspaces"
+  add_foreign_key "checklist_categories", "checklists"
+  add_foreign_key "checklist_items", "checklist_categories"
+  add_foreign_key "checklists", "workspaces"
   add_foreign_key "communes", "regions"
   add_foreign_key "contacts", "venues"
   add_foreign_key "contest_phrases", "organizations"

@@ -22,6 +22,7 @@ class Workspace < ActiveRecord::Base
   has_many :contests
   has_many :reasons
   has_many :channels
+  has_many :checklists
   after_create :create_default_states
   
   def report_counts
