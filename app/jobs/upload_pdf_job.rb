@@ -7,7 +7,8 @@ class UploadPdfJob < ActiveJob::Base
     
     report = Report.find(report_id)
     ac = ActionController::Base.new()
-    html = ac.render_to_string('templates/report.html.erb', 
+    # html = ac.render_to_string('templates/report.html.erb', 
+    html = ac.render_to_string('templates/pdfReport.html.erb', 
         locals: { :@report => report })
     pdf = WickedPdf.new.pdf_from_string(html)
     url = Amazon.upload_pdf(pdf)
