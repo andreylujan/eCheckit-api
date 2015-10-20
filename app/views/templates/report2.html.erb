@@ -47,13 +47,13 @@
 		width: 100% !important;
 	}
 	.field {
-		margin-left: 20px;
+		margin-left: 15px;
 		margin-top: 10px;
 	}
 	.label {
 		display: inline-block;
 		font-weight: bold;
-		width: 180px;
+		width: 170px;
 	}
 	.value {
 		color: #747275;
@@ -74,7 +74,7 @@
 		<img src="http://www.bolsadesantiago.com/Imaganes%20Empresa/ANDINA.PNG" width="35%" />
 	</div>
 	<div class="content">
-		<h3 class="title left">MAPA UBICACIÓN</h3>
+		<h3 class="title ">MAPA UBICACIÓN</h3>
 		<div class="map">
 			<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&size=594x300&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
 		</div>
@@ -83,50 +83,49 @@
 		<h3 class="title right">INFORMACIÓN DETALLADA</h3>
 
 		<div class="field">
-			<div class="label">CREADO POR:</div>
+			<div class="label">Creado por:</div>
 			<div class="value"><%= @report.creator_name %></div> 
 		</div>
 		<div class="field">
-			<div class="label">ASIGNADO A:</div>
+			<div class="label">Asignado a:</div>
 			<div class="value"><%= @report.assigned_user_name %></div> 
 		</div>
 		<div class="field">
-			<div class="label">FECHA DE CREACIÓN:</div>
+			<div class="label">Fecha de creación:</div>
 			<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
 		</div>
 		<div class="field">
-			<div class="label">REGIÓN:</div> 
+			<div class="label">Región:</div> 
 			<div class="value"><%= @report.region %></div> 
 		</div>
 		<div class="field">
-			<div class="label">COMUNA:</div> 
+			<div class="label">Comuna:</div> 
 			<div class="value"><%= @report.commune %></div> 
 		</div>
 		<div class="field">
-			<div class="label">CALLE:</div> 
+			<div class="label">Calle:</div> 
 			<div class="value"><%= @report.address %></div> 
 		</div>
 		<div class="field">
-			<div class="label">REFERENCIA:</div> 
+			<div class="label">Referencia:</div> 
 			<div class="value"><%= @report.reference %></div> 
 		</div>
 		<div class="field">
-			<div class="label">COMENTARIO:</div> 
+			<div class="label">Comentario:</div> 
 			<div class="value"><%= @report.comment %></div> 
 		</div>
 		<div class="field">
-			<div class="label">CANAL:</div> 
+			<div class="label">Canal:</div> 
 			<div class="value"><%= @report.channel.name if @report.channel %></div> 
 		</div>
 		<div class="field">
-			<div class="label">SUB CANAL:</div> 
+			<div class="label">Sub canal:</div> 
 			<div class="value"><%= @report.subchannel.name if @report.subchannel %></div> 
 		</div>
 	</div>
 
 	<div class="bottomContent">
 		<% if @report.pictures.count > 0 %>
-		<div class="field">
 			<h3 class="title">FOTOS</h3>
 			<div class="value images">
 				<% @report.pictures.each do |picture| %>
@@ -135,7 +134,6 @@
 					</div> 
 				<% end %>
 			</div>
-		</div>
 		<% end %>
 		<h3 class="title">ACTIVIDAD DEL REPORTE</h3>
 		<% @report.report_actions.order("created_at DESC").each_with_index do |action, idx| %>
