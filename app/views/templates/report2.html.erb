@@ -71,7 +71,7 @@
 </head>
 <body>
 	<div>
-		<img src="http://www.bolsadesantiago.com/Imaganes%20Empresa/ANDINA.PNG" width="25%" />
+		<img src="http://www.bolsadesantiago.com/Imaganes%20Empresa/ANDINA.PNG" width="35%" />
 	</div>
 	<div class="content">
 		<h3 class="title left">MAPA UBICACIÓN</h3>
@@ -125,9 +125,9 @@
 	</div>
 
 	<div class="bottomContent">
-		<!--<% if @report.pictures.count > 0 %>
+		<% if @report.pictures.count > 0 %>
 		<div class="field">
-			<div class="label">FOTOS:</div> 
+			<h3 class="title">FOTOS</h3>
 			<div class="value images">
 				<% @report.pictures.each do |picture| %>
 					<div style="display: inline-block; margin-top: 10px; margin-left: 10px;" >
@@ -136,21 +136,9 @@
 				<% end %>
 			</div>
 		</div>
-		<% end %>-->
-		<div class="field">
-			<div class="label">FOTOS:</div> 
-			<div class="value images">
-				<div style="display: inline-block; margin-top: 10px; margin-left: 10px;" >
-					<img src="http://images.all-free-download.com/images/graphiclarge/bmp_image_100332.jpg" alt="">
-				</div>
-				<div style="display: inline-block; margin-top: 10px; margin-left: 10px;" >
-					<img src="http://images.all-free-download.com/images/graphiclarge/picture_and_image_folder_5232.jpg" alt="">
-				</div>
-			</div>
-		</div>
-
+		<% end %>
 		<h3 class="title">ACTIVIDAD DEL REPORTE</h3>
-		<!--<% @report.report_actions.order("created_at DESC").each_with_index do |action, idx| %>
+		<% @report.report_actions.order("created_at DESC").each_with_index do |action, idx| %>
 			<% if idx > 0 %>
 				<hr/>
 			<% end %>
@@ -170,40 +158,7 @@
 				<div class="label">Asignado a:</div> 
 				<div class="value"><%= action.data["assigned_user_name"] if action.data and action.data["assigned_user_name"] %></div> 
 			</div>
-		<% end %>-->
-		<div class="field">
-			<div class="label">Tipo de actividad:</div> 
-			<div class="value">Andrey Lujan</div> 
-		</div>
-		<div class="field">
-			<div class="label">Estado:</div> 
-			<div class="value">Asignó</div> 
-		</div>
-		<div class="field">
-			<div class="label">Comentario:</div> 
-			<div class="value">Aqui va</div> 
-		</div>
-		<div class="field">
-			<div class="label">Asignado a:</div> 
-			<div class="value">Vale Meza</div> 
-		</div>
-		<hr>
-		<div class="field">
-			<div class="label">Tipo de actividad:</div> 
-			<div class="value">Andrey Lujan</div> 
-		</div>
-		<div class="field">
-			<div class="label">Estado:</div> 
-			<div class="value">Asignó</div> 
-		</div>
-		<div class="field">
-			<div class="label">Comentario:</div> 
-			<div class="value">Aqui va</div> 
-		</div>
-		<div class="field">
-			<div class="label">Asignado a:</div> 
-			<div class="value">Vale Meza</div> 
-		</div>
+		<% end %>
 				
 	</div>
 	
