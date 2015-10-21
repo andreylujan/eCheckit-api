@@ -71,6 +71,9 @@
 	.value.images {
 		display: block;
 	}
+	.a4WidthSize{
+		height: 600px;
+	}
 
 	</style>
 </head>
@@ -137,17 +140,17 @@
 		</div> -->
 	</div>
 
-	<div class="bottomContent">
-		<% if @report.pictures.count > 0 %>
+	<div class="bottomContent" style="padding-top: 150px;">
+		<!-- <% if @report.pictures.count > 0 %> -->
 			<h3 class="title">FOTOS</h3>
 			<div class="value images">
-				<% @report.pictures.each do |picture| %>
+				<!-- <% @report.pictures.each do |picture| %> -->
 					<div style="display: inline-block; margin-top: 10px; margin-left: 10px;" >
 						<img src="<%= picture.url %>" width="220px" />
 					</div> 
-				<% end %>
+				<!-- <% end %> -->
 			</div>
-		<% end %>
+		<!-- <% end %> -->
 		<h3 class="title">ACTIVIDAD DEL REPORTE</h3>
 		<% @report.report_actions.order("created_at DESC").each_with_index do |action, idx| %>
 			<% if idx > 0 %>

@@ -13,7 +13,5 @@ end
 WickedPdf.config = {
   #:wkhtmltopdf => '/usr/local/bin/wkhtmltopdf',
   #:layout => "pdf.html",
-  :orientation => 'Landscape',
-  :text_size_shrink =>  0.7,
   :exe_path => exe_path
 }
