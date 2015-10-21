@@ -4,6 +4,10 @@
 	<meta charset="UTF-8">
 	<title>Reporte</title>
 	<style>
+	body {
+		font-family: 'OpenSansRegular';
+		font-size: 13px;
+	}
 
 	html {
 		text-align: center;
@@ -26,6 +30,7 @@
 		padding-bottom: 5px;
 		padding-top: 5px;
 		text-align: center;
+		margin-top: 25px;
 	}
 	.title.left{
 		margin-right: 8px;
@@ -83,16 +88,24 @@
 		<h3 class="title right">INFORMACIÓN DETALLADA</h3>
 
 		<div class="field">
-			<div class="label">Creado por:</div>
-			<div class="value"><%= @report.creator_name %></div> 
+			<div class="label">Motivo:</div>
+			<div class="value"><%= @report.reason.name if @report.reason %></div> 
 		</div>
 		<div class="field">
-			<div class="label">Asignado a:</div>
-			<div class="value"><%= @report.assigned_user_name %></div> 
+			<div class="label">Título:</div>
+			<div class="value"><%= @report.title %></div> 
 		</div>
 		<div class="field">
-			<div class="label">Fecha de creación:</div>
-			<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
+			<div class="label">Comentario:</div> 
+			<div class="value"><%= @report.comment %></div> 
+		</div>
+		<div class="field">
+			<div class="label">Canal:</div> 
+			<div class="value"><%= @report.channel.name if @report.channel %></div> 
+		</div>
+		<div class="field">
+			<div class="label">Sub canal:</div> 
+			<div class="value"><%= @report.subchannel.name if @report.subchannel %></div> 
 		</div>
 		<div class="field">
 			<div class="label">Región:</div> 
@@ -107,21 +120,21 @@
 			<div class="value"><%= @report.address %></div> 
 		</div>
 		<div class="field">
+			<div class="label">Creado por:</div>
+			<div class="value"><%= @report.creator_name %></div> 
+		</div>
+		<div class="field">
+			<div class="label">Fecha de creación:</div>
+			<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y %I:%M %p").to_s %></div> 
+		</div>
+		<div class="field">
+			<div class="label">Asignado a:</div>
+			<div class="value"><%= @report.assigned_user_name %></div> 
+		</div>
+		<!-- <div class="field">
 			<div class="label">Referencia:</div> 
 			<div class="value"><%= @report.reference %></div> 
-		</div>
-		<div class="field">
-			<div class="label">Comentario:</div> 
-			<div class="value"><%= @report.comment %></div> 
-		</div>
-		<div class="field">
-			<div class="label">Canal:</div> 
-			<div class="value"><%= @report.channel.name if @report.channel %></div> 
-		</div>
-		<div class="field">
-			<div class="label">Sub canal:</div> 
-			<div class="value"><%= @report.subchannel.name if @report.subchannel %></div> 
-		</div>
+		</div> -->
 	</div>
 
 	<div class="bottomContent">
