@@ -7,10 +7,10 @@ class UploadPdfJob < ActiveJob::Base
 		
 		report = Report.find(report_id)
 		ac = ActionController::Base.new()
-		html = ac.render_to_string('templates/report.html.erb', 
-		# html = ac.render_to_string('templates/report2.html.erb',
+		# html = ac.render_to_string('templates/report.html.erb', 
+		html = ac.render_to_string('templates/report2.html.erb',
 			locals: { :@report => report })
-		pdf = WickedPdf.new.pdf_from_string(html, orientation: 'Landscape', toc: { text_size_shrink:  0.6 })
+		pdf = WickedPdf.new.pdf_from_string(html, orientation: 'Landscape', zoom: 0.8)
 		url = Amazon.upload_pdf(pdf)
 		if not url.nil?
 			report.update_attribute :pdf, url
