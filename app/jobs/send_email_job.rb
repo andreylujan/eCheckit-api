@@ -2,7 +2,6 @@ class SendEmailJob < ActiveJob::Base
   queue_as :default
 
   def perform(email)
-    return
     gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]
     f = File.open('./templates/reports/create.html.erb')
     template = f.read
