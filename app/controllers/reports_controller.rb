@@ -34,9 +34,9 @@ class ReportsController < ApplicationController
     if @report.save
       generate_pdf
       first_action = @report.report_actions.first
-      if first_action
-        first_action.send_create_email
-      end
+      # if first_action
+      #  first_action.send_create_email
+      # end
       render json: @report, status: :created
     else
       render json: @report, status: :unprocessable_entity
