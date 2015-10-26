@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006140428) do
+ActiveRecord::Schema.define(version: 20151026200426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -220,6 +220,13 @@ ActiveRecord::Schema.define(version: 20151006140428) do
 
   add_index "pictures", ["report_id"], name: "index_pictures_on_report_id", using: :btree
 
+  create_table "products", force: :cascade do |t|
+    t.text     "name"
+    t.float    "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reasons", force: :cascade do |t|
     t.integer  "workspace_id"
     t.text     "name",         null: false
@@ -302,15 +309,6 @@ ActiveRecord::Schema.define(version: 20151006140428) do
 
   add_index "report_states", ["workspace_id", "name"], name: "index_report_states_on_workspace_id_and_name", unique: true, using: :btree
   add_index "report_states", ["workspace_id"], name: "index_report_states_on_workspace_id", using: :btree
-
-  create_table "report_types", force: :cascade do |t|
-    t.text     "description"
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "report_types", ["organization_id"], name: "index_report_types_on_organization_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
     t.integer  "creator_id",                     null: false
