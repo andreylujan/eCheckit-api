@@ -53,7 +53,7 @@ class ReportAction < ActiveRecord::Base
 
   def notify_action
     
-    apns_app_name = "embajadores_ios_development"
+    apns_app_name = ENV["APNS_APP_NAME"]
     gcm_app_name = "embajadores_android"
 
 
