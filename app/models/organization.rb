@@ -12,11 +12,8 @@ class Organization < ActiveRecord::Base
     resourcify
 	has_many :report_action_types, dependent: :nullify
     has_many :workspaces, dependent: :nullify
-    has_many :venues, dependent: :nullify
-    has_many :domains
     has_many :channels, through: :workspaces
     has_many :contest_phrases
-    accepts_nested_attributes_for :domains
 
     def users
         users = nil

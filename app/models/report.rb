@@ -9,7 +9,6 @@
 #  updated_at       :datetime         not null
 #  report_state_id  :integer
 #  workspace_id     :integer
-#  venue_id         :integer
 #  title            :text             not null
 #  address          :text
 #  city             :text
@@ -38,7 +37,6 @@ class Report < ActiveRecord::Base
     accepts_nested_attributes_for :report_fields
     belongs_to :report_state
     belongs_to :workspace
-    belongs_to :venue
     belongs_to :channel
     belongs_to :subchannel
     belongs_to :reason

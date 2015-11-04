@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151026200426) do
+ActiveRecord::Schema.define(version: 20151104160707) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,11 @@ ActiveRecord::Schema.define(version: 20151026200426) do
   add_index "checklists", ["workspace_id", "name"], name: "index_checklists_on_workspace_id_and_name", unique: true, using: :btree
   add_index "checklists", ["workspace_id"], name: "index_checklists_on_workspace_id", using: :btree
 
+  create_table "clients", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "communes", force: :cascade do |t|
     t.integer  "region_id",  null: false
     t.text     "name",       null: false
@@ -69,16 +74,6 @@ ActiveRecord::Schema.define(version: 20151026200426) do
 
   add_index "communes", ["region_id", "name"], name: "index_communes_on_region_id_and_name", unique: true, using: :btree
   add_index "communes", ["region_id"], name: "index_communes_on_region_id", using: :btree
-
-  create_table "contacts", force: :cascade do |t|
-    t.text     "description"
-    t.text     "phone_number"
-    t.integer  "venue_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "contacts", ["venue_id"], name: "index_contacts_on_venue_id", using: :btree
 
   create_table "contest_phrases", force: :cascade do |t|
     t.integer  "organization_id"
@@ -126,19 +121,6 @@ ActiveRecord::Schema.define(version: 20151026200426) do
   add_index "devices", ["user_id"], name: "index_devices_on_user_id", using: :btree
   add_index "devices", ["uuid"], name: "index_devices_on_uuid", unique: true, using: :btree
 
-  create_table "domains", force: :cascade do |t|
-    t.integer  "organization_id"
-    t.text     "domain",                                      null: false
-    t.text     "default_email",                               null: false
-    t.boolean  "allow_automatic_registration", default: true, null: false
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-  end
-
-  add_index "domains", ["domain", "default_email"], name: "index_domains_on_domain_and_default_email", unique: true, using: :btree
-  add_index "domains", ["domain"], name: "index_domains_on_domain", unique: true, using: :btree
-  add_index "domains", ["organization_id"], name: "index_domains_on_organization_id", using: :btree
-
   create_table "feedbacks", force: :cascade do |t|
     t.text     "comment"
     t.integer  "user_id"
@@ -149,20 +131,6 @@ ActiveRecord::Schema.define(version: 20151026200426) do
 
   add_index "feedbacks", ["rating"], name: "index_feedbacks_on_rating", using: :btree
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
-
-  create_table "google_communes", force: :cascade do |t|
-    t.text     "commune"
-    t.text     "google_commune"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  create_table "google_regions", force: :cascade do |t|
-    t.text     "region"
-    t.text     "google_region"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
@@ -310,6 +278,15 @@ ActiveRecord::Schema.define(version: 20151026200426) do
   add_index "report_states", ["workspace_id", "name"], name: "index_report_states_on_workspace_id_and_name", unique: true, using: :btree
   add_index "report_states", ["workspace_id"], name: "index_report_states_on_workspace_id", using: :btree
 
+  create_table "report_types", force: :cascade do |t|
+    t.text     "description"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "report_types", ["organization_id"], name: "index_report_types_on_organization_id", using: :btree
+
   create_table "reports", force: :cascade do |t|
     t.integer  "creator_id",                     null: false
     t.integer  "assigned_user_id"
@@ -317,7 +294,6 @@ ActiveRecord::Schema.define(version: 20151026200426) do
     t.datetime "updated_at",                     null: false
     t.integer  "report_state_id"
     t.integer  "workspace_id"
-    t.integer  "venue_id"
     t.text     "title",                          null: false
     t.text     "address"
     t.text     "city"
@@ -342,7 +318,6 @@ ActiveRecord::Schema.define(version: 20151026200426) do
   add_index "reports", ["reason_id"], name: "index_reports_on_reason_id", using: :btree
   add_index "reports", ["report_state_id"], name: "index_reports_on_report_state_id", using: :btree
   add_index "reports", ["subchannel_id"], name: "index_reports_on_subchannel_id", using: :btree
-  add_index "reports", ["venue_id"], name: "index_reports_on_venue_id", using: :btree
   add_index "reports", ["workspace_id"], name: "index_reports_on_workspace_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
@@ -393,15 +368,6 @@ ActiveRecord::Schema.define(version: 20151026200426) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
-
-  create_table "venues", force: :cascade do |t|
-    t.integer  "organization_id"
-    t.text     "description"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "venues", ["organization_id"], name: "index_venues_on_organization_id", using: :btree
 
   create_table "widgets", force: :cascade do |t|
     t.text     "name",       null: false
@@ -465,11 +431,9 @@ ActiveRecord::Schema.define(version: 20151026200426) do
   add_foreign_key "checklist_items", "checklist_categories"
   add_foreign_key "checklists", "workspaces"
   add_foreign_key "communes", "regions"
-  add_foreign_key "contacts", "venues"
   add_foreign_key "contest_phrases", "organizations"
   add_foreign_key "contests", "workspaces"
   add_foreign_key "devices", "users"
-  add_foreign_key "domains", "organizations"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "pictures", "reports"
   add_foreign_key "reasons", "workspaces"
@@ -489,10 +453,8 @@ ActiveRecord::Schema.define(version: 20151026200426) do
   add_foreign_key "reports", "subchannels"
   add_foreign_key "reports", "users", column: "assigned_user_id"
   add_foreign_key "reports", "users", column: "creator_id"
-  add_foreign_key "reports", "venues"
   add_foreign_key "reports", "workspaces"
   add_foreign_key "subchannels", "channels"
-  add_foreign_key "venues", "organizations"
   add_foreign_key "workspace_invitations", "users"
   add_foreign_key "workspace_invitations", "workspaces"
   add_foreign_key "workspaces", "organizations"
