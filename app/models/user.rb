@@ -104,9 +104,9 @@ class User < ActiveRecord::Base
 
   def organizations
     orgs = {}
-    works = self.workspaces
+    _works = self.workspaces
     pruned = [ ]
-    works.each do |w|
+    _works.each do |w|
       org = w.organization
       if orgs[org.id].nil?
         orgs[org.id] = OrganizationSerializer.new(org).as_json
