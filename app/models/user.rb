@@ -109,7 +109,7 @@ class User < ActiveRecord::Base
     works.each do |w|
       org = w.organization
       if orgs[org.id].nil?
-        orgs[org.id] = OrganizationSerializer.new(org).as_json.reject! { |k, v| pruned.include? k }
+        orgs[org.id] = OrganizationSerializer.new(org).as_json
         orgs[org.id][:workspaces] = []
       end
       invitation = self.workspace_invitations.find_by_workspace_id w.id
