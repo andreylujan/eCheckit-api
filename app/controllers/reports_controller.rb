@@ -73,7 +73,7 @@ class ReportsController < ApplicationController
 
   private
   def create_params
-    params.require(:report).permit(:workspace_id, :venue_id, :title, 
+    params.require(:report).permit(:workspace_id, :title, 
       :report_state_id, :assigned_user_id,
       :longitude, :latitude, :address, :city, :country,
       :region, :commune, :reference, :comment, :internal_id,
