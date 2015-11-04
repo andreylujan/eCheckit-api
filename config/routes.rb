@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   resources :products
+  resources :clients
   apipie
   match '/*path', to: 'application#cors_preflight_check', via: :options
 

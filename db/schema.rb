@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151026200426) do
+ActiveRecord::Schema.define(version: 20151104153916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,11 @@ ActiveRecord::Schema.define(version: 20151026200426) do
 
   add_index "checklists", ["workspace_id", "name"], name: "index_checklists_on_workspace_id_and_name", unique: true, using: :btree
   add_index "checklists", ["workspace_id"], name: "index_checklists_on_workspace_id", using: :btree
+
+  create_table "clients", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "communes", force: :cascade do |t|
     t.integer  "region_id",  null: false
@@ -309,6 +314,15 @@ ActiveRecord::Schema.define(version: 20151026200426) do
 
   add_index "report_states", ["workspace_id", "name"], name: "index_report_states_on_workspace_id_and_name", unique: true, using: :btree
   add_index "report_states", ["workspace_id"], name: "index_report_states_on_workspace_id", using: :btree
+
+  create_table "report_types", force: :cascade do |t|
+    t.text     "description"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "report_types", ["organization_id"], name: "index_report_types_on_organization_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
     t.integer  "creator_id",                     null: false
