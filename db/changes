@@ -1,0 +1,69 @@
+Subchannel.find(6).update_attribute :name, "Tottus/Erbi/Montserrat"
+Subchannel.find(8).zone_assignments.each do |za|
+za.update_attribute :subchannel_id, 6
+end
+Subchannel.find(9).zone_assignments.each do |za|
+za.update_attribute :subchannel_id, 6
+end
+Subchannel.find(8).destroy
+Subchannel.find(9).destroy
+
+
+Subchannel.find(4).update_attribute :name, "Jumbo/Santa Isabel"
+Subchannel.find(5).zone_assignments.each do |za|
+za.update_attribute :subchannel_id, 4
+end
+Subchannel.find(5).destroy
+
+Subchannel.find(1).update_attribute :name, "Unimarc"
+
+Subchannel.find(2).update_attribute :name, "Lider/Ekono"
+Subchannel.find(3).update_attribute :name, "Otros"
+
+Channel.first.update_attribute :name, "Supermercado"
+Channel.find(3).update_attribute :name, "Tradicional"
+
+Channel.find(2).update_attribute :name, "Otros"
+Channel.find(2).subchannels.destroy_all
+subchannels = Subchannel.create([
+{ name: "Horeca", channel_id: 2 },
+{ name: "Cadenas/Catering", channel_id: 2 },
+{ name: "Farmacias/Oficinas/Ferias", channel_id: 2 },
+{ name: "Vending/Blak", channel_id: 2 },
+{ name: "Easy", channel_id: 2 }
+])
+
+Subchannel.find(3).zone_assignments.each do |za|
+za.update_attributes subchannel: subchannels.last, channel: Channel.find(2)
+end
+
+ZoneAssignment.where(channel_id: 3).each do |subchannel|
+subchannel.update_attribute :subchannel, nil
+end
+Channel.find(3).subchannels.destroy_all
+
+Channel.find(1).update_attribute :image, "/images/reports/channel_market.png"
+Channel.find(2).update_attribute :image, "/images/reports/channel_others.png"
+Channel.find(3).update_attribute :image, "/images/reports/channel_traditional.png"
+
+report_field_type = ReportFieldType.find(2)
+items = []
+Organization.first.channels.each do |channel|
+puts channel.name
+item = { title: channel.name, image: channel.image }
+if channel.subchannels.length > 0
+subitems = []
+channel.subchannels.each do |subchannel|
+puts "\t" + subchannel.name
+subitems << subchannel.name
+end
+item[:subitems] = subitems
+end
+items << item
+end
+
+data = report_field_type.data
+data["items"] = items
+ap items
+
+report_field_type.update_attribute :data, data

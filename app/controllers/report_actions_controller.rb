@@ -22,7 +22,7 @@ class ReportActionsController < ApplicationController
                 @report = Report.find(params.require(:report_id))
                 generate_pdf
                 @report_action.report = @report
-                @report_action.send_create_email
+                # @report_action.send_create_email
                 render json: @report_action, status: :created
             else
                 render json: @report_action, status: :unprocessable_entity

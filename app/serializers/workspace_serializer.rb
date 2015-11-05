@@ -61,34 +61,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
                         subitems: subitems
                     }         
                 end
-                o.data["items"] = items
-            elsif o.widget.name == "checklist"
-                checklist_id = o.data["checklist_id"]                
-                checklist = object.checklists.where(id: checklist_id).first
-                
-                cats = checklist.checklist_categories
-                categories = []
-                cats.each do | category |
-                    items = []
-                    category.checklist_items.each do |item|
-                        items << {
-                            name: item.name,
-                            checklist_item_id: item.id
-                        }
-                    end
-                    new_cat = {
-                        name: category.name,
-                        checklist_category_id: category.id,
-                        checklist_items: items
-                    }      
-                    categories << new_cat      
-                end
-                o.data = {
-                    checklist_id: checklist_id,
-                    image: checklist.image,
-                    name: checklist.name,
-                    checklist_categories: categories
-                }
+                o.data["items"] = items                
             end
             types << ReportFieldTypeSerializer.new(o).as_json
         end

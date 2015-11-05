@@ -34,9 +34,9 @@ class ReportsController < ApplicationController
     if @report.save
       generate_pdf
       first_action = @report.report_actions.first
-      if first_action
-        first_action.send_create_email
-      end
+      # if first_action
+      #  first_action.send_create_email
+      # end
       render json: @report, status: :created
     else
       render json: @report, status: :unprocessable_entity
@@ -73,7 +73,7 @@ class ReportsController < ApplicationController
 
   private
   def create_params
-    params.require(:report).permit(:workspace_id, :venue_id, :title, 
+    params.require(:report).permit(:workspace_id, :title, 
       :report_state_id, :assigned_user_id,
       :longitude, :latitude, :address, :city, :country,
       :region, :commune, :reference, :comment, :internal_id,

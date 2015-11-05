@@ -34,7 +34,6 @@ class User < ActiveRecord::Base
   
   after_create :create_token
   after_create :assign_default_workspace
-  after_create :check_organization
   after_create :check_invitations
   after_create :send_welcome_email
   validates_presence_of [ :first_name ]
@@ -105,12 +104,12 @@ class User < ActiveRecord::Base
 
   def organizations
     orgs = {}
-    works = self.workspaces
-    pruned = [ :domains ]
-    works.each do |w|
+    _works = self.workspaces
+    pruned = [ ]
+    _works.each do |w|
       org = w.organization
       if orgs[org.id].nil?
-        orgs[org.id] = OrganizationSerializer.new(org).as_json.reject! { |k, v| pruned.include? k }
+        orgs[org.id] = OrganizationSerializer.new(org).as_json
         orgs[org.id][:workspaces] = []
       end
       invitation = self.workspace_invitations.find_by_workspace_id w.id
@@ -159,18 +158,5 @@ class User < ActiveRecord::Base
     w = Workspace.create name: self.name, organization: org
     self.add_role :user, w
     WorkspaceInvitation.create user: self, workspace: w, accepted: true
-  end
-
-  def check_organization
-    idx = self.email.index("@") + 1
-    email_domain = self.email[idx..-1]
-    domain = Domain.find_by_domain(email_domain)
-    if domain.present? and domain.allow_automatic_registration?
-      org = domain.organization
-      open_workspaces = org.workspaces.where(is_open: true)
-      open_workspaces.each do |w|
-        self.add_role :user, w
-      end
-    end
   end
 end

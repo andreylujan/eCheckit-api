@@ -91,9 +91,9 @@ class ReportAction < ActiveRecord::Base
 
   def send_create_email
     if self.report.workspace.organization.name == "Koandina"
-
       message = ""
       emails = []
+
       if self.report_action_type.name == "assign"
         if self.report.assign_actions.count > 1
           emails << {

@@ -15,6 +15,8 @@ class UploadPdfJob < ActiveJob::Base
 		url = Amazon.upload_pdf(pdf)
 		if not url.nil?
 			report.update_attribute :pdf, url
+			report_action = report.report_actions.last
+			report_action.send_create_email
 		end
 	end
 end
