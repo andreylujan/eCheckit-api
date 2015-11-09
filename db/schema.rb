@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151104160707) do
+ActiveRecord::Schema.define(version: 20151104162521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,11 @@ ActiveRecord::Schema.define(version: 20151104160707) do
 
   add_index "checklists", ["workspace_id", "name"], name: "index_checklists_on_workspace_id_and_name", unique: true, using: :btree
   add_index "checklists", ["workspace_id"], name: "index_checklists_on_workspace_id", using: :btree
+
+  create_table "clients", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "communes", force: :cascade do |t|
     t.integer  "region_id",  null: false
@@ -182,6 +187,13 @@ ActiveRecord::Schema.define(version: 20151104160707) do
   end
 
   add_index "pictures", ["report_id"], name: "index_pictures_on_report_id", using: :btree
+
+  create_table "products", force: :cascade do |t|
+    t.text     "name"
+    t.float    "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "reasons", force: :cascade do |t|
     t.integer  "workspace_id"
@@ -359,6 +371,11 @@ ActiveRecord::Schema.define(version: 20151104160707) do
 
   create_table "widgets", force: :cascade do |t|
     t.text     "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "works", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
