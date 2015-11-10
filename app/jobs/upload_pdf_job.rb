@@ -4,7 +4,6 @@ class UploadPdfJob < ActiveJob::Base
 	require 'amazon'
 
 	def perform(report_id)
-		
 		report = Report.find(report_id)
 		ac = ActionController::Base.new()
 		# html = ac.render_to_string('templates/report.html.erb', 
