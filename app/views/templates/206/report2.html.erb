@@ -100,15 +100,15 @@
 			<div class="formHeader">
 				<div class="field ">
 					<div class="label wpi-50">Visitador:</div>
-					<div class="value"><%= @report.assigned_user_name %></div>
+					<div class="value"><%= @report %></div>
 				</div>
 				<div class="field ">
 					<div class="label wpi-50">Cliente:</div>
-					<div class="value">Nombre Apellido</div>
-				</div>
+					<div class="value"><%= @report.report_fields[0].value.area_name %></div>
+				</div>n
 				<div class="field ">
 					<div class="label wpi-50">Obra:</div>
-					<div class="value">Nombre obra</div>
+					<div class="value"><%= @report.report_fields[1].value.area_name %></div>
 				</div>
 			</div>
 			<div class="formHeader">
@@ -127,43 +127,46 @@
 	<hr>
 
 	<div class="content">
-
-		<div class="checklist">
-			<h3>Muros - Generalidades</h3>
-			<div class="field">
-				<div class="value icon"><img class="check" src="https://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check"></div>
-				<div class="labelChecklist">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </div>
-			</div>
-			<div class="field">
-				<div class="value icon"><img class="check" src="https://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check"></div>
-				<div class="labelChecklist">No trasladar paños con esquinaeros armados</div>
-			</div>
-			<div class="field">
-				<div class="value icon"><img class="check" src="https://d21zid65ggdxzg.cloudfront.net/31470FC64690594C24D668A7808EF1AF.png" alt="check"></div>
-				<div class="labelChecklist">No trasladar paños con esquinaeros armados</div>
-			</div>
-			<div class="field">
-				<div class="value icon"><img class="check" src="https://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check"></div>
-				<div class="labelChecklist">No trasladar paños con esquinaeros armados</div>
-			</div>
-		</div>
+		<% @report.report_fields.each do |report_field| %>
+			<% if report_field.report_field_name == 'checklist' %>
+				<% @report.report_fields.value.checklist_categories.each do |checklist_category| %>
+					<div class="checklist">
+						<h3><%=checklist_category.name %></h3>
+						<% checklist_category.checklist_items.each do |checklist_item| %>
+							<div class="field">
+								<% if checklist_item.value == 0 %>
+									<div class="value icon"><img class="check" src="https://d21zid65ggdxzg.cloudfront.net/31470FC64690594C24D668A7808EF1AF.png" alt="check"></div>
+								<% end %>
+								<% if checklist_item.value == 1 %>
+									<div class="value icon"><img class="check" src="https://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check"></div>
+								<% end %>
+								<% if checklist_item.value == 2 %>
+									<div class="value icon"><img class="check" src="https://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check"></div>
+								<% end %>
+								<div class="labelChecklist"><%= checklist_item.name %></div>
+							</div>
+						<% end %>
+					</div>
+				<% end %>
+			<% end %>
+		<% end %>
 
 		<hr>
 		<div class="recommendations">
 			<h3>RECOMENDACIONES DE MEJORA</h3>
 			<div class="recommendation">
-				<h3>Muros - Generalidades</h3>
+				<h3>Categoría</h3>
 				<div class="field">
-					<div class="label wpe-30">No trasladar paños con esquinaeros armados</div>
-					<div class="value mw-70">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+					<div class="label wpe-30">ITEM</div>
+					<div class="value mw-70">Recomendación</div>
 				</div>
 				<div class="field">
-					<div class="label wpe-30">No trasladar paños con esquinaeros armados No trasladar paños con esquinaeros armadosNo trasladar paños con</div>
-					<div class="value mw-70">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+					<div class="label wpe-30">ITEM</div>
+					<div class="value mw-70">Recomendación</div>
 				</div>
 				<div class="field">
-					<div class="label wpe-30">No trasladar paños con esquinaeros armados</div>
-					<div class="value mw-70">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+					<div class="label wpe-30">ITEM</div>
+					<div class="value mw-70">Recomendación</div>
 				</div>
 			</div>
 		</div>
