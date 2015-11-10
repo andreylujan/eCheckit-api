@@ -100,15 +100,23 @@
 			<div class="formHeader">
 				<div class="field ">
 					<div class="label wpi-50">Visitador:</div>
-					<div class="value"><%= @report %></div>
+					<div class="value"><%= @report.creator_name %></div>
 				</div>
 				<div class="field ">
 					<div class="label wpi-50">Cliente:</div>
-					<div class="value"><%= @report.report_fields[0].value.area_name %></div>
-				</div>n
+					<% @report.report_fields.each do |report_field| %>
+						<% if report_field.report_field_type_id == 15 %>
+						<div class="value"><%= report_field.value.item_name %></div>
+						<% end %>
+					<% end %>
+				</div>
 				<div class="field ">
 					<div class="label wpi-50">Obra:</div>
-					<div class="value"><%= @report.report_fields[1].value.area_name %></div>
+					<% @report.report_fields.each do |report_field| %>
+						<% if report_field.report_field_type_id == 16 %>
+						<div class="value"><%= report_field.value.item_name %></div>
+						<% end %>
+					<% end %>
 				</div>
 			</div>
 			<div class="formHeader">
