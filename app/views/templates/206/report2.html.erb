@@ -137,7 +137,30 @@
 
 	<div class="content">
 		<% @report.report_fields.each do |report_field| %>
-			<% if report_field["report_field_type_id"] === 17 %>
+			<% if report_field.report_field_type.name === 'checklist' %>
+				<% report_field.value["checklist_categories"].each do |checklist_category| %>
+					<div class="checklist">
+						<h3><%=checklist_category["name"] %></h3>
+						<% checklist_category["checklist_items"].each do |checklist_item| %>
+							<div class="field">
+								<% if checklist_item["value"] == 0 %>
+									<div class="value icon"><img class="check" src="http://imageshack.com/a/img910/3176/Ttg9He.png" alt="check" /></div>
+								<% end %>
+								<% if checklist_item["value"] == 1 %>
+									<div class="value icon"><img class="check" src="http://imageshack.com/a/img908/7135/GfbShS.png" alt="check" /></div>
+								<% end %>
+								<% if checklist_item["value"] == 2 %>
+									<div class="value icon"><img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
+								<% end %>
+								<div class="labelChecklist"><%= checklist_item["name"] %></div>
+							</div>
+						<% end %>
+					</div>
+				<% end %>
+			<% end %>
+		<% end %>
+
+			<!--<% if report_field["report_field_type_id"] === 17 %>
 				<% report_field.value["checklist_categories"].each do |checklist_category| %>
 					<div class="checklist">
 						<h3><%=checklist_category["name"] %></h3>
@@ -221,7 +244,7 @@
 					</div>
 				<% end %>
 			<% end %>
-		<% end %>
+		<% end %>-->
 
 		<hr>
 
