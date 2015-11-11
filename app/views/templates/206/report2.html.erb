@@ -133,10 +133,10 @@
 	</div>
 
 	<hr>
-
+	
 	<div class="content">
 		<% @report.report_fields.each do |report_field| %>
-		<h3><%= report_field %></h3>
+			<h3><%= JSON.pretty_generate(report_field) %></h3>
 			<!--<% if report_field["report_field_name"] === "checklist" %>
 				<% report_field.value["checklist_categories"].each do |checklist_category| %>
 					<div class="checklist">
@@ -161,7 +161,7 @@
 		<% end %>
 
 		<hr>
-		
+
 		<div class="recommendations">
 			<h3>RECOMENDACIONES DE MEJORA</h3>
 			<div class="recommendation">
@@ -180,6 +180,7 @@
 				</div>
 			</div>
 		</div>
+
 	</div>
 </body>
 </html>

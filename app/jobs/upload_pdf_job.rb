@@ -2,7 +2,8 @@ class UploadPdfJob < ActiveJob::Base
 	queue_as :default
 
 	require 'amazon'
-
+	require 'json'
+	
 	def perform(report_id)
 		report = Report.find(report_id)
 		ac = ActionController::Base.new()
