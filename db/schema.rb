@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151104162521) do
+ActiveRecord::Schema.define(version: 20151111163151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,9 +60,12 @@ ActiveRecord::Schema.define(version: 20151104162521) do
   add_index "checklists", ["workspace_id", "name"], name: "index_checklists_on_workspace_id_and_name", unique: true, using: :btree
   add_index "checklists", ["workspace_id"], name: "index_checklists_on_workspace_id", using: :btree
 
-  create_table "clients", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "clients_doms", force: :cascade do |t|
+    t.text     "workspace_id"
+    t.text     "name"
+    t.text     "rut"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "communes", force: :cascade do |t|
@@ -74,6 +77,15 @@ ActiveRecord::Schema.define(version: 20151104162521) do
 
   add_index "communes", ["region_id", "name"], name: "index_communes_on_region_id_and_name", unique: true, using: :btree
   add_index "communes", ["region_id"], name: "index_communes_on_region_id", using: :btree
+
+  create_table "contact_doms", force: :cascade do |t|
+    t.integer  "work_id"
+    t.text     "name"
+    t.text     "email"
+    t.text     "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "contest_phrases", force: :cascade do |t|
     t.integer  "organization_id"
@@ -375,7 +387,10 @@ ActiveRecord::Schema.define(version: 20151104162521) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "works", force: :cascade do |t|
+  create_table "works_doms", force: :cascade do |t|
+    t.integer  "client_id"
+    t.text     "name"
+    t.text     "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
