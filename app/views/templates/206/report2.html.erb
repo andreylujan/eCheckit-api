@@ -136,9 +136,9 @@
 
 	<div class="content">
 		<% @report.report_fields.each do |report_field| %>
-			<% if report_field["report_field_name"] === "checklist" %>
-			<h3><%= report_field["report_field_name"] %></h3>
-				<!--<% report_field.value["checklist_categories"].each do |checklist_category| %>
+		<h3><%= report_field %></h3>
+			<!--<% if report_field["report_field_name"] === "checklist" %>
+				<% report_field.value["checklist_categories"].each do |checklist_category| %>
 					<div class="checklist">
 						<h3><%=checklist_category["name"] %></h3>
 						<% checklist_category["checklist_items"].each do |checklist_item| %>
@@ -156,11 +156,12 @@
 							</div>
 						<% end %>
 					</div>
-				<% end %>-->
-			<% end %>
+				<% end %>
+			<% end %>-->
 		<% end %>
 
 		<hr>
+		
 		<div class="recommendations">
 			<h3>RECOMENDACIONES DE MEJORA</h3>
 			<div class="recommendation">
