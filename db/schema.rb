@@ -200,13 +200,6 @@ ActiveRecord::Schema.define(version: 20151111213252) do
 
   add_index "pictures", ["report_id"], name: "index_pictures_on_report_id", using: :btree
 
-  create_table "products", force: :cascade do |t|
-    t.text     "name"
-    t.float    "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "reasons", force: :cascade do |t|
     t.integer  "workspace_id"
     t.text     "name",         null: false
