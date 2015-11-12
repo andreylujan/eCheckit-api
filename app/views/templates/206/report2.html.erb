@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Reporte</title>
 	<style>
-	body {
+body {
 		font-family: 'Helvetica';
 		font-size: 14px;
 	}
@@ -35,6 +35,7 @@
 	.formHeader {
 		display: inline-block;
 		vertical-align: top;
+		margin-left: 10px;
 	}
 	.label {
 		display: inline-block;
@@ -47,13 +48,21 @@
 		font-weight: bold;
 		margin-left: 10px;
 		max-width: 86%;
-		margin-top: 3px;
+		margin-top: 2px;
 		/*text-align: justify;*/
+	}
+	.suggestion {
+		display: block;
+		margin-left: 60px;
+		margin-top: 5px;
+		color: gray;
+		text-align: justify;
+		text-justify: inter-word;
 	}
 	.value {
 		color: #4078c0;
 		display: inline-block;
-		margin-left: 20px;
+		margin-left: 15px;
 		text-align: justify;
 		vertical-align: top;
 	}
@@ -75,13 +84,11 @@
 		vertical-align: top;
 		width: 49%;
 	}
-	.recommendation {
-		display: inline-block;
-		margin-bottom: 10px;
-		margin-top: 10px;
-	}
 	.wpi-50 {
 		width: 50px;
+	}
+	.wpi-160 {
+		width: 160px;
 	}
 	.wpe-30 {
 		width: 30%;
@@ -89,22 +96,19 @@
 	.mw-70 {
 		max-width: 65%;
 	}
-	.recommendations {
-		margin-top: 30px;
-	}
 	</style>
 </head>
 <body>
 	<div>
-		<img src="http://imagizer.imageshack.us/a/img905/2820/j3mq67.png" alt="dom_logo" style="margin-top: 10px; width: 150px">
+		<img src="http://imagizer.imageshack.us/a/img905/2820/j3mq67.png" alt="dom_logo" style="margin-top: 40px; width: 150px">
 		<div class="formHeaders">
 			<div class="formHeader">
 				<div class="field ">
-					<div class="label wpi-50">Visitador:</div>
+					<div class="label wpi-160">Visitador:</div>
 					<div class="value"><%= @report.creator_name %></div>
 				</div>
 				<div class="field ">
-					<div class="label wpi-50">Cliente:</div>
+					<div class="label wpi-160">Cliente:</div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id == 15 %>
 						<div class="value"><%= report_field.value["item_name"] %></div>
@@ -112,7 +116,7 @@
 					<% end %>
 				</div>
 				<div class="field ">
-					<div class="label wpi-50">Obra:</div>
+					<div class="label wpi-160">Obra:</div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id == 16 %>
 						<div class="value"><%= report_field.value["item_name"] %></div>
@@ -153,119 +157,13 @@
 									<div class="value icon"><img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
 								<% end %>
 								<div class="labelChecklist"><%= checklist_item["name"] %></div>
+								<div class="suggestion"><%= checklist_item["suggestion"] %></div>
 							</div>
 						<% end %>
 					</div>
 				<% end %>
 			<% end %>
 		<% end %>
-
-			<!--<% if report_field["report_field_type_id"] === 17 %>
-				<% report_field.value["checklist_categories"].each do |checklist_category| %>
-					<div class="checklist">
-						<h3><%=checklist_category["name"] %></h3>
-						<% checklist_category["checklist_items"].each do |checklist_item| %>
-							<div class="field">
-								<% if checklist_item["value"] == 0 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img910/3176/Ttg9He.png" alt="check" /></div>
-								<% end %>
-								<% if checklist_item["value"] == 1 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img908/7135/GfbShS.png" alt="check" /></div>
-								<% end %>
-								<% if checklist_item["value"] == 2 %>
-									<div class="value icon"><img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
-								<% end %>
-								<div class="labelChecklist"><%= checklist_item["name"] %></div>
-							</div>
-						<% end %>
-					</div>
-				<% end %>
-			<% end %>
-			<% if report_field["report_field_type_id"] === 18 %>
-				<% report_field.value["checklist_categories"].each do |checklist_category| %>
-					<div class="checklist">
-						<h3><%=checklist_category["name"] %></h3>
-						<% checklist_category["checklist_items"].each do |checklist_item| %>
-							<div class="field">
-								<% if checklist_item["value"] == 0 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img910/3176/Ttg9He.png" alt="check" /></div>
-								<% end %>
-								<% if checklist_item["value"] == 1 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img908/7135/GfbShS.png" alt="check" /></div>
-								<% end %>
-								<% if checklist_item["value"] == 2 %>
-									<div class="value icon"><img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
-								<% end %>
-								<div class="labelChecklist"><%= checklist_item["name"] %></div>
-							</div>
-						<% end %>
-					</div>
-				<% end %>
-			<% end %>
-			<% if report_field["report_field_type_id"] === 19 %>
-				<% report_field.value["checklist_categories"].each do |checklist_category| %>
-					<div class="checklist">
-						<h3><%=checklist_category["name"] %></h3>
-						<% checklist_category["checklist_items"].each do |checklist_item| %>
-							<div class="field">
-								<% if checklist_item["value"] == 0 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img910/3176/Ttg9He.png" alt="check" /></div>
-								<% end %>
-								<% if checklist_item["value"] == 1 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img908/7135/GfbShS.png" alt="check" /></div>
-								<% end %>
-								<% if checklist_item["value"] == 2 %>
-									<div class="value icon"><img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
-								<% end %>
-								<div class="labelChecklist"><%= checklist_item["name"] %></div>
-							</div>
-						<% end %>
-					</div>
-				<% end %>
-			<% end %>
-			<% if report_field["report_field_type_id"] === 20 %>
-				<% report_field.value["checklist_categories"].each do |checklist_category| %>
-					<div class="checklist">
-						<h3><%=checklist_category["name"] %></h3>
-						<% checklist_category["checklist_items"].each do |checklist_item| %>
-							<div class="field">
-								<% if checklist_item["value"] == 0 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img910/3176/Ttg9He.png" alt="check" /></div>
-								<% end %>
-								<% if checklist_item["value"] == 1 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img908/7135/GfbShS.png" alt="check" /></div>
-								<% end %>
-								<% if checklist_item["value"] == 2 %>
-									<div class="value icon"><img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
-								<% end %>
-								<div class="labelChecklist"><%= checklist_item["name"] %></div>
-							</div>
-						<% end %>
-					</div>
-				<% end %>
-			<% end %>
-		<% end %>-->
-
-		<hr>
-
-		<!--<div class="recommendations">
-			<h3>RECOMENDACIONES DE MEJORA</h3>
-			<div class="recommendation">
-				<h3>Categoría</h3>
-				<div class="field">
-					<div class="label wpe-30">ITEM</div>
-					<div class="value mw-70">Recomendación</div>
-				</div>
-				<div class="field">
-					<div class="label wpe-30">ITEM</div>
-					<div class="value mw-70">Recomendación</div>
-				</div>
-				<div class="field">
-					<div class="label wpe-30">ITEM</div>
-					<div class="value mw-70">Recomendación</div>
-				</div>
-			</div>
-		</div>-->
 
 	</div>
 </body>
