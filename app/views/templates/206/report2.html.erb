@@ -170,16 +170,23 @@
 						<% checklist_category["checklist_items"].each do |checklist_item| %>
 							<div class="field">
 								<% if checklist_item["value"] == 0 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img910/3176/Ttg9He.png" alt="check" /></div>
+									<div class="value icon">
+										<img class="check" src="http://imageshack.com/a/img910/3176/Ttg9He.png" alt="check" />
+									</div>
+									<div class="labelChecklist"><%= checklist_item["name"] %></div>
 								<% end %>
 								<% if checklist_item["value"] == 1 %>
-									<div class="value icon"><img class="check" src="http://imageshack.com/a/img908/7135/GfbShS.png" alt="check" /></div>
+									<div class="value icon">
+										<img class="check" src="http://imageshack.com/a/img908/7135/GfbShS.png" alt="check" />
+									</div>
+									<div class="labelChecklist"><%= checklist_item["name"] %></div>
 								<% end %>
 								<% if checklist_item["value"] == 2 %>
-									<div class="value icon"><img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
+									<div class="value icon">
+										<img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
+									<div class="labelChecklist"><%= checklist_item["name"] %></div>
+									<div class="suggestion"><%= checklist_item["suggestion"] %></div>
 								<% end %>
-								<div class="labelChecklist"><%= checklist_item["name"] %></div>
-								<div class="suggestion"><%= checklist_item["suggestion"] %></div>
 							</div>
 						<% end %>
 					</div>
@@ -192,7 +199,7 @@
 		<h3>Mapa</h3>
 		<div class="maps">
 			<div class="map">
-				<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=16&size=594x300&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
+				<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=650x400&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
 			</div>
 		</div>
 
