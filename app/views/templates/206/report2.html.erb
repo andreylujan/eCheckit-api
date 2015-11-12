@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Reporte</title>
 	<style>
-body {
+	body {
 		font-family: 'Helvetica';
 		font-size: 14px;
 	}
@@ -83,6 +83,20 @@ body {
 		margin-top: 10px;
 		vertical-align: top;
 		width: 49%;
+	}
+	.maps {
+		margin-left: 20px;
+	}
+	.pictures {
+		display: block;
+		margin-bottom: 15px;
+		margin-top: 10px;
+		margin-left: 20px;
+	}
+	.picture {
+		display: inline-block;
+		margin: 2px;
+		vertical-align: top;
 	}
 	.wpi-50 {
 		width: 50px;
@@ -171,6 +185,28 @@ body {
 					</div>
 				<% end %>
 			<% end %>
+		<% end %>
+
+		<hr>
+
+		<h3>Mapa</h3>
+		<div class="maps">
+			<div class="map">
+				<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=16&size=594x300&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
+			</div>
+		</div>
+
+		<hr>
+
+		<% if @report.pictures.count > 0 %>
+			<h3>Fotos</h3>
+			<div class="pictures">
+				<% @report.pictures.each do |picture| %>
+					<div class="picture">
+						<img src="<%= picture.url %>" width="250px" />
+					</div>
+				<% end %>
+			</div>
 		<% end %>
 
 	</div>
