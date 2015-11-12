@@ -68,24 +68,42 @@ class WorkspaceSerializer < ActiveModel::Serializer
                 clients_doms.each do |client|
                     models << {
                         client_id: client.id,
-                        workspace_id: client.workspace_id,
                         name: client.name,
                         client_rut: client.rut
                     }
                 end
                 o.data["models"] = models
-            # elsif o.id == 16
-            #     models = []
-            #     works_doms = object.works_doms
-            #     works_doms.each do |work|
-            #         models << {
-            #             works_id: work.id,
-            #             client_id: work.client_id,
-            #             work_name: work.name,
-            #             address: work.rut
-            #         }
-            #     end
-            #     o.data["models"] = models    
+            elsif o.id == 16
+                clients_doms = object.clients_doms
+                models = []
+                clients_doms.each do |client|
+                    client.works_doms.each do |work|
+                        models << {
+                            works_id: work.id,
+                            client_id: work.client_id,
+                            name: work.name,
+                            address: work.address
+                        }
+                    end
+                end
+                o.data["models"] = models
+            elsif o.name == "contact_table" 
+                clients_doms = object.clients_doms
+                models = []
+                clients_doms.each do |client|
+                    client.works_doms.each do |work|
+                        work.contact_doms.each do |contact|
+                            models << {
+                                contact_id: contact.id,
+                                work_id: contact.work_id,
+                                name: contact.name,
+                                email: contact.email,
+                                phone: contact.phone
+                            }
+                        end
+                    end
+                end
+                o.data["models"] = models        
             end
                 
             types << ReportFieldTypeSerializer.new(o).as_json

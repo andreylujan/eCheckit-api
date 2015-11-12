@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151111163151) do
+ActiveRecord::Schema.define(version: 20151111213252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20151111163151) do
   add_index "checklists", ["workspace_id"], name: "index_checklists_on_workspace_id", using: :btree
 
   create_table "clients_doms", force: :cascade do |t|
-    t.text     "workspace_id"
+    t.integer  "workspace_id"
     t.text     "name"
     t.text     "rut"
     t.datetime "created_at",   null: false
