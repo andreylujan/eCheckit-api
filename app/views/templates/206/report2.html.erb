@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Reporte</title>
+	<style>
+	body {
+		font-family: 'Helvetica';
+		font-size: 14px;
+	}
+	html {
+		text-align: center;
+		width: 100%;
+	}
+	body {
+		display: inline-block;
+		margin: 0px auto;
+		text-align: left;
+		width: 90%;
+	}
+	h3 {
+		color: #4078c0;
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	.field {
+		margin-left: 20px;
+		margin-top: 10px;
+	}
+	.formHeaders {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 50px;
+	}
+	.formHeader {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 10px;
+	}
+	.label {
+		display: inline-block;
+		font-weight: bold;
+		text-align: justify;
+		vertical-align: top;
+	}
+	.labelChecklist {
+		display: inline-block;
+		font-weight: bold;
+		margin-left: 10px;
+		max-width: 86%;
+		margin-top: 2px;
+		/*text-align: justify;*/
+	}
+	.suggestion {
+		display: block;
+		margin-left: 60px;
+		margin-top: 5px;
+		color: gray;
+		text-align: justify;
+		text-justify: inter-word;
+	}
+	.value {
+		color: #4078c0;
+		display: inline-block;
+		margin-left: 15px;
+		text-align: justify;
+		vertical-align: top;
+	}
+	.value.icon {
+		display: inline-block;
+		max-width: 100%;
+		max-height : 100%;
+	}
+	.value.images {
+		display: block;
+	}
+	.check {
+		width: 17px;
+	}
+	.checklist {
+		display: inline-block;
+		margin-bottom: 15px;
+		margin-top: 10px;
+		vertical-align: top;
+		width: 49%;
+	}
+	.maps {
+		margin-left: 20px;
+	}
+	.pictures {
+		display: block;
+		margin-bottom: 15px;
+		margin-top: 10px;
+		margin-left: 20px;
+	}
+	.picture {
+		display: inline-block;
+		margin: 2px;
+		vertical-align: top;
+	}
+	.wpi-50 {
+		width: 50px;
+	}
+	.wpi-160 {
+		width: 160px;
+	}
+	.wpe-30 {
+		width: 30%;
+	}
+	.mw-70 {
+		max-width: 65%;
+	}
+	</style>
+</head>
+<body>
+	<div>
+		<img src="http://imagizer.imageshack.us/a/img905/2820/j3mq67.png" alt="dom_logo" style="margin-top: 40px; width: 150px">
+		<div class="formHeaders">
+			<div class="formHeader">
+				<div class="field ">
+					<div class="label wpi-160">Visitador:</div>
+					<div class="value"><%= @report.creator_name %></div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-160">Cliente:</div>
+					<% @report.report_fields.each do |report_field| %>
+						<% if report_field.report_field_type_id == 15 %>
+						<div class="value"><%= report_field.value["item_name"] %></div>
+						<% end %>
+					<% end %>
+				</div>
+				<div class="field ">
+					<div class="label wpi-160">Obra:</div>
+					<% @report.report_fields.each do |report_field| %>
+						<% if report_field.report_field_type_id == 16 %>
+						<div class="value"><%= report_field.value["item_name"] %></div>
+						<% end %>
+					<% end %>
+				</div>
+				<div class="field">
+					<div class="label wpi-160">Responsable de obra:</div>
+					<div class="value">Alvaro Troncoso</div>
+				</div>
+				<div class="field">
+					<div class="label wpi-160"></div>
+					<div class="value">alvaro.mc2@gmail.com</div>
+				</div>
+			</div>
+			<div class="formHeader">
+				<div class="field ">
+					<div class="label wpi-50">Fecha:</div>
+					<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y").to_s %></div>
+				</div>
+				<div class="field ">
+					<div class="label wpi-50">Hora:</div>
+					<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="content">
+		<% @report.report_fields.each do |report_field| %>
+			<% if report_field.report_field_type.name === 'checklist' %>
+				<% report_field.value["checklist_categories"].each do |checklist_category| %>
+					<div class="checklist">
+						<h3><%=checklist_category["name"] %></h3>
+						<% checklist_category["checklist_items"].each do |checklist_item| %>
+							<div class="field">
+								<% if checklist_item["value"] == 0 %>
+									<div class="value icon">
+										<img class="check" src="http://imageshack.com/a/img910/3176/Ttg9He.png" alt="check" />
+									</div>
+									<div class="labelChecklist"><%= checklist_item["name"] %></div>
+								<% end %>
+								<% if checklist_item["value"] == 1 %>
+									<div class="value icon">
+										<img class="check" src="http://imageshack.com/a/img908/7135/GfbShS.png" alt="check" />
+									</div>
+									<div class="labelChecklist"><%= checklist_item["name"] %></div>
+								<% end %>
+								<% if checklist_item["value"] == 2 %>
+									<div class="value icon">
+										<img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
+									<div class="labelChecklist"><%= checklist_item["name"] %></div>
+									<div class="suggestion"><%= checklist_item["suggestion"] %></div>
+								<% end %>
+							</div>
+						<% end %>
+					</div>
+				<% end %>
+			<% end %>
+		<% end %>
+
+		<hr>
+
+		<h3>Mapa</h3>
+		<div class="maps">
+			<div class="map">
+				<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=650x400&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
+			</div>
+		</div>
+
+		<hr>
+
+		<% if @report.pictures.count > 0 %>
+			<h3>Fotos</h3>
+			<div class="pictures">
+				<% @report.pictures.each do |picture| %>
+					<div class="picture">
+						<img src="<%= picture.url %>" width="250px" />
+					</div>
+				<% end %>
+			</div>
+		<% end %>
+
+	</div>
+</body>
+</html>

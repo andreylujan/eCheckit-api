@@ -61,35 +61,51 @@ class WorkspaceSerializer < ActiveModel::Serializer
                         subitems: subitems
                     }         
                 end
-                o.data["items"] = items
-            elsif o.widget.name == "checklist"
-                checklist_id = o.data["checklist_id"]                
-                checklist = object.checklists.where(id: checklist_id).first
-                
-                cats = checklist.checklist_categories
-                categories = []
-                cats.each do | category |
-                    items = []
-                    category.checklist_items.each do |item|
-                        items << {
-                            name: item.name,
-                            checklist_item_id: item.id
+                o.data["items"] = items                
+            elsif o.id == 15
+                models = []
+                clients_doms = object.clients_doms
+                clients_doms.each do |client|
+                    models << {
+                        client_id: client.id,
+                        name: client.name,
+                        client_rut: client.rut
+                    }
+                end
+                o.data["models"] = models
+            elsif o.id == 16
+                clients_doms = object.clients_doms
+                models = []
+                clients_doms.each do |client|
+                    client.works_doms.each do |work|
+                        models << {
+                            works_id: work.id,
+                            client_id: work.client_id,
+                            name: work.name,
+                            address: work.address
                         }
                     end
-                    new_cat = {
-                        name: category.name,
-                        checklist_category_id: category.id,
-                        checklist_items: items
-                    }      
-                    categories << new_cat      
                 end
-                o.data = {
-                    checklist_id: checklist_id,
-                    image: checklist.image,
-                    name: checklist.name,
-                    checklist_categories: categories
-                }
+                o.data["models"] = models
+            elsif o.name == "contact_table" 
+                clients_doms = object.clients_doms
+                models = []
+                clients_doms.each do |client|
+                    client.works_doms.each do |work|
+                        work.contact_doms.each do |contact|
+                            models << {
+                                id: contact.id,
+                                work_id: contact.work_id,
+                                name: contact.name,
+                                email: contact.email,
+                                phone: contact.phone
+                            }
+                        end
+                    end
+                end
+                o.data["models"] = models        
             end
+                
             types << ReportFieldTypeSerializer.new(o).as_json
         end
         types
