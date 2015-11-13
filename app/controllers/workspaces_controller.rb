@@ -5,7 +5,7 @@ class WorkspacesController < ApplicationController
 	api!
 	def show
 		@workspace = Workspace.find(params[:id])
-		render json: @workspace
+		render json: @workspace, include: [ :users ]
 	end
 
 	api!
