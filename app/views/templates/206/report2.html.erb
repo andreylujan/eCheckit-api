@@ -102,8 +102,8 @@
 	.wpi-45 {
 		width: 45px;
 	}
-	.wpi-175 {
-		width: 175px;
+	.wpi-160 {
+		width: 160px;
 	}
 	.wpe-30 {
 		width: 30%;
@@ -120,13 +120,13 @@
 			<div class="formHeader">
 				<div class="field ">
 					<div class="label wpi-160">Visitador:</div>
-					<div class="value"><%= @report.creator_name %></div>
+					<div class="value wpi-160"><%= @report.creator_name %></div>
 				</div>
 				<div class="field ">
 					<div class="label wpi-160">Cliente:</div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id === 15 %>
-							<div class="value"><%= report_field.value["name"] %></div>
+							<div class="value wpi-160"><%= report_field.value["name"] %></div>
 						<% end %>
 					<% end %>
 				</div>
@@ -134,7 +134,7 @@
 					<div class="label wpi-160">Obra:</div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id === 16 %>
-							<div class="value"><%= report_field.value["name"] %></div>
+							<div class="value wpi-160"><%= report_field.value["name"] %></div>
 						<% end %>
 					<% end %>
 				</div>
@@ -142,7 +142,7 @@
 					<div class="label wpi-160">Responsable de obra:</div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id === 22 %>
-							<div class="value"><%= report_field.value["name"] %></div>
+							<div class="value wpi-160"><%= report_field.value["name"] %></div>
 						<% end %>
 					<% end %>
 				</div>
@@ -150,7 +150,7 @@
 					<div class="label wpi-160"></div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id === 22 %>
-							<div class="value"><%= report_field.value["email"] %></div>
+							<div class="value wpi-160"><%= report_field.value["email"] %></div>
 						<% end %>
 					<% end %>
 				</div>
