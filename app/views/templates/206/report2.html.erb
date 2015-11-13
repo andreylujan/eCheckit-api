@@ -105,6 +105,9 @@
 	.wpi-160 {
 		width: 160px;
 	}
+	.wpi-170 {
+		width: 170px;
+	}
 	.wpe-30 {
 		width: 30%;
 	}
@@ -119,38 +122,38 @@
 		<div class="formHeaders">
 			<div class="formHeader">
 				<div class="field ">
-					<div class="label wpi-160">Visitador:</div>
-					<div class="value wpi-160"><%= @report.creator_name %></div>
+					<div class="label wpi-170">Visitador:</div>
+					<div class="value wpi-170"><%= @report.creator_name %></div>
 				</div>
 				<div class="field ">
-					<div class="label wpi-160">Cliente:</div>
+					<div class="label wpi-170">Cliente:</div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id === 15 %>
-							<div class="value wpi-160"><%= report_field.value["name"] %></div>
+							<div class="value wpi-170"><%= report_field.value["name"] %></div>
 						<% end %>
 					<% end %>
 				</div>
 				<div class="field ">
-					<div class="label wpi-160">Obra:</div>
+					<div class="label wpi-170">Obra:</div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id === 16 %>
-							<div class="value wpi-160"><%= report_field.value["name"] %></div>
+							<div class="value wpi-170"><%= report_field.value["name"] %></div>
 						<% end %>
 					<% end %>
 				</div>
 				<div class="field">
-					<div class="label wpi-160">Responsable de obra:</div>
+					<div class="label wpi-170">Responsable de obra:</div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id === 22 %>
-							<div class="value wpi-160"><%= report_field.value["name"] %></div>
+							<div class="value wpi-170"><%= report_field.value["name"] %></div>
 						<% end %>
 					<% end %>
 				</div>
 				<div class="field">
-					<div class="label wpi-160"></div>
+					<div class="label wpi-170"></div>
 					<% @report.report_fields.each do |report_field| %>
 						<% if report_field.report_field_type_id === 22 %>
-							<div class="value wpi-160"><%= report_field.value["email"] %></div>
+							<div class="value wpi-170"><%= report_field.value["email"] %></div>
 						<% end %>
 					<% end %>
 				</div>
