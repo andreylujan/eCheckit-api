@@ -94,7 +94,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
                     client.works_doms.each do |work|
                         work.contact_doms.each do |contact|
                             models << {
-                                contact_id: contact.id,
+                                id: contact.id,
                                 work_id: contact.work_id,
                                 name: contact.name,
                                 email: contact.email,
