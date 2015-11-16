@@ -77,6 +77,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
                 clients_doms = object.clients_doms
                 models = []
                 clients_doms.each do |client|
+                    ap client.works_doms
                     client.works_doms.each do |work|
                         models << {
                             works_id: work.id,
