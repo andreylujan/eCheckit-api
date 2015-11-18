@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # IP=52.3.170.85
-IP=52.3.170.85
-PORT=60
-KEY=echeckit_production.pem
+IP=52.0.24.103
+PORT=22
+KEY=ubuntu.pem
 echo 'Backing up to file...'
 echo "ssh -p $PORT -i $HOME/.ssh/$KEY "ubuntu@$IP" 'pg_dump -d echeckit_api_production > ~/dump.sql'"
 ssh -p $PORT -i $HOME/.ssh/$KEY "ubuntu@$IP" 'pg_dump -d echeckit_api_production > ~/dump.sql'
