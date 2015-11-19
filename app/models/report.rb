@@ -151,8 +151,7 @@ class Report < ActiveRecord::Base
         def assign_user
             channel_field = self.report_fields.where(report_field_type_id: 2).first
             action_type = self.assign_action_type
-
-
+            
             if channel_field
                 channel = channel_field.value["title"]
                 subitem = channel_field.value["subitem"]
@@ -190,16 +189,11 @@ class Report < ActiveRecord::Base
                         end
                         region_assignments = assignments.where(
                             region: region)
-                        if region_assignments.count > 0
-                            assignments = region_assignments
-                            commune_assignments = assignments.where(commune:
-                                commune)
-                            if commune_assignments.count > 0
-                                assignments = commune_assignments
-                            end
-                        end
+                        assignments = region_assignments
+                        commune_assignments = assignments.where(commune:
+                            commune)
+                        assignments = commune_assignments
                         assignment = assignments.first
-
                         if assignment.present?
                             managers = assignment.managers
                             if managers.count == 1

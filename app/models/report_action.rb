@@ -113,7 +113,6 @@ class ReportAction < ActiveRecord::Base
           destinatary: first_assigned_user.email,
           message: message,
           user_name: first_assigned_user.name,
-          workspace_name: self.report.workspace.name,
           pdf: self.report.pdf,
           subject: "Embajadores en acción | Reporte reasignado"
         }
@@ -126,7 +125,6 @@ class ReportAction < ActiveRecord::Base
             destinatary:  assigned_user.email,
             message: "El reporte #{self.report.title} cambió de estado a cerrado",
             user_name: assigned_user.name,
-            workspace_name: self.report.workspace.name,
             pdf: self.report.pdf,
             subject: "Embajadores en acción | Reporte cerrado"
           }
@@ -135,7 +133,7 @@ class ReportAction < ActiveRecord::Base
       emails.uniq! { |e| e[:destinatary] }
       
       emails.each do |email|
-        SendEmailJob.perform_later email
+        UserMailer.report_email(email).deliver_now!
       end
       
     end
