@@ -1,0 +1,6 @@
+<% require 'csv' %>
+<%- headers = Report.column_names -%>
+<%= CSV.generate_line headers %>
+<%- @reports.each do |report| -%>
+<%= CSV.generate_line(report.attributes.values) -%>
+<%- end -%>
