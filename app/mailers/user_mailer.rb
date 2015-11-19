@@ -15,4 +15,11 @@ class UserMailer < ApplicationMailer
         @user = user
         mail(to: @user.email, subject: "Solicitud para reestablecer tu contraseña de eCheckit")
     end
+
+    def report_email(email)
+        @message = email[:message]
+        @user_name = email[:user_name]
+        @pdf = email[:pdf]
+        mail(to: email[:destinatary], subject: email[:subject])
+    end
 end

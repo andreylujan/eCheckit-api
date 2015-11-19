@@ -9,6 +9,8 @@
 
 server '52.3.170.85', port: 60, user: 'ubuntu', roles: [:web, :app, :db]
 
+set :branch, 'production'
+
 # role-based syntax
 # ==================
 
