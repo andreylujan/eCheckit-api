@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
   require 'amazon'
 
 
-  before_action :doorkeeper_authorize!
+  before_action :doorkeeper_authorize!, except: :index
 
   api!
   def create
@@ -57,7 +57,7 @@ class ReportsController < ApplicationController
           render json: reports_json, status: :ok
       end
       format.csv do 
-        headers['Content-Disposition'] = "attachment; filename=\"user-list\""
+        headers['Content-Disposition'] = "attachment; filename=\"reportes.csv\""
         headers['Content-Type'] ||= 'text/csv'
       end
     end

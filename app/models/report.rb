@@ -105,6 +105,19 @@ class Report < ActiveRecord::Base
             end
         end
 
+        def escaped_attributes
+            attrs = self.attributes.values
+            attrs.map do |a| 
+                if a.nil?
+                    a
+                elsif a == ""
+                    nil
+                else
+                    a.to_s.gsub(/\n/, ' ')
+                end
+            end
+        end
+
         def assign_reason
             reason_field = self.report_fields.where(report_field_type_id: 1).first
             if reason_field

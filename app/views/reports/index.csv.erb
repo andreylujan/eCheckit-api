@@ -2,5 +2,5 @@
 <%- headers = Report.column_names -%>
 <%= CSV.generate_line headers %>
 <%- @reports.each do |report| -%>
-<%= CSV.generate_line(report.attributes.values) -%>
+<%= CSV.generate_line(report.escaped_attributes) -%>
 <%- end -%>
