@@ -33,6 +33,13 @@ class WorkspacesController < ApplicationController
 		render json: @dashboard, status: :ok
 	end
 
+	def excel
+		render json: {
+			start_date: params.require(:start_date),
+			end_date: params.require(:end_date)
+		}, status: :ok
+	end
+
 	api :DELETE, '/workspaces/:workspace_id/users/:id', "Remove a user from a workspace"
 	param :workspace_id, :number, required: true
 	param :id, :number, required: true

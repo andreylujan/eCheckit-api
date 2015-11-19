@@ -24,13 +24,13 @@
 		margin-right: 20px;
 	}
 	.field {
-		margin-left: 20px;
+		/*margin-left: 20px;*/
 		margin-top: 10px;
 	}
 	.formHeaders {
 		display: inline-block;
 		vertical-align: top;
-		margin-left: 50px;
+		margin-left: 10px;
 	}
 	.formHeader {
 		display: inline-block;
@@ -40,7 +40,7 @@
 	.label {
 		display: inline-block;
 		font-weight: bold;
-		text-align: justify;
+		/*text-align: justify;*/
 		vertical-align: top;
 	}
 	.labelChecklist {
@@ -86,6 +86,7 @@
 	}
 	.maps {
 		margin-left: 20px;
+		margin-bottom: 20px;
 	}
 	.pictures {
 		display: block;
@@ -98,11 +99,14 @@
 		margin: 2px;
 		vertical-align: top;
 	}
-	.wpi-50 {
-		width: 50px;
+	.wpi-45 {
+		width: 45px;
 	}
 	.wpi-160 {
 		width: 160px;
+	}
+	.wpi-180 {
+		width: 185px;
 	}
 	.wpe-30 {
 		width: 30%;
@@ -118,41 +122,49 @@
 		<div class="formHeaders">
 			<div class="formHeader">
 				<div class="field ">
-					<div class="label wpi-160">Visitador:</div>
-					<div class="value"><%= @report.creator_name %></div>
+					<div class="label wpi-180">Visitador:</div>
+					<div class="value wpi-170"><%= @report.creator_name %></div>
 				</div>
 				<div class="field ">
-					<div class="label wpi-160">Cliente:</div>
+					<div class="label wpi-180">Cliente:</div>
 					<% @report.report_fields.each do |report_field| %>
-						<% if report_field.report_field_type_id == 15 %>
-						<div class="value"><%= report_field.value["item_name"] %></div>
+						<% if report_field.report_field_type_id === 15 %>
+							<div class="value wpi-170"><%= report_field.value["name"] %></div>
 						<% end %>
 					<% end %>
 				</div>
 				<div class="field ">
-					<div class="label wpi-160">Obra:</div>
+					<div class="label wpi-180">Obra:</div>
 					<% @report.report_fields.each do |report_field| %>
-						<% if report_field.report_field_type_id == 16 %>
-						<div class="value"><%= report_field.value["item_name"] %></div>
+						<% if report_field.report_field_type_id === 16 %>
+							<div class="value wpi-170"><%= report_field.value["name"] %></div>
 						<% end %>
 					<% end %>
 				</div>
 				<div class="field">
-					<div class="label wpi-160">Responsable de obra:</div>
-					<div class="value">Alvaro Troncoso</div>
+					<div class="label wpi-180">Responsable de obra:</div>
+					<% @report.report_fields.each do |report_field| %>
+						<% if report_field.report_field_type_id === 22 %>
+							<div class="value wpi-170"><%= report_field.value["name"] %></div>
+						<% end %>
+					<% end %>
 				</div>
 				<div class="field">
-					<div class="label wpi-160"></div>
-					<div class="value">alvaro.mc2@gmail.com</div>
+					<div class="label wpi-180"></div>
+					<% @report.report_fields.each do |report_field| %>
+						<% if report_field.report_field_type_id === 22 %>
+							<div class="value wpi-170"><%= report_field.value["email"] %></div>
+						<% end %>
+					<% end %>
 				</div>
 			</div>
 			<div class="formHeader">
 				<div class="field ">
-					<div class="label wpi-50">Fecha:</div>
+					<div class="label wpi-45">Fecha:</div>
 					<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y").to_s %></div>
 				</div>
 				<div class="field ">
-					<div class="label wpi-50">Hora:</div>
+					<div class="label wpi-45">Hora:</div>
 					<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
 				</div>
 			</div>
@@ -199,7 +211,7 @@
 		<h3>Mapa</h3>
 		<div class="maps">
 			<div class="map">
-				<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=650x400&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
+				<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=594x300&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
 			</div>
 		</div>
 

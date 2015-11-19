@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :workspaces, only: [ :show, :index ] do
     post :admins
     get :dashboard
+    get :excel
     resources :zone_assignments, only: [ :index, :create, :update, :destroy ]
     resources :channels, only: [ :index, :create, :update, :destroy ]
     resources :reasons, only: [ :index, :create, :update, :destroy ]
