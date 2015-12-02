@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   has_many :feedbacks
   
   after_create :create_token
-  after_create :assign_default_workspace
+  # after_create :assign_default_workspace
   after_create :check_invitations
   after_create :send_welcome_email
   validates_presence_of [ :first_name ]
@@ -79,7 +79,10 @@ class User < ActiveRecord::Base
 
 
   def send_welcome_email
-    UserMailer.welcome_email(self).deliver_now!
+    invitation = self.workspace_invitations.where(accepted: true).first
+    if invitation.present?
+      UserMailer.welcome_email(invitation).deliver_now!
+    end
   end
 
   def send_password_confirmation_token

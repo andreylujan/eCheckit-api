@@ -101,6 +101,7 @@ class ReportAction < ActiveRecord::Base
             message: "Se le ha asignado el reporte #{self.report.title}",
             user_name: self.report.assigned_user.name,
             workspace_name: self.report.workspace.name,
+            from: self.report.workspace.email,
             pdf: self.report.pdf,
             subject: "Embajadores en acción | Reporte asignado"
           }
@@ -114,6 +115,7 @@ class ReportAction < ActiveRecord::Base
           message: message,
           user_name: first_assigned_user.name,
           pdf: self.report.pdf,
+          from: self.report.workspace.email,
           subject: "Embajadores en acción | Reporte reasignado"
         }
       elsif self.report_action_type.name == "change_state" and 
@@ -126,6 +128,7 @@ class ReportAction < ActiveRecord::Base
             message: "El reporte #{self.report.title} cambió de estado a cerrado",
             user_name: assigned_user.name,
             pdf: self.report.pdf,
+            from: self.report.workspace.email,
             subject: "Embajadores en acción | Reporte cerrado"
           }
         end

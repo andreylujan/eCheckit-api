@@ -8,6 +8,9 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  is_open         :boolean          default(TRUE), not null
+#  email           :text
+#  welcome_message :text
+#  confirm_message :text
 #
 
 class Workspace < ActiveRecord::Base
