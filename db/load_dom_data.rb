@@ -6,15 +6,19 @@ def titleize(word)
 end
 
 CSV.foreach('./db/info_dom.csv', { col_sep: ';' }) do |row|
-    if row.length >= 6
+    if row.length >= 4
         client_data = {
             rut: row[0],
             name: row[1],
             construction_name: row[2],
-            construction_id: row[3],
-            contact_email: row[4],
-            construction_address: row[5]
+            construction_id: row[3]            
         }
+        if row.length >= 5
+            client_data[:contact_email] = row[4]
+        end
+        if row >= 6
+            client_data[:construction_address] = row[5]
+        end
 
         client_data.values.each do |val|
             val.strip! if val.present?            
