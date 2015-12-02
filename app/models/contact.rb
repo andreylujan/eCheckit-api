@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: contact_doms
+# Table name: contacts
 #
 #  id         :integer          not null, primary key
 #  work_id    :integer
@@ -11,8 +11,8 @@
 #  updated_at :datetime         not null
 #
 
-class ContactDom < ActiveRecord::Base
-	belongs_to :works_dom, foreign_key: "work_id"
+class Contact < ActiveRecord::Base
+	belongs_to :construction, foreign_key: "work_id"
     before_validation :downcase_email
 
 	validates_presence_of [ :name  ]

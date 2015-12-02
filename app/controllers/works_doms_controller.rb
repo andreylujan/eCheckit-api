@@ -1,2 +1,0 @@
-class WorksDomsController < ApplicationController
-end

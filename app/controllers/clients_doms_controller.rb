@@ -1,2 +1,0 @@
-class ClientsDomsController < ApplicationController
-end

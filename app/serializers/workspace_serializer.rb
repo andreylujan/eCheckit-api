@@ -67,8 +67,8 @@ class WorkspaceSerializer < ActiveModel::Serializer
                 o.data["items"] = items                
             elsif o.id == 15
                 models = []
-                clients_doms = object.clients_doms
-                clients_doms.each do |client|
+                clients = object.clients
+                clients.each do |client|
                     models << {
                         client_id: client.id,
                         name: client.name,
@@ -77,11 +77,10 @@ class WorkspaceSerializer < ActiveModel::Serializer
                 end
                 o.data["models"] = models
             elsif o.id == 16
-                clients_doms = object.clients_doms
+                clients = object.clients
                 models = []
-                clients_doms.each do |client|
-                    ap client.works_doms
-                    client.works_doms.each do |work|
+                clients.each do |client|
+                    client.constructions.each do |work|
                         models << {
                             works_id: work.id,
                             client_id: work.client_id,
@@ -92,11 +91,11 @@ class WorkspaceSerializer < ActiveModel::Serializer
                 end
                 o.data["models"] = models
             elsif o.name == "contact_table" 
-                clients_doms = object.clients_doms
+                clients = object.clients
                 models = []
-                clients_doms.each do |client|
+                clients.each do |client|
                     client.works_doms.each do |work|
-                        work.contact_doms.each do |contact|
+                        work.contacts.each do |contact|
                             models << {
                                 id: contact.id,
                                 work_id: contact.work_id,

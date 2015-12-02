@@ -1,2 +1,0 @@
-class ContactDomsController < ApplicationController
-end

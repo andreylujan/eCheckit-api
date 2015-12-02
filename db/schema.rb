@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202150131) do
+ActiveRecord::Schema.define(version: 20151202211742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20151202150131) do
   add_index "checklists", ["workspace_id", "name"], name: "index_checklists_on_workspace_id_and_name", unique: true, using: :btree
   add_index "checklists", ["workspace_id"], name: "index_checklists_on_workspace_id", using: :btree
 
-  create_table "clients_doms", force: :cascade do |t|
+  create_table "clients", force: :cascade do |t|
     t.integer  "workspace_id"
     t.text     "name"
     t.text     "rut"
@@ -78,7 +78,15 @@ ActiveRecord::Schema.define(version: 20151202150131) do
   add_index "communes", ["region_id", "name"], name: "index_communes_on_region_id_and_name", unique: true, using: :btree
   add_index "communes", ["region_id"], name: "index_communes_on_region_id", using: :btree
 
-  create_table "contact_doms", force: :cascade do |t|
+  create_table "constructions", force: :cascade do |t|
+    t.integer  "client_id"
+    t.text     "name"
+    t.text     "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contacts", force: :cascade do |t|
     t.integer  "work_id"
     t.text     "name"
     t.text     "email"
@@ -383,14 +391,6 @@ ActiveRecord::Schema.define(version: 20151202150131) do
 
   create_table "widgets", force: :cascade do |t|
     t.text     "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "works_doms", force: :cascade do |t|
-    t.integer  "client_id"
-    t.text     "name"
-    t.text     "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

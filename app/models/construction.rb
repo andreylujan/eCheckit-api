@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: works_doms
+# Table name: constructions
 #
 #  id         :integer          not null, primary key
 #  client_id  :integer
@@ -10,8 +10,8 @@
 #  updated_at :datetime         not null
 #
 
-class WorksDom < ActiveRecord::Base
-	belongs_to :clients_dom
-	has_many :contact_doms, foreign_key: "work_id", dependent: :destroy
+class Construction < ActiveRecord::Base
+	belongs_to :client
+	has_many :contacts, foreign_key: "work_id", dependent: :destroy
 	validates_presence_of [ :name, :clients_dom ]
 end
