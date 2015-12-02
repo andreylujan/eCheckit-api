@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202211742) do
+ActiveRecord::Schema.define(version: 20151202221308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,11 +62,13 @@ ActiveRecord::Schema.define(version: 20151202211742) do
 
   create_table "clients", force: :cascade do |t|
     t.integer  "workspace_id"
-    t.text     "name"
-    t.text     "rut"
+    t.text     "name",         null: false
+    t.text     "rut",          null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  add_index "clients", ["rut"], name: "index_clients_on_rut", unique: true, using: :btree
 
   create_table "communes", force: :cascade do |t|
     t.integer  "region_id",  null: false
@@ -80,11 +82,14 @@ ActiveRecord::Schema.define(version: 20151202211742) do
 
   create_table "constructions", force: :cascade do |t|
     t.integer  "client_id"
-    t.text     "name"
+    t.text     "name",       null: false
     t.text     "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "unique_id",  null: false
   end
+
+  add_index "constructions", ["client_id", "unique_id"], name: "index_constructions_on_client_id_and_unique_id", unique: true, using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.integer  "work_id"

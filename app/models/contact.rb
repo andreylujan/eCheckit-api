@@ -15,7 +15,7 @@ class Contact < ActiveRecord::Base
 	belongs_to :construction, foreign_key: "work_id"
     before_validation :downcase_email
 
-	validates_presence_of [ :name  ]
+	validates_presence_of [ :email  ]
     validates_uniqueness_of [ :email ], scope: :work_id
 
     private
