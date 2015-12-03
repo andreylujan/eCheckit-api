@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202221308) do
+ActiveRecord::Schema.define(version: 20151203051952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20151202221308) do
     t.text     "name",                  null: false
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.text     "suggestion"
   end
 
   add_index "checklist_items", ["checklist_category_id", "name"], name: "index_checklist_items_on_checklist_category_id_and_name", unique: true, using: :btree

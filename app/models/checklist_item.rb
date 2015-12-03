@@ -7,6 +7,7 @@
 #  name                  :text             not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  suggestion            :text
 #
 
 class ChecklistItem < ActiveRecord::Base
