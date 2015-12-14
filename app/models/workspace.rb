@@ -11,6 +11,7 @@
 #  email           :text
 #  welcome_message :text
 #  confirm_message :text
+#  max_pictures    :integer          default(20), not null
 #
 
 class Workspace < ActiveRecord::Base

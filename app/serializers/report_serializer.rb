@@ -24,6 +24,10 @@
 #  channel_id       :integer
 #  subchannel_id    :integer
 #  internal_id      :text             not null
+#  start_date       :datetime
+#  finish_date      :datetime
+#  finish_latitude  :float
+#  finish_longitude :float
 #
 
 class ReportSerializer < ActiveModel::Serializer

@@ -50,13 +50,13 @@ class ReportsController < ApplicationController
     @reports = workspace.reports
     respond_to do |format|
       format.json do
-          reports_json = []
-          @reports.each do |r|
-            reports_json << ReportIndexSerializer.new(r).as_json
-          end
-          render json: reports_json, status: :ok
+        reports_json = []
+        @reports.each do |r|
+          reports_json << ReportIndexSerializer.new(r).as_json
+        end
+        render json: reports_json, status: :ok
       end
-      format.csv do 
+      format.csv do
         headers['Content-Disposition'] = "attachment; filename=\"reportes.csv\""
         headers['Content-Type'] ||= 'text/csv'
       end
@@ -85,6 +85,7 @@ class ReportsController < ApplicationController
                                    :report_state_id, :assigned_user_id,
                                    :longitude, :latitude, :address, :city, :country,
                                    :region, :commune, :reference, :comment, :internal_id,
+                                   :start_date, :finish_date, :finish_latitude, :finish_longitude,
                                    pictures_attributes: [ :url, :comment ],
                                    report_fields_attributes: [ :report_field_type_id, :value ])
   end

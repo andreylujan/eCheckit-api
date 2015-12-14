@@ -11,11 +11,12 @@
 #  email           :text
 #  welcome_message :text
 #  confirm_message :text
+#  max_pictures    :integer          default(20), not null
 #
 
 class WorkspaceSerializer < ActiveModel::Serializer
     attributes :id, :name, :organization_id, :users, :report_counts,
-    :current_contest, :server_time, :report_field_types
+    :current_contest, :server_time, :report_field_types, :max_pictures
 
     has_many :reports
     has_many :report_states

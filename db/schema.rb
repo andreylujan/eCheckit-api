@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151203051952) do
+ActiveRecord::Schema.define(version: 20151214134906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -335,6 +335,10 @@ ActiveRecord::Schema.define(version: 20151203051952) do
     t.integer  "channel_id"
     t.integer  "subchannel_id"
     t.text     "internal_id",                    null: false
+    t.datetime "start_date"
+    t.datetime "finish_date"
+    t.float    "finish_latitude"
+    t.float    "finish_longitude"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
@@ -425,6 +429,7 @@ ActiveRecord::Schema.define(version: 20151203051952) do
     t.text     "email"
     t.text     "welcome_message"
     t.text     "confirm_message"
+    t.integer  "max_pictures",    default: 20,   null: false
   end
 
   add_index "workspaces", ["organization_id"], name: "index_workspaces_on_organization_id", using: :btree
