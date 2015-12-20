@@ -43,6 +43,44 @@ class ReportsController < ApplicationController
     end
   end
 
+  def create_visit
+    @report = Report.new(create_visit_params)
+    workspace = @report.workspace
+    if params[:construction_id]  and workspace.name == 'DOM'
+
+      construction = Construction.find(params[:construction_id])
+      client = construction.client
+      @report.title = client.name
+      client_field = ReportField.new report_field_type_id: 15,
+      report: @report, value: {
+        client_id: client.id,
+        name: client.name,
+        client_rut: client.rut
+      }
+      @report.report_fields << client_field
+
+      construction_field = ReportField.new report_field_type_id: 16,
+      report: @report, value: {
+        works_id: params[:construction_id],
+        client_id: params[:client_id],
+        name: construction.name,
+        address: construction.address
+      }
+      @report.report_fields << construction_field
+    end
+
+    @report.report_state = workspace.report_states.where(name: "Agendado").first
+    @report.creator = current_user
+    @report.internal_id = SecureRandom.uuid
+
+    if @report.save
+      render json: @report, status: :created
+    else
+      byebug
+      render json: @report, status: :unprocessable_entity
+    end
+  end
+
   api!
   def index
     workspace_id = params.require(:workspace_id)
@@ -80,12 +118,16 @@ class ReportsController < ApplicationController
   end
 
   private
+  def create_visit_params
+    params.require(:report).permit(:workspace_id, :assigned_user_id, :visit_date)
+  end
   def create_params
     params.require(:report).permit(:workspace_id, :title,
                                    :report_state_id, :assigned_user_id,
                                    :longitude, :latitude, :address, :city, :country,
                                    :region, :commune, :reference, :comment, :internal_id,
                                    :start_date, :finish_date, :finish_latitude, :finish_longitude,
+                                   :visit_date,
                                    pictures_attributes: [ :url, :comment ],
                                    report_fields_attributes: [ :report_field_type_id, :value ])
   end

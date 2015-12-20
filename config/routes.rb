@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   resources :report_actions, only: [ :index, :create ]
   resources :reports, only: [ :show, :index, :create, :update ]
+  post :visits, to: 'reports#create_visit'
 
   resources :users, only: [ :create, :show, :update, :index ] do
     collection do 
