@@ -43,6 +43,12 @@ class ReportsController < ApplicationController
     end
   end
 
+  def destroy
+    @report = Report.find(params[:id])
+    @report.destroy
+    render nothing: true, status: :no_content
+  end
+
   def create_visit
     @report = Report.new(create_visit_params)
     workspace = @report.workspace

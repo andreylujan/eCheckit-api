@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
 
   resources :report_actions, only: [ :index, :create ]
-  resources :reports, only: [ :show, :index, :create, :update ]
+  resources :reports, only: [ :show, :index, :create, :update, :destroy ]
   post :visits, to: 'reports#create_visit'
 
   resources :users, only: [ :create, :show, :update, :index ] do
