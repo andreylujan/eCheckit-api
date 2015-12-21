@@ -24,10 +24,21 @@
 class ReportIndexSerializer < ActiveModel::Serializer
   attributes :id, :creator_id, :assigned_user_id,
   :created_at, :title, :workspace_id, :report_state_id,
-  :assigned_at, :assigned_user_name, :creator_name, :pdf
+  :assigned_at, :assigned_user_name, :creator_name, :pdf,
+  :start_date, :synced, :is_draft
+
   has_one :report_state
   has_many :report_fields
   has_one :channel
   has_one :subchannel
   has_one :reason
+
+  def synced
+    1
+  end
+
+  def is_draft
+    0
+  end
+
 end

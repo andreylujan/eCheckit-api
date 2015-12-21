@@ -34,8 +34,8 @@ class ReportSerializer < ActiveModel::Serializer
   attributes :id, :creator_id, :assigned_user_id, :assigned_user_name,
   :created_at, :workspace_id, :title, :address, :country, :commune, :pdf,
   :region, :city, :latitude, :longitude, :reference, :comment, :report_state_id,
-  :creator_name, :synced, :internal_id, :start_date, :finish_date, :finish_latitude,
-  :finish_longitude, :visit_date
+  :creator_name, :synced, :internal_id, :is_draft, :start_date, 
+  :finish_date, :finish_latitude, :finish_longitude, :visit_date
 
   has_one :report_state
   has_many :pictures
@@ -49,4 +49,9 @@ class ReportSerializer < ActiveModel::Serializer
   def synced
     1
   end
+
+  def is_draft
+    0
+  end
+  
 end
