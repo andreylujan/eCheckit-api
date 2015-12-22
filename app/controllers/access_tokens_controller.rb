@@ -1,6 +1,6 @@
 class AccessTokensController < ApplicationController
 
-  api!
+  
   def create
     email = params.require(:email).downcase
     password = params.require(:password)

@@ -4,7 +4,7 @@ class ReportActionsController < ApplicationController
 
     before_action :doorkeeper_authorize!
     
-    api!
+    
     def create
         report_action_type_name = params.require(:report_action_type_name)
         @report = Report.find(params.require(:report_id))
@@ -30,7 +30,7 @@ class ReportActionsController < ApplicationController
         end
     end
 
-    api!
+    
     def index
         report_id = params.require(:report_id)
         report = Report.find(report_id)

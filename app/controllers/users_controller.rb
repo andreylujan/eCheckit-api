@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   
   authorize_resource only: [ :update, :show ] # show
   
-  api!
+  
   def create
     @user = User.new(create_params)
     if @user.save
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     end
   end
 
-  api!
+  
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(update_params)
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     end
   end
 
-  api!
+  
   def change_password
     @user = User.find_by_email(params.require(:email).downcase)
     password = params.require(:password)
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
     end
   end
 
-  api!
+  
   def show
     @user = User.find(params[:id])
     render json: @user
@@ -76,7 +76,7 @@ class UsersController < ApplicationController
     end
   end
 
-  api!
+  
   def index
     if params[:confirmation_token]
       invitation = WorkspaceInvitation.find_by_confirmation_token params[:confirmation_token]

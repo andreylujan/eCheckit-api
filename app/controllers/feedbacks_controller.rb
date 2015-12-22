@@ -2,7 +2,7 @@ class FeedbacksController < ApplicationController
 
   before_action :doorkeeper_authorize!
   
-  api!
+  
   def create
     @feedback = Feedback.new(feedback_params)
     @feedback.user = current_user

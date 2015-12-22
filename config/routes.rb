@@ -5,8 +5,6 @@ Rails.application.routes.draw do
   resources :clients_doms
   resources :works
   resources :clients
-
-  apipie
   match '/*path', to: 'application#cors_preflight_check', via: :options
 
   resources :feedbacks, only: [ :create ]

@@ -2,7 +2,7 @@ class ChannelsController < ApplicationController
 
 	before_action :doorkeeper_authorize!
 
-	api!
+	
 	def create
 
 		if params[:subchannels_attributes].present?
@@ -17,14 +17,14 @@ class ChannelsController < ApplicationController
 		end
 	end
 
-	api!
+	
 	def index
 		
 		workspace = Workspace.find(params[:workspace_id])
 		render json: workspace.organization.channels, status: :ok
 	end
 
-	api!
+	
 	def update
 		@channel = Channel.find(params[:id])
 
@@ -53,7 +53,7 @@ class ChannelsController < ApplicationController
 		end
 	end
 
-	api!
+	
 	def destroy
 		@channel = Channel.find(params[:id])
 		@channel.destroy
