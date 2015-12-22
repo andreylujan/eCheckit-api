@@ -1,2 +1,0 @@
-class ReportActionTypesController < ApplicationController
-end

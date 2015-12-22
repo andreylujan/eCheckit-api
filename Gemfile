@@ -31,6 +31,7 @@ gem 'sidekiq', '~> 4.0.1'
 gem 'net-ssh', '~> 3.0.1'
 gem 'capistrano-sidekiq', '~> 0.5.4'
 gem 'paranoia', '~> 2.1.4'
+gem 'versionist', '~> 1.4', '>= 1.4.1'
 
 group :development do
 	gem 'annotate', '~> 2.6.10'	
