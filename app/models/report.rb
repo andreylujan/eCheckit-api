@@ -29,6 +29,8 @@
 #  finish_latitude  :float
 #  finish_longitude :float
 #  visit_date       :datetime
+#  start_latitude   :float
+#  start_longitude  :float
 #
 
 class Report < ActiveRecord::Base

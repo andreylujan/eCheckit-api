@@ -136,7 +136,7 @@ class V2::ReportsController < ApplicationController
                                    :longitude, :latitude, :address, :city, :country,
                                    :region, :commune, :reference, :comment, :internal_id,
                                    :start_date, :finish_date, :finish_latitude, :finish_longitude,
-                                   :visit_date,
+                                   :visit_date, :start_latitude, :start_longitude,
                                    pictures_attributes: [ :url, :comment ],
                                    report_fields_attributes: [ :report_field_type_id, :value ])
   end

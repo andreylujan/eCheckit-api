@@ -29,6 +29,8 @@
 #  finish_latitude  :float
 #  finish_longitude :float
 #  visit_date       :datetime
+#  start_latitude   :float
+#  start_longitude  :float
 #
 
 class ReportSerializer < ActiveModel::Serializer
@@ -36,7 +38,8 @@ class ReportSerializer < ActiveModel::Serializer
   :created_at, :workspace_id, :title, :address, :country, :commune, :pdf,
   :region, :city, :latitude, :longitude, :reference, :comment, :report_state_id,
   :creator_name, :synced, :internal_id, :is_draft, :start_date, 
-  :finish_date, :finish_latitude, :finish_longitude, :visit_date
+  :finish_date, :finish_latitude, :finish_longitude, :visit_date,
+  :start_latitude, :start_longitude
 
   has_one :report_state
   has_many :pictures

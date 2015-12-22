@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151222202229) do
+ActiveRecord::Schema.define(version: 20151222232431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -340,6 +340,8 @@ ActiveRecord::Schema.define(version: 20151222202229) do
     t.float    "finish_latitude"
     t.float    "finish_longitude"
     t.datetime "visit_date"
+    t.float    "start_latitude"
+    t.float    "start_longitude"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
