@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       post :admins
       get :dashboard
       get :excel
+      resources :clients, only: [ :index ]
+      resources :constructions, only: [ :index ]
+      resources :contacts, only: [ :index ]
       resources :reports, only: [ :index ]
       resources :zone_assignments, only: [ :index, :create, :update, :destroy ]
       resources :channels, only: [ :index, :create, :update, :destroy ]
@@ -47,7 +50,6 @@ Rails.application.routes.draw do
   end
 
   api_version(:module => "V1", :header => {:name => "Accept", :value => "application/com.ewin.echeckit; version=1"}) do 
-    current_api_routes.call
   end
 
   api_version(:module => "V2", :header => {:name => "Accept", :value => "application/com.ewin.echeckit; version=2"}) do 

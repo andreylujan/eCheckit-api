@@ -22,19 +22,19 @@ class ReportField < ActiveRecord::Base
     if self.report_field_type_id == 22 and self.value.present? and self.value["id"].nil?        
         
         work_field = self.report.report_fields.find_by_report_field_type_id(16)
-        work_id = nil
+        construction_id = nil
         if work_field
-            work_id = work_field.value["works_id"]
+            construction_id = work_field.value["works_id"] || work_field.value["construction_id"]
         end
 
         self.value["email"] = self.value["email"].downcase
 
-        contact = ContactDom.find_by_email(self.value["email"])
+        contact = Contact.find_by_email(self.value["email"])
         if contact.nil?
-            contact = ContactDom.new email: self.value["email"],
+            contact = Contact.new email: self.value["email"],
                 name: self.value["name"],
                 phone: self.value["phone"],
-                work_id: work_id      
+                construction_id: construction_id      
             contact.save
         end
         self.value["id"] = contact.id
@@ -42,9 +42,10 @@ class ReportField < ActiveRecord::Base
         contact_field = self.report.report_fields.find_by_report_field_type_id(22)
         if not contact_field.nil?
             contact_id = contact_field.value["id"]
-            contact = ContactDom.find(contact_id)
-            if contact.work_id.nil?
-                contact.update_attribute :work_id, self.value["works_id"]
+            contact = Contact.find(contact_id)
+            if contact.construction_id.nil?
+                construction_id = self.value["works_id"] || self.value["construction_id"]
+                contact.update_attribute :construction_id, construction_id
             end
         end
     end

@@ -13,6 +13,6 @@
 
 class Construction < ActiveRecord::Base
 	belongs_to :client
-	has_many :contacts, foreign_key: "work_id", dependent: :destroy
+	has_many :contacts, dependent: :destroy
 	validates_presence_of [ :name, :client ]
 end
