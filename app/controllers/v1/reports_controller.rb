@@ -67,7 +67,7 @@ class V1::ReportsController < ApplicationController
 
       construction_field = ReportField.new report_field_type_id: 16,
       report: @report, value: {
-        works_id: params[:construction_id],
+        construction_id: params[:construction_id],
         client_id: params[:client_id],
         name: construction.name,
         address: construction.address

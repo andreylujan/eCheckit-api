@@ -83,6 +83,7 @@ class WorkspaceSerializer < ActiveModel::Serializer
         constructions.each do |work|
           models << {
             works_id: work.id,
+            construction_id: work.id,
             client_id: work.client_id,
             name: work.name,
             address: work.address
@@ -95,7 +96,8 @@ class WorkspaceSerializer < ActiveModel::Serializer
         contacts.each do |contact|
           models << {
             id: contact.id,
-            work_id: contact.work_id,
+            construction_id: contact.construction_id,
+            work_id: contact.construction_id,
             name: contact.name,
             email: contact.email,
             phone: contact.phone
