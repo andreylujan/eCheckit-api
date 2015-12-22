@@ -52,11 +52,14 @@ class V2::ReportsController < ApplicationController
   def create_visit
     @report = Report.new(create_visit_params)
     workspace = @report.workspace
-    if params[:construction_id]  and workspace.name == 'DOM'
+    construction_id = params.require(:construction_id)
+    if workspace.name == 'DOM'
 
-      construction = Construction.find(params[:construction_id])
+      construction = Construction.find(construction_id)
       client = construction.client
       @report.title = client.name
+
+      # Create client report field
       client_field = ReportField.new report_field_type_id: 15,
       report: @report, value: {
         client_id: client.id,
@@ -65,10 +68,11 @@ class V2::ReportsController < ApplicationController
       }
       @report.report_fields << client_field
 
+      # Create construction report field
       construction_field = ReportField.new report_field_type_id: 16,
       report: @report, value: {
-        construction_id: params[:construction_id],
-        client_id: params[:client_id],
+        construction_id: construction_id,
+        client_id: client.id,
         name: construction.name,
         address: construction.address
       }
@@ -82,7 +86,6 @@ class V2::ReportsController < ApplicationController
     if @report.save
       render json: @report, status: :created
     else
-      byebug
       render json: @report, status: :unprocessable_entity
     end
   end
