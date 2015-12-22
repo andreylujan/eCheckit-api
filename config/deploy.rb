@@ -59,9 +59,10 @@ set :keep_releases, 5
 
 set :rbenv_type, :user
 set :rbenv_ruby, '2.2.4'
-set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} /usr/bin/rbenv exec"
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} /home/ubuntu/.rbenv/bin/rbenv exec"
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
+set :rbenv_custom_path, '/home/ubuntu/.rbenv/bin/rbenv'
 
 set :passenger_restart_with_sudo, true
 
