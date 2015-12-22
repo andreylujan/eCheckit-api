@@ -48,6 +48,7 @@ group :development, :test do
   gem 'spring', '~> 1.6.0'
   gem 'rspec-rails', '~> 3.4.0'
   gem 'rspec-http', '~> 0.11.0'
+  gem 'thin', '~> 1.6', '>= 1.6.4'
 end
 
 group :test do
