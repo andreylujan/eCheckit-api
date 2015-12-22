@@ -208,15 +208,6 @@
 
 		<hr>
 
-		<h3>Mapa</h3>
-		<div class="maps">
-			<div class="map">
-				<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=594x300&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
-			</div>
-		</div>
-
-		<hr>
-
 		<% if @report.pictures.count > 0 %>
 			<h3>Fotos</h3>
 			<div class="pictures">
@@ -227,6 +218,15 @@
 				<% end %>
 			</div>
 		<% end %>
+
+		<hr>
+
+		<h3>Mapa</h3>
+		<div class="maps">
+			<div class="map">
+				<img src="https://maps.googleapis.com/maps/api/staticmap?&maptype=roadmap&zoom=15&size=480x230&markers=size:mid%7Ccolor:red%7C<%= @report.latitude.to_s + ', ' + @report.longitude.to_s %>" />
+			</div>
+		</div>
 
 	</div>
 </body>
