@@ -96,8 +96,15 @@
 	}
 	.picture {
 		display: inline-block;
-		margin: 2px;
+		margin: 7px 3px;
 		vertical-align: top;
+		/*border: 1px  blue solid;*/
+	}
+	.pictureComment {
+		max-width: 250px;
+		color: gray;
+		text-align: justify;
+		text-justify: inter-word;
 	}
 	.wpi-45 {
 		width: 45px;
@@ -195,7 +202,8 @@
 								<% end %>
 								<% if checklist_item["value"] == 2 %>
 									<div class="value icon">
-										<img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" /></div>
+										<img class="check" src="http://imagizer.imageshack.us/a/img911/6948/sicHDa.png" alt="check" />
+									</div>
 									<div class="labelChecklist"><%= checklist_item["name"] %></div>
 									<div class="suggestion"><%= checklist_item["suggestion"] %></div>
 								<% end %>
@@ -214,6 +222,7 @@
 				<% @report.pictures.each do |picture| %>
 					<div class="picture">
 						<img src="<%= picture.url %>" width="250px" />
+						<div class="pictureComment"><%= @report.comment %></div>
 					</div>
 				<% end %>
 			</div>
