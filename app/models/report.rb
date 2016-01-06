@@ -98,7 +98,7 @@ class Report < ActiveRecord::Base
 
   def verify_state
     if report_state.nil?
-      self.report_state = ReportState.find_by_workspace_id_and_name self.workspace_id, "Asignado"
+      self.report_state = self.workspace.default_report_state
     end
   end
 

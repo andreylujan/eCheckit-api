@@ -54,6 +54,6 @@ end
 
 group :test do
 	gem 'factory_girl_rails', '~> 4.5.0'
-	gem 'faker', '~> 1.6.1'
+	# gem 'faker', '~> 1.6.1'
 end
 

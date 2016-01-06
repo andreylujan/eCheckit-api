@@ -15,7 +15,8 @@ class UserMailer < ApplicationMailer
         if workspace.present? and workspace.email.present? and workspace.confirm_message.present?
             @workspace_invitation = invitation
             mail(to: @workspace_invitation.user_email, subject: workspace.confirm_message,
-                from: invitation.workspace.email)
+                from: invitation.workspace.email,
+                template_name: 'invite_email')
         end
     end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151222232431) do
+ActiveRecord::Schema.define(version: 20160106211825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -295,10 +295,12 @@ ActiveRecord::Schema.define(version: 20151222232431) do
   add_index "report_fields", ["report_id"], name: "index_report_fields_on_report_id", using: :btree
 
   create_table "report_states", force: :cascade do |t|
-    t.text     "name",         null: false
+    t.text     "name",                         null: false
     t.integer  "workspace_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.text     "short_name"
+    t.boolean  "editable",     default: false, null: false
   end
 
   add_index "report_states", ["workspace_id", "name"], name: "index_report_states_on_workspace_id_and_name", unique: true, using: :btree
@@ -426,13 +428,14 @@ ActiveRecord::Schema.define(version: 20151222232431) do
   create_table "workspaces", force: :cascade do |t|
     t.text     "name"
     t.integer  "organization_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.boolean  "is_open",         default: true, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "is_open",                 default: true, null: false
     t.text     "email"
     t.text     "welcome_message"
     t.text     "confirm_message"
-    t.integer  "max_pictures",    default: 20,   null: false
+    t.integer  "max_pictures",            default: 20,   null: false
+    t.integer  "default_report_state_id"
   end
 
   add_index "workspaces", ["organization_id"], name: "index_workspaces_on_organization_id", using: :btree

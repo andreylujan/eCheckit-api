@@ -51,6 +51,7 @@ class V2::ReportsController < ApplicationController
 
   def create_visit
     @report = Report.new(create_visit_params)
+    @report.report_state_id = 393
     workspace = @report.workspace
     construction_id = params.require(:construction_id)
     if workspace.name == 'DOM'
