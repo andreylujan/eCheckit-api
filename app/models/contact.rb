@@ -16,7 +16,7 @@ class Contact < ActiveRecord::Base
     before_validation :downcase_email
 
 	validates_presence_of [ :email  ]
-    validates_uniqueness_of [ :email ], scope: :contact_id
+    validates_uniqueness_of [ :email ], scope: :construction_id
 
     private
     def downcase_email

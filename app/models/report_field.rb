@@ -8,6 +8,7 @@
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  value                :json             not null
+#  editable             :boolean          default(FALSE), not null
 #
 
 class ReportField < ActiveRecord::Base
@@ -20,13 +21,11 @@ class ReportField < ActiveRecord::Base
 
   def process_contact
     if self.report_field_type_id == 22 and self.value.present? and self.value["id"].nil?        
-        
         work_field = self.report.report_fields.find_by_report_field_type_id(16)
         construction_id = nil
         if work_field
-            construction_id = work_field.value["works_id"] || work_field.value["construction_id"]
+            construction_id = work_field.value["works_id"] ? work_field.value["works_id"] : work_field.value["construction_id"]
         end
-
         self.value["email"] = self.value["email"].downcase
 
         contact = Contact.find_by_email(self.value["email"])
