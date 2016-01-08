@@ -6,18 +6,13 @@ gem 'rails', '4.2.5'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18.4'
 
-gem 'active_model_serializers', '~> 0.9.3'
+gem 'active_model_serializers', '~> 0.9.4'
 
-group :doc do    
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', '~> 0.4.1'
-end
 
 # Authentication
-gem 'omniauth', '~> 1.3.1'
 gem 'dotenv-rails', '~> 2.0.2'
 gem 'devise', '~> 3.5.3'
-gem 'doorkeeper', '~> 3.0.1'
+gem 'doorkeeper', '~> 3.1.0'
 gem 'rolify', '~> 5.0.0'
 gem 'cancan', '~> 1.6.10'
 gem 'gmail', '~> 0.6.0'
@@ -25,19 +20,19 @@ gem 'awesome_print', '~> 1.6.1'
 gem 'erubis', '~> 2.7.0'
 gem 'wicked_pdf', '~> 1.0.3'
 gem 'wkhtmltopdf-binary', '~> 0.9.9.3'
-gem 'aws-sdk', '~> 2.2.8'
+gem 'aws-sdk', '~> 2.2.9'
 gem 'faraday', '~> 0.9.2'
-gem 'sidekiq', '~> 4.0.1'
-gem 'net-ssh', '~> 3.0.1'
+gem 'sidekiq', '~> 4.0.2'
+gem 'net-ssh', '~> 3.0.2'
 gem 'capistrano-sidekiq', '~> 0.5.4'
-gem 'paranoia', '~> 2.1.4'
+gem 'paranoia', '~> 2.1.5'
 gem 'versionist', '~> 1.4', '>= 1.4.1'
 
 group :development do
-	gem 'annotate', '~> 2.6.10'	
+	gem 'annotate', '~> 2.7.0'	
 	gem 'rails-erd', '~> 1.4.4'
   gem 'capistrano-rails', '~> 1.1.5'
-  gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.3'
+  gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
   gem 'capistrano-passenger', '~> 0.2.0'
 end
 
@@ -46,7 +41,7 @@ group :development, :test do
   gem 'byebug', '~> 8.2.1'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring', '~> 1.6.0'
+  gem 'spring', '~> 1.6.1'
   gem 'rspec-rails', '~> 3.4.0'
   gem 'rspec-http', '~> 0.11.0'
   gem 'thin', '~> 1.6', '>= 1.6.4'

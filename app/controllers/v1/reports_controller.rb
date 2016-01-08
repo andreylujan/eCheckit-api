@@ -141,6 +141,11 @@ class V1::ReportsController < ApplicationController
       end
     end
 
+    report_state = @report.workspace.report_states.find_by_name("finished")
+    if report_state
+      @report.report_state = report_state
+    end
+
     if @report.save
       generate_pdf
       render json: @report, status: :ok
