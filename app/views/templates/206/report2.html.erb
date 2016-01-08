@@ -222,7 +222,7 @@
 				<% @report.pictures.each do |picture| %>
 					<div class="picture">
 						<img src="<%= picture.url %>" width="250px" />
-						<div class="pictureComment"><%= @report.comment %></div>
+						<div class="pictureComment"><%= picture.comment %></div>
 					</div>
 				<% end %>
 			</div>
