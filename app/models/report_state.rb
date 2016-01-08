@@ -7,6 +7,8 @@
 #  workspace_id :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  short_name   :text
+#  editable     :boolean          default(FALSE), not null
 #
 
 class ReportState < ActiveRecord::Base

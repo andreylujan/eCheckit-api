@@ -51,6 +51,7 @@ class V1::ReportsController < ApplicationController
 
   def create_visit
     @report = Report.new(create_visit_params)
+    @report.report_state = ReportState.find_by_id(393)
     workspace = @report.workspace
     construction_id = params.require(:construction_id)
     if workspace.name == 'DOM'
@@ -64,8 +65,9 @@ class V1::ReportsController < ApplicationController
       report: @report, value: {
         client_id: client.id,
         name: client.name,
-        client_rut: client.rut
-      }
+        client_rut: client.rut,
+      },
+      editable: false
       @report.report_fields << client_field
 
       # Create construction report field
@@ -75,11 +77,11 @@ class V1::ReportsController < ApplicationController
         client_id: client.id,
         name: construction.name,
         address: construction.address
-      }
+      },
+      editable: false
       @report.report_fields << construction_field
     end
 
-    @report.report_state = workspace.report_states.where(name: "Agendado").first
     @report.creator = current_user
     @report.internal_id = SecureRandom.uuid
 
@@ -119,7 +121,28 @@ class V1::ReportsController < ApplicationController
   
   def update
     @report = Report.find(params[:id])
-    if @report.update_attributes(update_params)
+
+    if params[:pictures_attributes].present?
+      params[:report][:pictures_attributes] = params[:pictures_attributes]
+    end
+    if params[:report_fields_attributes].present?
+      params[:report][:report_fields_attributes] = params[:report_fields_attributes]
+    end
+
+
+    @report.assign_attributes(update_params)
+
+    @report.report_fields.each do |field|
+      field_param = params[:report][:report_fields_attributes].find do |x|
+        x["report_field_type_id"] == field.report_field_type_id
+      end
+      if field_param and field_param["value"]
+        field.value = field_param["value"]
+      end
+    end
+
+    if @report.save
+      generate_pdf
       render json: @report, status: :ok
     else
       render json: @report, status: :unprocessable_entity
@@ -142,7 +165,13 @@ class V1::ReportsController < ApplicationController
   end
 
   def update_params
-    params.require(:report).permit(:assigned_user_id, :comment, :report_state_id)
+    params.require(:report).permit(:report_state_id,
+                                   :longitude, :latitude, :address, :city, :country,
+                                   :region, :commune, :reference, :comment,
+                                   :start_date, :finish_date, :finish_latitude, :finish_longitude,
+                                   :visit_date, :start_latitude, :start_longitude,
+                                   pictures_attributes: [ :url, :comment ],
+                                   report_fields_attributes: [ :report_field_type_id, :value ])
   end
 
 end
