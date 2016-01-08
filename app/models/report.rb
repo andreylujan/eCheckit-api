@@ -199,19 +199,15 @@ class Report < ActiveRecord::Base
                             if managers.count == 1
                                 self.update_attribute :assigned_user, managers.first
                             else
-                                self.update_attribute :assigned_user_id, 28
+                                self.update_attribute :assigned_user_id, 220
                             end
                             generate_assign_action
                         elsif self.workspace.organization_id == 1
-                            self.update_attribute :assigned_user_id, 28
+                            self.update_attribute :assigned_user_id, 220
                             generate_assign_action
                         end
                     end
                 end
             end
-            # if self.assigned_user.nil? and self.workspace.organization_id == 1
-            #    self.update_attribute :assigned_user_id, 28
-            #    generate_assign_action
-            # end
         end
     end
