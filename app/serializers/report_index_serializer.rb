@@ -25,7 +25,8 @@ class ReportIndexSerializer < ActiveModel::Serializer
   attributes :id, :creator_id, :assigned_user_id,
   :created_at, :title, :workspace_id, :report_state_id,
   :assigned_user_name, :creator_name, :pdf,
-  :synced, :is_draft, :start_date, :finish_date, :visit_date
+  :synced, :is_draft, :start_date, :finish_date, :visit_date,
+  :internal_id
 
   has_one :report_state
   has_many :report_fields

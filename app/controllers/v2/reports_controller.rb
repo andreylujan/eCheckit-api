@@ -73,7 +73,7 @@ class V2::ReportsController < ApplicationController
       # Create construction report field
       construction_field = ReportField.new report_field_type_id: 16,
       report: @report, value: {
-        construction_id: construction_id,
+        construction_id: construction.id,
         client_id: client.id,
         name: construction.name,
         address: construction.address
@@ -124,8 +124,10 @@ class V2::ReportsController < ApplicationController
 
     if params[:pictures_attributes].present?
       params[:report][:pictures_attributes] = params[:pictures_attributes]
+      @report.pictures.destroy_all
     end
     if params[:report_fields_attributes].present?
+      @report.report_fields.destroy_all
       params[:report][:report_fields_attributes] = params[:report_fields_attributes]
     end
 
@@ -141,7 +143,7 @@ class V2::ReportsController < ApplicationController
       end
     end
 
-    report_state = @report.workspace.report_states.find_by_name("finished")
+    report_state = @report.workspace.report_states.find_by_short_name("finished")
     if report_state
       @report.report_state = report_state
     end
