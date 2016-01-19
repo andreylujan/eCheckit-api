@@ -122,13 +122,13 @@ class V1::ReportsController < ApplicationController
   def update
     @report = Report.find(params[:id])
 
-    if params[:pictures_attributes].present?
-      params[:report][:pictures_attributes] = params[:pictures_attributes]
+    if params["pictures_attributes"].present?
+      params[:report]["pictures_attributes"] = params["pictures_attributes"]
       @report.pictures.destroy_all
     end
-    if params[:report_fields_attributes].present?
+    if params["report_fields_attributes"].present?
       @report.report_fields.destroy_all
-      params[:report][:report_fields_attributes] = params[:report_fields_attributes]
+      params[:report]["report_fields_attributes"] = params["report_fields_attributes"]
     end
 
 
