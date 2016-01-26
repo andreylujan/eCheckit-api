@@ -55,9 +55,15 @@ class Report < ActiveRecord::Base
                           :title  ]
 
   before_create :verify_state
+  before_create :verify_assigned_user
   after_create :assign_user
   after_create :assign_reason
 
+  def verify_assigned_user
+    if self.assigned_user_id.nil? and self.creator_id.present?
+      self.assigned_user_id = self.creator_id
+    end
+  end
 
   def max_pictures
     max_pictures = self.workspace.max_pictures
