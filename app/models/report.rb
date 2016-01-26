@@ -148,10 +148,29 @@ class Report < ActiveRecord::Base
             end
         end
 
+        def perform_assignment(assignment)
+            # Assign default
+            if assignment.nil?
+                if self.workspace.organization_id == 1
+                    self.update_attribute :assigned_user_id, 220
+                    generate_assign_action
+                end
+            else
+                managers = assignment.managers
+                if managers.count == 1                   
+                    self.update_attribute :assigned_user, managers.first
+                    generate_assign_action
+                elsif self.workspace.organization_id == 1
+                    self.update_attribute :assigned_user_id, 220
+                    generate_assign_action                    
+                end                
+            end
+        end
+
         def assign_user
             channel_field = self.report_fields.where(report_field_type_id: 2).first
             action_type = self.assign_action_type
-            
+         
             if channel_field
                 channel = channel_field.value["title"]
                 subitem = channel_field.value["subitem"]
@@ -177,35 +196,43 @@ class Report < ActiveRecord::Base
                             commune = Commune.find_by_name self.commune
                         end
 
-                 
-                        channel_assignments = ZoneAssignment.where(
-                            channel: channel)
-                        assignments = channel_assignments
+                        assignments = ZoneAssignment.where(workspace_id: self.workspace_id)
+
+                        
+                        channel_id = channel ? channel.id : nil
+                        subchannel_id = subchannel ? subchannel.id : nil
+                        region_id = region ? region.id : nil
+                        commune_id = commune ? commune.id : nil
+
+                        
+
+                        # Channels
+                        channel_assignments = assignments.where(channel: channel)
+                        if channel_assignments.count == 0
+                            channel_assignments = assignments.where(channel_id: nil)
+                        end
+
+                        # Subchannels
                         subchannel_assignments = channel_assignments.where(
                             subchannel: subchannel
                         )
-                        if subchannel_assignments.count > 0
-                            assignments = subchannel_assignments
+                        if subchannel_assignments.count == 0
+                            subchannel_assignments = channel_assignments.where(subchannel_id: nil)
                         end
-                        region_assignments = assignments.where(
-                            region: region)
-                        assignments = region_assignments
-                        commune_assignments = assignments.where(commune:
-                            commune)
-                        assignments = commune_assignments
-                        assignment = assignments.first
-                        if assignment.present?
-                            managers = assignment.managers
-                            if managers.count == 1
-                                self.update_attribute :assigned_user, managers.first
-                            else
-                                self.update_attribute :assigned_user_id, 220
-                            end
-                            generate_assign_action
-                        elsif self.workspace.organization_id == 1
-                            self.update_attribute :assigned_user_id, 220
-                            generate_assign_action
+
+                        # Regions
+                        region_assignments = subchannel_assignments.where(region: region)
+                        if region_assignments.count == 0
+                            region_assignments = subchannel_assignments.where(region_id: nil)
                         end
+
+                        # Communes
+                        commune_assignments = region_assignments.where(commune: commune)
+                        if commune_assignments.count == 0
+                            commune_assignments = region_assignments.where(commune_id: nil)
+                        end
+
+                        perform_assignment(commune_assignments.first)   
                     end
                 end
             end
