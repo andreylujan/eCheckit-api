@@ -19,7 +19,6 @@ class ChannelsController < ApplicationController
 
 	api!
 	def index
-		byebug
 		workspace = Workspace.find(params[:workspace_id])
 		render json: workspace.organization.channels, status: :ok
 	end
