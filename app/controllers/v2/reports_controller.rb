@@ -86,6 +86,7 @@ class V2::ReportsController < ApplicationController
     @report.internal_id = SecureRandom.uuid
 
     if @report.save
+      AssignJob.perform_later @report.id
       render json: @report, status: :created
     else
       render json: @report, status: :unprocessable_entity
