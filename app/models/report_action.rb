@@ -54,7 +54,7 @@ class ReportAction < ActiveRecord::Base
   def notify_action
     
     apns_app_name = ENV["APNS_APP_NAME"]
-    gcm_app_name = "embajadores_android"
+    gcm_app_name = ENV["GCM_APP_NAME"]
 
 
     if self.report_action_type.name == "assign"

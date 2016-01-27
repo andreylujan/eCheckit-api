@@ -4,7 +4,7 @@ class ContestEndJob < ActiveJob::Base
 	def perform(contest_id, title, message)
 		contest = Contest.find(contest_id)
 		apns_app_name = ENV["APNS_APP_NAME"]
-		gcm_app_name = "embajadores_android"
+		gcm_app_name = ENV["GCM_APP_NAME"]
 		contest.workspace.registered_users.each do |user|
 
 			devices = user.devices
