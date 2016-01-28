@@ -58,10 +58,31 @@ class Report < ActiveRecord::Base
   before_create :verify_assigned_user
   after_create :assign_user
   after_create :assign_reason
+  after_create :verify_checklists
 
   def verify_assigned_user
     if self.assigned_user_id.nil? and self.creator_id.present?
       self.assigned_user_id = self.creator_id
+    end
+  end
+
+  def verify_checklists
+    destroyed_fields = []
+    self.report_fields.each do |field|
+      if field.report_field_type.name == "checklist"
+        categories = field.value["checklist_categories"]
+        total_sum = 0
+        categories.each do |category|
+          category_sum = category["checklist_items"].inject(0) { | sum, el | sum + el["value"] }
+          total_sum = total_sum + category_sum
+        end
+        if total_sum == 0
+          destroyed_fields << field
+        end
+      end
+    end
+    destroyed_fields.each do |field|
+      field.destroy
     end
   end
 

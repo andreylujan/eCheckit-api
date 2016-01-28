@@ -17,7 +17,9 @@ class UploadPdfJob < ActiveJob::Base
 		if not url.nil?
 			report.update_attribute :pdf, url
 			report_action = report.report_actions.last
-			report_action.send_create_email
+			if report_action
+				report_action.send_create_email
+			end
 		end
 	end
 end
