@@ -5,7 +5,7 @@ def titleize(word)
  word.humanize.gsub(/\b(?<!['’`])[a-z]/) { $&.capitalize }
 end
 
-CSV.foreach('./db/info_dom.csv', { col_sep: ';' }) do |row|
+CSV.foreach('./db/info_dom_2.csv', { col_sep: ';' }) do |row|
     if row.length >= 4
         client_data = {
             rut: row[0],
@@ -16,7 +16,7 @@ CSV.foreach('./db/info_dom.csv', { col_sep: ';' }) do |row|
         if row.length >= 5
             client_data[:contact_email] = row[4]
         end
-        if row >= 6
+        if row.length >= 6
             client_data[:construction_address] = row[5]
         end
 
