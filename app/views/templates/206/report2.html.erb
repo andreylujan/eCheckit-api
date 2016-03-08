@@ -106,6 +106,10 @@
 		text-align: justify;
 		text-justify: inter-word;
 	}
+	.general-comments {
+		margin-left: 15px;
+		text-align: justify;
+	}
 	.wpi-45 {
 		width: 45px;
 	}
@@ -181,6 +185,9 @@
 	<hr>
 
 	<div class="content">
+		<h3>Comentarios generales</h3>
+		<p class="general-comments">@report.comment</p>
+
 		<% @report.report_fields.each do |report_field| %>
 			<% if report_field.report_field_type.name === 'checklist' %>
 				<% report_field.value["checklist_categories"].each do |checklist_category| %>
@@ -198,7 +205,7 @@
 									<% end %>
 									<% if checklist_item["value"] == 1 %>
 										<div class="value icon">
-											<img class="check" src="http://imagenpng.com/wp-content/uploads/2015/09/eldesastredemaria.blogspot.com-pngnofamosos-63.png" alt="check_v" />
+											<img class="check" src="https://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
 										</div>
 										<div class="labelChecklist"><%= checklist_item["name"] %></div>
 									<% end %>
