@@ -186,7 +186,7 @@
 
 	<div class="content">
 		<h3>Comentarios generales</h3>
-		<p class="general-comments">@report.comment</p>
+		<p class="general-comments"><%= @report.comment %></p>
 
 		<% @report.report_fields.each do |report_field| %>
 			<% if report_field.report_field_type.name === 'checklist' %>
