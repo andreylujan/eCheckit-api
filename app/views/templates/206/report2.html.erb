@@ -188,14 +188,40 @@
 		<h3>Comentarios generales</h3>
 		<p class="general-comments"><%= @report.comment %></p>
 
+		<% all_total = 0 %>
+		<% all_correct = 0 %>
 		<% @report.report_fields.each do |report_field| %>
 			<% if report_field.report_field_type.name === 'checklist' %>
 				<% report_field.value["checklist_categories"].each do |checklist_category| %>
+					<% checklist_category["checklist_items"].each do |checklist_item| %>
+						<% if checklist_item["value"] != 2 %>
+							<% all_total = all_total + 1 %>
+							<% if checklist_item["value"] == 1 then all_correct = all_correct + 1 end %> 
+						<% end %>
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>
+		<% all_percentage = (100 * all_correct / all_total).to_i %>
+		<% @report.report_fields.each do |report_field| %>
+			<% if report_field.report_field_type.name === 'checklist' %>
+				
+				<% report_field.value["checklist_categories"].each do |checklist_category| %>
+				<% num_total = 0 %>
+				<% num_correct = 0 %>
+
+				<% checklist_category["checklist_items"].each do |checklist_item| %>	
+					<% if checklist_item["value"] != 2 %>
+						<% num_total = num_total + 1 %>
+						<% if checklist_item["value"] == 1 then num_correct = num_correct + 1 end %> 
+					<% end %>
+				<% end %>
+				<% percent = (100 * num_correct / num_total).to_i %>
 				<% category_sum = checklist_category["checklist_items"].inject(0) { | sum, el | sum + el["value"] } %>
 					<% if category_sum > 0 %>
 						<div class="checklist">
 							<h3><%=checklist_category["name"] %></h3>
-							<% checklist_category["checklist_items"].each do |checklist_item| %>
+							<% checklist_category["checklist_items"].each do |checklist_item| %>	
 								<div class="field">
 									<% if checklist_item["value"] == 0 %>
 										<div class="value icon">
