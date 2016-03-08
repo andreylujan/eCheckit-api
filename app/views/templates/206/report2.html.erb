@@ -130,7 +130,7 @@
 			<div class="formHeader">
 				<div class="field ">
 					<div class="label wpi-180">Visitador:</div>
-					<div class="value wpi-170"><%= @report.creator_name %></div>
+					<div class="value wpi-170"><%= @report.assigned_user_name %></div>
 				</div>
 				<div class="field ">
 					<div class="label wpi-180">Cliente:</div>
@@ -168,11 +168,11 @@
 			<div class="formHeader">
 				<div class="field ">
 					<div class="label wpi-45">Fecha:</div>
-					<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y").to_s %></div>
+					<div class="value"><%= @report.visit_date.in_time_zone("Santiago").strftime("%d/%m/%Y").to_s %></div>
 				</div>
 				<div class="field ">
 					<div class="label wpi-45">Hora:</div>
-					<div class="value"><%= @report.created_at.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
+					<div class="value"><%= @report.visit_date.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
 				</div>
 			</div>
 		</div>
@@ -192,19 +192,19 @@
 								<div class="field">
 									<% if checklist_item["value"] == 0 %>
 										<div class="value icon">
-											<img class="check" src="https://d21zid65ggdxzg.cloudfront.net/31470FC64690594C24D668A7808EF1AF.png" alt="check" />
+											<img class="check" src="https://d21zid65ggdxzg.cloudfront.net/31470FC64690594C24D668A7808EF1AF.png" alt="check_x" />
 										</div>
 										<div class="labelChecklist"><%= checklist_item["name"] %></div>
 									<% end %>
 									<% if checklist_item["value"] == 1 %>
 										<div class="value icon">
-											<img class="check" src="https://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check" />
+											<img class="check" src="https://d21zid65ggdxzg.cloudfront.net/801C65B140A965F51FD49B476D9219F4.png" alt="check_v" />
 										</div>
 										<div class="labelChecklist"><%= checklist_item["name"] %></div>
 									<% end %>
 									<% if checklist_item["value"] == 2 %>
 										<div class="value icon">
-											<img class="check" src="https://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check" />
+											<img class="check" src="https://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_no" />
 										</div>
 										<div class="labelChecklist"><%= checklist_item["name"] %></div>
 										<div class="suggestion"><%= checklist_item["suggestion"] %></div>
