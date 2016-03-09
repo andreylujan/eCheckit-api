@@ -134,7 +134,7 @@
 		<% if report_field.report_field_type.name === 'checklist' %>
 			<% report_field.value["checklist_categories"].each do |checklist_category| %>
 				<% checklist_category["checklist_items"].each do |checklist_item| %>
-					<% if checklist_item["value"] != 2 %>
+					<% if checklist_item["value"] != 0 %>
 						<% all_total = all_total + 1 %>
 						<% if checklist_item["value"] == 1 then all_correct = all_correct + 1 end %> 
 					<% end %>
@@ -216,12 +216,13 @@
 				<% num_correct = 0 %>
 
 				<% checklist_category["checklist_items"].each do |checklist_item| %>	
-					<% if checklist_item["value"] != 2 %>
+					<% if checklist_item["value"] != 0 %>
 						<% num_total = num_total + 1 %>
 						<% if checklist_item["value"] == 1 then num_correct = num_correct + 1 end %> 
 					<% end %>
 				<% end %>
 				<% percent = (100 * num_correct / num_total).to_i %>
+
 				<% category_sum = checklist_category["checklist_items"].inject(0) { | sum, el | sum + el["value"] } %>
 					<% if category_sum > 0 %>
 						<div class="checklist">
@@ -230,7 +231,7 @@
 								<div class="field">
 									<% if checklist_item["value"] == 0 %>
 										<div class="value icon">
-											<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/31470FC64690594C24D668A7808EF1AF.png" alt="check_x" />
+											<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/31470FC64690594C24D668A7808EF1AF.png" alt="check_not_apply" />
 										</div>
 										<div class="labelChecklist"><%= checklist_item["name"] %></div>
 									<% end %>
@@ -242,7 +243,7 @@
 									<% end %>
 									<% if checklist_item["value"] == 2 %>
 										<div class="value icon">
-											<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_no" />
+											<img class="check" src="http://d21zid65ggdxzg.cloudfront.net/768AF9B25098A450CD52CD5B6339D3E8.png" alt="check_x" />
 										</div>
 										<div class="labelChecklist"><%= checklist_item["name"] %></div>
 										<div class="suggestion"><%= checklist_item["suggestion"] %></div>
