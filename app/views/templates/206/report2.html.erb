@@ -110,8 +110,8 @@
 		margin-left: 15px;
 		text-align: justify;
 	}
-	.wpi-45 {
-		width: 45px;
+	.wpi-120 {
+		width: 120px;
 	}
 	.wpi-160 {
 		width: 160px;
@@ -128,6 +128,21 @@
 	</style>
 </head>
 <body>
+	<% all_total = 0 %>
+	<% all_correct = 0 %>
+	<% @report.report_fields.each do |report_field| %>
+		<% if report_field.report_field_type.name === 'checklist' %>
+			<% report_field.value["checklist_categories"].each do |checklist_category| %>
+				<% checklist_category["checklist_items"].each do |checklist_item| %>
+					<% if checklist_item["value"] != 2 %>
+						<% all_total = all_total + 1 %>
+						<% if checklist_item["value"] == 1 then all_correct = all_correct + 1 end %> 
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>
+	<% end %>
+	<% all_percentage = (100 * all_correct / all_total).to_i %>
 	<div>
 		<img src="http://imagizer.imageshack.us/a/img905/2820/j3mq67.png" alt="dom_logo" style="margin-top: 40px; width: 150px">
 		<div class="formHeaders">
@@ -171,12 +186,16 @@
 			</div>
 			<div class="formHeader">
 				<div class="field ">
-					<div class="label wpi-45">Fecha:</div>
+					<div class="label wpi-120">Fecha:</div>
 					<div class="value"><%= @report.visit_date.in_time_zone("Santiago").strftime("%d/%m/%Y").to_s %></div>
 				</div>
-				<div class="field ">
-					<div class="label wpi-45">Hora:</div>
+				<div class="field">
+					<div class="label wpi-120">Hora:</div>
 					<div class="value"><%= @report.visit_date.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
+				</div>
+				<div class="field">
+					<div class="label wpi-120">% cumplimiento:</div>
+					<div class="value"><%= all_percentage %></div>
 				</div>
 			</div>
 		</div>
@@ -188,21 +207,7 @@
 		<h3>Comentarios generales</h3>
 		<p class="general-comments"><%= @report.comment %></p>
 
-		<% all_total = 0 %>
-		<% all_correct = 0 %>
-		<% @report.report_fields.each do |report_field| %>
-			<% if report_field.report_field_type.name === 'checklist' %>
-				<% report_field.value["checklist_categories"].each do |checklist_category| %>
-					<% checklist_category["checklist_items"].each do |checklist_item| %>
-						<% if checklist_item["value"] != 2 %>
-							<% all_total = all_total + 1 %>
-							<% if checklist_item["value"] == 1 then all_correct = all_correct + 1 end %> 
-						<% end %>
-					<% end %>
-				<% end %>
-			<% end %>
-		<% end %>
-		<% all_percentage = (100 * all_correct / all_total).to_i %>
+		
 		<% @report.report_fields.each do |report_field| %>
 			<% if report_field.report_field_type.name === 'checklist' %>
 				
@@ -220,7 +225,7 @@
 				<% category_sum = checklist_category["checklist_items"].inject(0) { | sum, el | sum + el["value"] } %>
 					<% if category_sum > 0 %>
 						<div class="checklist">
-							<h3><%=checklist_category["name"] %></h3>
+							<h3><%=checklist_category["name"] %> (<%= percent %> %)</h3>
 							<% checklist_category["checklist_items"].each do |checklist_item| %>	
 								<div class="field">
 									<% if checklist_item["value"] == 0 %>
