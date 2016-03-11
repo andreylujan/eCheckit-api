@@ -23,7 +23,7 @@ class ZoneAssignment < ActiveRecord::Base
   has_many :zone_managers, dependent: :destroy
   has_many :managers, through: :zone_managers, source: :user
   
-  validates_uniqueness_of [ :commune ], scope: [ :channel, :subchannel, :region ] 
+  validates_uniqueness_of [ :commune ], scope: [ :channel, :subchannel, :region ], on: :create
   validates_presence_of :workspace
   accepts_nested_attributes_for :zone_managers, allow_destroy: true
 
