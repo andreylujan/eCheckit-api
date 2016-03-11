@@ -188,11 +188,16 @@
 			<div class="formHeader">
 				<div class="field ">
 					<div class="label wpi-120">Fecha:</div>
-					<div class="value"><%= @report.visit_date.in_time_zone("Santiago").strftime("%d/%m/%Y").to_s %></div>
+					<div class="value"><%= @report.visit_date ? @report.visit_date.in_time_zone("Santiago").strftime("%d/%m/%Y").to_s : 
+						@report.created_at.in_time_zone("Santiago").strftime("%d/%m/%Y").to_s %>
+					</div>
 				</div>
 				<div class="field">
 					<div class="label wpi-120">Hora:</div>
-					<div class="value"><%= @report.visit_date.in_time_zone("Santiago").strftime("%I:%M %p").to_s %></div>
+					<div class="value">
+						<%= @report.visit_date ? @report.visit_date.in_time_zone("Santiago").strftime("%I:%M %p").to_s : 
+						@report.created_at.in_time_zone("Santiago").strftime("%I:%M %p").to_s %>
+					</div>
 				</div>
 				<div class="field">
 					<div class="label wpi-120">Cumplimiento:</div>
