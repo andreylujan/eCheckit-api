@@ -29,7 +29,8 @@ class WorkspacesController < ApplicationController
 	def dashboard
 		workspace = Workspace.find(params[:workspace_id])
 		@dashboard = workspace.dashboard start_date: params[:start_date],
-			end_date: params[:end_date]
+			end_date: params[:end_date], type: params[:type],
+			year: params[:year]
 		render json: @dashboard, status: :ok
 	end
 

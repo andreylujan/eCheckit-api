@@ -25,7 +25,7 @@ class Workspace < ActiveRecord::Base
   has_many :checklists
   has_many :clients_doms
   after_create :create_default_states
-  
+
   def report_counts
     contest = self.contests.last
     if contest.present?
@@ -42,7 +42,7 @@ class Workspace < ActiveRecord::Base
           user_id: k,
           num_reports: v
         }
-        
+
       end
       return counts_arr
     end
@@ -65,7 +65,7 @@ class Workspace < ActiveRecord::Base
         reason_counts[report.reason.name][:states] ||= {}
         reason_counts[report.reason.name][:states][report.report_state.name] ||= 0
         reason_counts[report.reason.name][:states][report.report_state.name] += 1
-      end 
+      end
       if report.report_state.present?
         state_counts[report.report_state.name] ||= 0
         state_counts[report.report_state.name] += 1
@@ -79,79 +79,152 @@ class Workspace < ActiveRecord::Base
     return local
   end
 
-  def dashboard(params = {})
-    if self.organization_id == 1
-      reports = self.reports.where("channel_id is not null and reason_id is not null")
-      
-
-      if params[:start_date]
-        begin
-           start_date = Date.parse params[:start_date]
-           reports = reports.where("created_at > ?", start_date)
-        rescue ArgumentError
-           return {
-              error: "Invalid start_date"
-           }
-        end
-        
-      end
-      if params[:end_date]
-        begin
-           end_date = Date.parse params[:end_date]
-           reports = reports.where("created_at < ?", end_date)
-        rescue ArgumentError
-           return {
-              error: "Invalid end_date"
-           }
-        end
-      end
-
-      global_info = local_dashboard(reports)
-      regions = []
+  def dashboard_channel(year)
+    reports = self.reports.where("created_at >= ? and created_at < ? and channel_id is not null", DateTime.new(year.to_i), DateTime.new(year.to_i + 1))
+    grouped = reports.group_by { |i| i.created_at.month }
+    sorted = grouped.sort
+    data = []
+    sorted.each do |month_group|
+      month = month_group[0]
+      reports = month_group[1]
+      month_hash = {}
       channels = []
-      states = []
-
-      Region.all.each do |region|
-        region_reports = reports.where("lower(unaccent(region)) = ?", I18n.transliterate(region.name).downcase)
-        local_info = local_dashboard(region_reports)
-        local_info[:region_id] = region.id
-        local_info[:region_name] = region.name
-
-        channel_info = []
-        self.channels.each do |channel|
-          data = {}
-          channel_reports = region_reports.where(channel: channel)
-          data = local_dashboard(channel_reports)
-          data[:channel_id] = channel.id
-          data[:channel_name] = channel.name
-          channel_info << data
-        end
-        local_info[:channels] = channel_info
-        regions << local_info
-      end
-
-      self.channels.each do |channel|
-        channel_reports = reports.where(channel: channel)
-        local_info = local_dashboard(channel_reports)
-        local_info[:channel_id] = channel.id
-        local_info[:channel_name] = channel.name
-        channels << local_info
-      end
-
-      self.report_states.each do |report_state|
-        state_reports = reports.where(report_state: report_state)
-        states << {
-          state_id: report_state.id,
-          state_name: report_state.name,
-          reports_count: state_reports.count
+      channel_groups = reports.group_by { |r| r.channel.name }
+      channel_groups.each do | channel_name, channel_reports |
+        assigned = channel_reports.select { |r| r.report_state_id == 2 }
+        num_assigned = assigned.size
+        closed = channel_reports.select { |r| r.report_state_id == 27 }
+        num_closed = closed.size
+        channels << {
+          channel_name: channel_name,
+          num_assigned: num_assigned,
+          num_closed: num_closed
         }
       end
+      month_hash = {
+        month: month,
+        month_name: I18n.t("date.month_names")[month],
+        channels: channels
+      }
+      data << month_hash
+    end
+    data
+  end
 
-      global_info[:channels] = channels
-      global_info[:regions] = regions
-      global_info[:states] = states
+  def dashboard_reason(year)
+    reports = self.reports.where("created_at >= ? and created_at < ? and reason_id is not null", DateTime.new(year), DateTime.new(year))
+    grouped = reports.group_by { |i| i.created_at.month }
+    sorted = grouped.sort
+    data = []
+    sorted.each do |month_group|
+      month = month_group[0]
+      reports = month_group[1]
+      month_hash = {}
+      channels = []
+      channel_groups = reports.group_by { |r| r.channel.name }
+      channel_groups.each do | channel_name, channel_reports |
+        assigned = channel_reports.select { |r| r.report_state_id == 2 }
+        num_assigned = assigned.size
+        closed = channel_reports.select { |r| r.report_state_id == 27 }
+        num_closed = closed.size
+        channels << {
+          channel_name: channel_name,
+          num_assigned: num_assigned,
+          num_closed: num_closed
+        }
+      end
+      month_hash = {
+        month: month,
+        month_name: I18n.t("date.month_names")[month],
+        channels: channels
+      }
+      data << month_hash
+    end
+    data
+  end
 
-      return global_info
+  def dashboard(params = {})
+    if self.organization_id == 1
+      if params[:year] and params[:type]
+        year = params[:year]
+        if params[:type] == "channel"
+          dashboard_channel(year)
+        elsif params[:type] == "reason"
+          dashboard_reason(year)
+        end
+      else
+        reports = self.reports.where("channel_id is not null and reason_id is not null")
+
+
+        if params[:start_date]
+          begin
+            start_date = Date.parse params[:start_date]
+            reports = reports.where("created_at > ?", start_date)
+          rescue ArgumentError
+            return {
+              error: "Invalid start_date"
+            }
+          end
+
+        end
+        if params[:end_date]
+          begin
+            end_date = Date.parse params[:end_date]
+            reports = reports.where("created_at < ?", end_date)
+          rescue ArgumentError
+            return {
+              error: "Invalid end_date"
+            }
+          end
+        end
+
+        global_info = local_dashboard(reports)
+        regions = []
+        channels = []
+        states = []
+
+        Region.all.each do |region|
+          region_reports = reports.where("lower(unaccent(region)) = ?", I18n.transliterate(region.name).downcase)
+          local_info = local_dashboard(region_reports)
+          local_info[:region_id] = region.id
+          local_info[:region_name] = region.name
+
+          channel_info = []
+          self.channels.each do |channel|
+            data = {}
+            channel_reports = region_reports.where(channel: channel)
+            data = local_dashboard(channel_reports)
+            data[:channel_id] = channel.id
+            data[:channel_name] = channel.name
+            channel_info << data
+          end
+          local_info[:channels] = channel_info
+          regions << local_info
+        end
+
+        self.channels.each do |channel|
+          channel_reports = reports.where(channel: channel)
+          local_info = local_dashboard(channel_reports)
+          local_info[:channel_id] = channel.id
+          local_info[:channel_name] = channel.name
+          channels << local_info
+        end
+
+        self.report_states.each do |report_state|
+          state_reports = reports.where(report_state: report_state)
+          states << {
+            state_id: report_state.id,
+            state_name: report_state.name,
+            reports_count: state_reports.count
+          }
+        end
+
+        global_info[:channels] = channels
+        global_info[:regions] = regions
+        global_info[:states] = states
+
+        return global_info
+      end
     end
   end
 
@@ -162,7 +235,7 @@ class Workspace < ActiveRecord::Base
     end
   end
 
-  def user_ids    
+  def user_ids
     invitations = self.workspace_invitations.where(accepted: true)
     invitations.pluck(:user_id)
   end
@@ -177,7 +250,7 @@ class Workspace < ActiveRecord::Base
       WorkspaceUserSerializer.new u
     end
 
-    
+
 
     json = maps.as_json
 
@@ -209,7 +282,7 @@ class Workspace < ActiveRecord::Base
 
   private
   def create_default_states
-  	ReportState.create workspace: self, name: "Creado"
-   ReportState.create workspace: self, name: "Asignado"
- end
+    ReportState.create workspace: self, name: "Creado"
+    ReportState.create workspace: self, name: "Asignado"
+  end
 end
