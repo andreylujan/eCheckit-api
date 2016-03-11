@@ -132,7 +132,11 @@ class Report < ActiveRecord::Base
   def delete_pdf
     if Rails.env.production? and self.pdf.present?
       pdf_key = pdf[pdf.rindex(/\//) + 1..pdf.length - 1]
-      Amazon.delete_object(pdf_key)
+      begin
+        Amazon.delete_object(pdf_key)
+      rescue Exception => e
+        Rails.logger.error('Could not delete pdf ' + pdf_key)
+      end
     end
   end
 
