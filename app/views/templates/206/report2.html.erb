@@ -143,7 +143,9 @@
 			<% end %>
 		<% end %>
 	<% end %>
-	<% all_percentage = (100 * all_correct / all_total).to_i %>
+	<% if all_total > 0 %>
+		<% all_percentage = (100 * all_correct / all_total).to_i %>
+	<% end %>
 	<div>
 		<img src="http://imagizer.imageshack.us/a/img905/2820/j3mq67.png" alt="dom_logo" style="margin-top: 40px; width: 150px">
 		<div class="formHeaders">
@@ -232,7 +234,9 @@
 						<% if checklist_item["value"] == 1 then num_correct = num_correct + 1 end %> 
 					<% end %>
 				<% end %>
-				<% percent = (100 * num_correct / num_total).to_i %>
+				<% if num_total > 0 %>
+					<% percent = (100 * num_correct / num_total).to_i %>
+				<% end %>
 
 				<% category_sum = checklist_category["checklist_items"].inject(0) { | sum, el | sum + el["value"] } %>
 					<% if category_sum > 0 %>
