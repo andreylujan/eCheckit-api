@@ -112,7 +112,7 @@ class Workspace < ActiveRecord::Base
   end
 
   def dashboard_reason(year)
-    reports = self.reports.where("created_at >= ? and created_at < ? and reason_id is not null", DateTime.new(year), DateTime.new(year))
+    reports = self.reports.where("created_at >= ? and created_at < ? and reason_id is not null", DateTime.new(year.to_i), DateTime.new(year.to_i + 1))
     grouped = reports.group_by { |i| i.created_at.month }
     sorted = grouped.sort
     data = []
@@ -120,15 +120,15 @@ class Workspace < ActiveRecord::Base
       month = month_group[0]
       reports = month_group[1]
       month_hash = {}
-      channels = []
-      channel_groups = reports.group_by { |r| r.channel.name }
-      channel_groups.each do | channel_name, channel_reports |
-        assigned = channel_reports.select { |r| r.report_state_id == 2 }
+      reasons = []
+      reason_groups = reports.group_by { |r| r.reason.name }
+      reason_groups.each do | reason_name, reason_reports |
+        assigned = reason_reports.select { |r| r.report_state_id == 2 }
         num_assigned = assigned.size
-        closed = channel_reports.select { |r| r.report_state_id == 27 }
+        closed = reason_reports.select { |r| r.report_state_id == 27 }
         num_closed = closed.size
-        channels << {
-          channel_name: channel_name,
+        reasons << {
+          reason_name: reason_name,
           num_assigned: num_assigned,
           num_closed: num_closed
         }
@@ -136,7 +136,7 @@ class Workspace < ActiveRecord::Base
       month_hash = {
         month: month,
         month_name: I18n.t("date.month_names")[month],
-        channels: channels
+        reasons: reasons
       }
       data << month_hash
     end
