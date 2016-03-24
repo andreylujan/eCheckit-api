@@ -12,6 +12,7 @@
 
 class Client < ActiveRecord::Base
 	belongs_to :workspace
+    acts_as_paranoid
 	has_many :constructions, foreign_key: "client_id", dependent: :destroy
 	validates_presence_of [ :name, :workspace, :rut ]
 

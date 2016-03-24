@@ -14,7 +14,7 @@
 class Contact < ActiveRecord::Base
 	belongs_to :construction
     before_validation :downcase_email
-
+    acts_as_paranoid
 	validates_presence_of [ :email  ]
     validates_uniqueness_of [ :email ], scope: :construction_id
 

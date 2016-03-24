@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107181125) do
+ActiveRecord::Schema.define(version: 20160324185959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,8 +67,10 @@ ActiveRecord::Schema.define(version: 20160107181125) do
     t.text     "rut",          null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "clients", ["deleted_at"], name: "index_clients_on_deleted_at", using: :btree
   add_index "clients", ["rut"], name: "index_clients_on_rut", unique: true, using: :btree
 
   create_table "communes", force: :cascade do |t|
@@ -88,9 +90,11 @@ ActiveRecord::Schema.define(version: 20160107181125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "unique_id",  null: false
+    t.datetime "deleted_at"
   end
 
   add_index "constructions", ["client_id", "unique_id"], name: "index_constructions_on_client_id_and_unique_id", unique: true, using: :btree
+  add_index "constructions", ["deleted_at"], name: "index_constructions_on_deleted_at", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.integer  "construction_id"
@@ -99,7 +103,10 @@ ActiveRecord::Schema.define(version: 20160107181125) do
     t.text     "phone"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.datetime "deleted_at"
   end
+
+  add_index "contacts", ["deleted_at"], name: "index_contacts_on_deleted_at", using: :btree
 
   create_table "contest_phrases", force: :cascade do |t|
     t.integer  "organization_id"
@@ -345,11 +352,13 @@ ActiveRecord::Schema.define(version: 20160107181125) do
     t.datetime "visit_date"
     t.float    "start_latitude"
     t.float    "start_longitude"
+    t.datetime "deleted_at"
   end
 
   add_index "reports", ["assigned_user_id"], name: "index_reports_on_assigned_user_id", using: :btree
   add_index "reports", ["channel_id"], name: "index_reports_on_channel_id", using: :btree
   add_index "reports", ["creator_id"], name: "index_reports_on_creator_id", using: :btree
+  add_index "reports", ["deleted_at"], name: "index_reports_on_deleted_at", using: :btree
   add_index "reports", ["internal_id"], name: "index_reports_on_internal_id", unique: true, using: :btree
   add_index "reports", ["reason_id"], name: "index_reports_on_reason_id", using: :btree
   add_index "reports", ["report_state_id"], name: "index_reports_on_report_state_id", using: :btree

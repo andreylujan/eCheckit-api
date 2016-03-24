@@ -42,6 +42,7 @@ class Report < ActiveRecord::Base
   accepts_nested_attributes_for :pictures
   has_many :report_fields, dependent: :destroy
   accepts_nested_attributes_for :report_fields
+  acts_as_paranoid
   belongs_to :report_state
   belongs_to :workspace
   belongs_to :channel

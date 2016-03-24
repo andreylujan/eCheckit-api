@@ -13,6 +13,7 @@
 
 class Construction < ActiveRecord::Base
 	belongs_to :client
+    acts_as_paranoid
 	has_many :contacts, dependent: :destroy
 	validates_presence_of [ :name, :client ]
 end

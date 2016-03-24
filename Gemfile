@@ -25,7 +25,7 @@ gem 'faraday', '~> 0.9.2'
 gem 'sidekiq', '~> 4.0.2'
 gem 'net-ssh', '~> 3.0.2'
 gem 'capistrano-sidekiq', '~> 0.5.4'
-gem 'paranoia', '~> 2.1.5'
+gem 'paranoia', '~> 2.1', '>= 2.1.5'
 gem 'versionist', '~> 1.4', '>= 1.4.1'
 
 group :development do
