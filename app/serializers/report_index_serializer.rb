@@ -26,7 +26,7 @@ class ReportIndexSerializer < ActiveModel::Serializer
   :created_at, :title, :workspace_id, :report_state_id,
   :assigned_user_name, :creator_name, :pdf,
   :synced, :is_draft, :start_date, :finish_date, :visit_date,
-  :internal_id, :report_fields
+  :internal_id, :client_name, :construction_name
 
   has_one :report_state
   has_one :channel
@@ -34,11 +34,17 @@ class ReportIndexSerializer < ActiveModel::Serializer
   has_one :reason
 
   def client_name
-    object.client.name
+    client_field = object.report_fields.where(report_field_type_id: 15).first
+    if client_field.present?
+      client_field.value["name"]
+    end
   end
 
   def construction_name
-    object.construction.name
+    construction_field = object.report_fields.where(report_field_type_id: 16).first
+    if construction_field.present?
+      construction_field.value["name"]
+    end
   end
 
   def synced
