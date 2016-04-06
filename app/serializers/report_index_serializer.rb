@@ -26,12 +26,16 @@ class ReportIndexSerializer < ActiveModel::Serializer
   :created_at, :title, :workspace_id, :report_state_id,
   :assigned_user_name, :creator_name, :pdf,
   :synced, :is_draft, :start_date, :finish_date, :visit_date,
-  :internal_id
+  :internal_id, :report_fields
 
   has_one :report_state
   has_one :channel
   has_one :subchannel
   has_one :reason
+
+  def report_fields
+    []
+  end
 
   def synced
     1
