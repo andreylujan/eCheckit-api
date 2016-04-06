@@ -33,8 +33,12 @@ class ReportIndexSerializer < ActiveModel::Serializer
   has_one :subchannel
   has_one :reason
 
-  def report_fields
-    []
+  def client_name
+    object.client.name
+  end
+
+  def construction_name
+    object.construction.name
   end
 
   def synced
