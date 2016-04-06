@@ -14,7 +14,12 @@
 #
 
 class ReportFieldTypeSerializer < ActiveModel::Serializer
-  attributes :id, :name, :widget_name, :translations, :data
+  attributes :id, :name, :widget_name, :translations, :data,
+    :field_order
+
+  def field_order
+    object.index
+  end
   
   def widget_name
   	object.widget.name

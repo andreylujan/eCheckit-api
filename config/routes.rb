@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resources :channels, only: [ :index, :create, :update, :destroy ]
       resources :reasons, only: [ :index, :create, :update, :destroy ]
       resources :contests, only: [ :index, :create, :update, :destroy, :show ]
+      resources :report_field_types, only: [ :index, :show ]
       delete 'users/:id', to: 'workspaces#delete_user'
     end
 

@@ -1,19 +1,51 @@
-class V2::ReportFieldTypesController < ApplicationController
-  before_action :doorkeeper_authorize!
+# == Schema Information
+#
+# Table name: workspaces
+#
+#  id                      :integer          not null, primary key
+#  name                    :text
+#  organization_id         :integer
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  is_open                 :boolean          default(TRUE), not null
+#  email                   :text
+#  welcome_message         :text
+#  confirm_message         :text
+#  max_pictures            :integer          default(20), not null
+#  default_report_state_id :integer
+#
 
-  def show
+class V2::WorkspaceSerializer < ActiveModel::Serializer
+  attributes :id, :name, :organization_id, :users, :server_time,
+    :max_pictures
+
+  has_many :reports
+  has_many :report_states
+  has_many :contests
+  has_many :reasons
+  has_many :channels
+
+  def max_pictures
+    1
+  end
+  
+  def reports
+    object_reports = object.reports.order('created_at desc')
+    reports_json = []
+    object_reports.each do |report|
+      reports_json << V2::ReportIndexSerializer.new(report).as_json
+    end
+    reports_json
   end
 
-  def index
-    workspace = Workspace.find(params.require(:workspace_id))
-
+  def report_field_types
     types = []
 
-    ordered = workspace.report_field_types.order 'index ASC'
+    ordered = object.report_field_types.order 'index ASC'
     ordered.each do |o|
       if o.name == "reason"
         items = []
-        reasons = workspace.reasons
+        reasons = object.reasons
         reasons.each do |reason|
           items << {
             title: reason.name,
@@ -24,7 +56,7 @@ class V2::ReportFieldTypesController < ApplicationController
         o.data["items"] = items
       elsif o.name == "channel"
         items = []
-        channels = workspace.channels
+        channels = object.channels
         channels.each do |channel|
           subitems = channel.subchannels.map { |s| s.name }
           image = channel.image
@@ -41,7 +73,7 @@ class V2::ReportFieldTypesController < ApplicationController
         o.data["items"] = items
       elsif o.id == 15
         models = []
-        clients = workspace.clients
+        clients = object.clients
         clients.each do |client|
           models << {
             client_id: client.id,
@@ -52,7 +84,7 @@ class V2::ReportFieldTypesController < ApplicationController
         o.data["models"] = models
       elsif o.id == 16
         models = []
-        constructions = Construction.joins(:client).where(clients: { workspace_id: workspace.id})
+        constructions = Construction.joins(:client).where(clients: { workspace_id: object.id})
         constructions.each do |work|
           models << {
             works_id: work.id,
@@ -65,7 +97,7 @@ class V2::ReportFieldTypesController < ApplicationController
         o.data["models"] = models
       elsif o.name == "contact_table"
         models = []
-        contacts = Contact.joins(:construction => { :client =>  :workspace}).where(:workspaces => { :id => workspace.id })
+        contacts = Contact.joins(:construction => { :client =>  :workspace}).where(:workspaces => { :id => object.id })
         contacts.each do |contact|
           models << {
             id: contact.id,
@@ -78,12 +110,13 @@ class V2::ReportFieldTypesController < ApplicationController
         end
         o.data["models"] = models
       end
-      type = ReportFieldTypeSerializer.new(o).as_json
-      type[:workspace_id] = workspace.id
-      types << type
-    end
-    render json: types
-  end
-  
 
+      types << ReportFieldTypeSerializer.new(o).as_json
+    end
+    types
+  end
+
+  def server_time
+    DateTime.now.to_s
+  end
 end
