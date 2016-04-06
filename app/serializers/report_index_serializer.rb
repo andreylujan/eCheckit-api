@@ -29,7 +29,6 @@ class ReportIndexSerializer < ActiveModel::Serializer
   :internal_id
 
   has_one :report_state
-  has_many :report_fields
   has_one :channel
   has_one :subchannel
   has_one :reason
