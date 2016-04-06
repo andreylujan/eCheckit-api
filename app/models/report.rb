@@ -88,7 +88,7 @@ class Report < ActiveRecord::Base
   end
 
   def max_pictures
-    max_pictures = self.workspace.max_pictures
+    max_pictures = 50
     if self.pictures.length > max_pictures
         errors.add(:pictures, "El número máximo de fotos es #{max_pictures}")
     end
