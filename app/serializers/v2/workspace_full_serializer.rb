@@ -15,9 +15,9 @@
 #  default_report_state_id :integer
 #
 
-class V2::WorkspaceSerializer < ActiveModel::Serializer
+class V2::WorkspaceFullSerializer < ActiveModel::Serializer
   attributes :id, :name, :organization_id, :users, :server_time,
-    :max_pictures
+    :max_pictures, :report_field_types
 
   has_many :reports
   has_many :report_states
