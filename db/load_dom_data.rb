@@ -9,7 +9,7 @@ Contact.destroy_all
 Construction.destroy_all
 Client.destroy_all
 
-CSV.foreach('./db/info_dom_3.csv', { col_sep: ';' }) do |row|
+CSV.foreach('./db/DATOS.csv', { col_sep: ';' }) do |row|
   if row.length >= 4
     client_data = {
       rut: row[0],

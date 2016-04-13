@@ -8,7 +8,7 @@
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
 set :rails_env, :production
-server '52.0.24.103', port: 22, user: 'ubuntu', roles: [:web, :app, :db]
+server '52.86.125.35', port: 22, user: 'ubuntu', roles: [:web, :app, :db]
 
 # role-based syntax
 # ==================

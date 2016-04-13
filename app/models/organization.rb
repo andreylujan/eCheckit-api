@@ -14,7 +14,8 @@ class Organization < ActiveRecord::Base
     has_many :workspaces, dependent: :nullify
     has_many :channels, through: :workspaces
     has_many :contest_phrases
-
+    has_many :sections
+    
     def users
         users = nil
         workspaces.each do |w|
