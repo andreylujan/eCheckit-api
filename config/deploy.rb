@@ -13,7 +13,7 @@ set :ssh_options, {
 }
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/srv/http/www/echeckit/api'
+set :deploy_to, '/srv/http/www/echeckit/dom/api'
 
 # Default value for :scm is :git
 set :scm, :git
