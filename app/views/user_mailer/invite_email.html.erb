@@ -4,29 +4,34 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title></title>
 </head>
-<body>
+<body style="margin: 0; padding: 0;">
     <div style="width: 650px">
-        <div id="header" style="width: 100%">
-            <div id="title" style="background-color: #a51e29; border-bottom: 7px solid #e32526;">
-                <img src="https://d21zid65ggdxzg.cloudfront.net/4a315f47486daac50bde1042194d3011.png" style="width: 200px; padding: 10px">
-            </div>
+        <div id="header" style="width: 100%; border-bottom: 4px solid gray">
+                <img src="http://d21zid65ggdxzg.cloudfront.net/7516C58A62E91F2AB14821A7C58C12C4.png" style="width: 150px; padding: 10px; display: inline-block; vertical-align: bottom;">
+                <img src="http://d21zid65ggdxzg.cloudfront.net/F4620745B6827E9246EA8BD7041942BB.png" style="width: 150px; padding: 10px; display: inline-block; vertical-align: bottom; margin-left: 300px;">
         </div>
         <div id="content">
-            <div id="text" style="font-family: calibri; color: #4b4b4b; text-align: center; padding: 50px">
-                <% if @workspace_invitation.user.nil? %>
-                    <h1>Hola <%= @workspace_invitation.user_email %>!</h1>
+            <div id="text" style="font-family: calibri; color: #4b4b4b; text-align: left; padding: 50px">
+                <% if @workspace_invitation.user.present? %>
+                    <% name = @workspace_invitation.user.name %>
                 <% else %>
-                    <h1>Hola <%= @workspace_invitation.user.name %>!</h1>
-                <% end %>               
-                <p>Has sido invitado a Embajadores en Acción.</p>
-                <p>Para completar la invitación ingresa al siguiente link</p>
-                <p><a href="http://52.3.170.85/#/core/signup?confirmation_token=<%= @workspace_invitation.confirmation_token %>">Aceptar invitación</a></p>
+                    <% name = @workspace_invitation.user_email %>
+                <% end %>
+                <h1 style="color: #7fcdca">Estimado <%= name %>!</h1>
+
+                <p>DOM te ha invitado a unirte al Workspace DOM en Echeck it.</p>
+                <p>Para confirmar esta invitación, haz click en el siguiente link para activar tu cuenta:</p>
+                <a href="http://52.3.170.85/dom/admin/#/core/signup?confirmation_token=<%= @workspace_invitation.confirmation_token %>" style="color: #7fcdca">activar cuenta</a>
+                <br>
+                <p>Saludos,</p>
+                <p>Team Echeck it</p>
             </div>
         </div>
         <div id="footer" style="width: 100%">
             <div id="lineFooter" style="background-color: #3a3a3c; height: 70px"></div>
         </div>
     </div>
+
 
 </body>
 </html>
