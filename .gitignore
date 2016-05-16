@@ -17,3 +17,4 @@ dump.sql
 Prod-eCheckIt.pem
 .idea
 /keys
+.byebug_history

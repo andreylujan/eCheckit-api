@@ -6,12 +6,22 @@ class V1::UsersController < ApplicationController
   
   
   def create
-    @user = User.new(create_params)
-    if @user.save
-      render json: @user, status: :created
+   
+    invitation = WorkspaceInvitation.find_by_confirmation_token params.require(:confirmation_token)
+    if invitation.present?
+      @user = User.new(create_params)
+      @user.email = invitation.user_email
+      if @user.save
+        render json: @user, status: :created
+      else
+        render json: @user, status: :unprocessable_entity
+      end
     else
-      render json: @user, status: :unprocessable_entity
+      render json: {
+        error: "Confirmation token invalid"
+      }, status: :unauthorized
     end
+
   end
 
   

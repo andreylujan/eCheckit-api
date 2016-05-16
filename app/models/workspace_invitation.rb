@@ -23,7 +23,7 @@ class WorkspaceInvitation < ActiveRecord::Base
   before_validation :lowercase_email
   # before_save :add_user
   after_create :send_email
-
+  after_create :add_user_role
   before_save :verify_user
   after_save :check_accepted
 
@@ -40,6 +40,12 @@ class WorkspaceInvitation < ActiveRecord::Base
   end
 
   private
+
+  def add_user_role
+    if self.user.present?
+      self.user.add_role :user, self.workspace
+    end
+  end
 
   def lowercase_email
     self.user_email = self.user_email.downcase if self.user_email.present?

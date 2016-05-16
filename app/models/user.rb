@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   has_many :zone_managers, dependent: :destroy
   has_many :zone_assignments, through: :zone_managers
   has_many :devices, dependent: :destroy
-  
+
   def create_token
     app = doorkeeper_app
     if not app
@@ -151,8 +151,10 @@ class User < ActiveRecord::Base
   end
 
   def check_invitations
-    WorkspaceInvitation.where(user_email: "ejemplo3@koandina.cl").each do |invitation|
-      invitation.udate_attribute :user_id, self.id
+    WorkspaceInvitation.where(user_email: self.email).each do |invitation|
+      invitation.update_attribute :user_id, self.id
+      workspace = invitation.workspace
+      self.add_role :user, workspace
     end
   end
 
