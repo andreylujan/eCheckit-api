@@ -61,6 +61,63 @@ class Report < ActiveRecord::Base
   after_create :assign_reason
   after_create :verify_checklists
 
+  require 'csv'
+
+  def self.to_csv(workspace_id)
+    contents = CSV.generate() do |csv|
+      columns = %w(id client_name client_rut construction contact_name contact_email create_date creator_email
+       assigned_user_email pdf)
+      csv << columns
+      reports = Report.where(workspace_id: workspace_id).order('created_at DESC')
+      reports.each do |row|
+        data = []
+        columns.each do |col_name|
+          data << row.send(col_name)
+        end
+        csv << data
+      end
+    end
+
+    out_file = File.new("reports.csv", "w")
+    out_file.puts(contents)
+    out_file.close
+  end
+
+  def creator_email
+    creator.email
+  end
+
+  def assigned_user_email
+    if assigned_user.present?
+      assigned_user.email
+    end
+  end
+
+  def create_date
+    created_at.to_date
+  end
+
+  def client_name
+    report_fields.find_by_report_field_type_id(15).value["name"]
+  end
+
+  def client_rut
+    report_fields.find_by_report_field_type_id(15).value["client_rut"]
+  end
+
+  def construction
+    report_fields.find_by_report_field_type_id(16).value["name"]
+  end
+
+  def contact_name
+    report_fields.find_by_report_field_type_id(22).value["name"]
+  end
+
+  def contact_email
+    report_fields.find_by_report_field_type_id(22).value["email"]
+  end
+
+
   def verify_assigned_user
     if self.assigned_user_id.nil? and self.creator_id.present?
       self.assigned_user_id = self.creator_id
@@ -90,7 +147,7 @@ class Report < ActiveRecord::Base
   def max_pictures
     max_pictures = 50
     if self.pictures.length > max_pictures
-        errors.add(:pictures, "El número máximo de fotos es #{max_pictures}")
+      errors.add(:pictures, "El número máximo de fotos es #{max_pictures}")
     end
   end
 

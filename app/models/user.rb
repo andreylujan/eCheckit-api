@@ -22,16 +22,18 @@
 #
 
 class User < ActiveRecord::Base
+
+  require 'csv'
   rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-  :recoverable, :rememberable, :trackable, :validatable
+    :recoverable, :rememberable, :trackable, :validatable
   has_many :created_reports, foreign_key: :creator_id, class_name: :Report, dependent: :nullify
   has_many :assigned_reports, foreign_key: :assigned_user_id, class_name: :Report, dependent: :nullify
   has_many :report_actions, dependent: :nullify
   has_many :feedbacks
-  
+
   after_create :create_token
   # after_create :assign_default_workspace
   after_create :check_invitations
@@ -42,6 +44,21 @@ class User < ActiveRecord::Base
   has_many :zone_managers, dependent: :destroy
   has_many :zone_assignments, through: :zone_managers
   has_many :devices, dependent: :destroy
+
+  def self.to_csv(workspace_id)
+    contents = CSV.generate() do |csv|
+      columns = %w(id email first_name last_name)
+      csv << columns
+      users = User.joins(users_roles: [ :role ] ).where(roles: { resource_id: workspace_id}).uniq
+      users.each do |row|
+        csv << row.attributes.values_at(*columns)
+      end
+    end
+
+    out_file = File.new("users.csv", "w")
+    out_file.puts(contents)
+    out_file.close
+  end
 
   def create_token
     app = doorkeeper_app
@@ -54,7 +71,7 @@ class User < ActiveRecord::Base
   def access_token
     access_tokens.last
   end
-  
+
   def clear_reset_token
     self.reset_password_token = nil
     self.reset_password_sent_at = nil
@@ -62,9 +79,9 @@ class User < ActiveRecord::Base
   end
 
   def valid_reset_token?(token)
-    valid = (self.reset_password_token.present? and 
-      token == self.reset_password_token and 
-      DateTime.now < reset_password_sent_at + 10.minutes)
+    valid = (self.reset_password_token.present? and
+             token == self.reset_password_token and
+             DateTime.now < reset_password_sent_at + 10.minutes)
   end
 
   def generate_reset_token
@@ -121,7 +138,7 @@ class User < ActiveRecord::Base
         workspace_json[:accepted] = invitation.accepted?
         orgs[org.id][:workspaces] << workspace_json
       end
-      
+
 
     end
     orgs.values
@@ -134,8 +151,8 @@ class User < ActiveRecord::Base
 
   def workspaces
     workspaces = []
-    roles.where(resource_type: "Workspace", name: "user").each do |r|  
-      workspaces << r.resource 
+    roles.where(resource_type: "Workspace", name: "user").each do |r|
+      workspaces << r.resource
     end
     workspaces
   end
@@ -143,7 +160,7 @@ class User < ActiveRecord::Base
   private
 
   def doorkeeper_app
-  	@app ||= Doorkeeper::Application.find_by_name("echeckit")    
+    @app ||= Doorkeeper::Application.find_by_name("echeckit")
   end
 
   def downcase_attributes
