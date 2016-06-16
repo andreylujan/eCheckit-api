@@ -97,24 +97,51 @@ class Report < ActiveRecord::Base
     created_at.to_date
   end
 
+  def client_info
+    report_fields.find_by_report_field_type_id(15)
+  end
+
   def client_name
-    report_fields.find_by_report_field_type_id(15).value["name"]
+    if not client_info.nil?
+      client_info["name"]
+    end
   end
 
   def client_rut
-    report_fields.find_by_report_field_type_id(15).value["client_rut"]
+    if not client_info.nil?
+      client_info["client_rut"]
+    end
+  end
+
+  def construction_info
+    report_fields.find_by_report_field_type_id(16).value
   end
 
   def construction
-    report_fields.find_by_report_field_type_id(16).value["name"]
+    if not construction_info.nil?
+      construction_info["name"]
+    end
+  end
+
+  def contact_info
+    type = report_fields.find_by_report_field_type_id(22)
+    if type
+      type.value
+    else
+      nil
+    end
   end
 
   def contact_name
-    report_fields.find_by_report_field_type_id(22).value["name"]
+    if not contact_info.nil?
+      contact_info["name"]
+    end
   end
 
   def contact_email
-    report_fields.find_by_report_field_type_id(22).value["email"]
+    if not contact_info.nil?
+      contact_info["email"]
+    end
   end
 
 
