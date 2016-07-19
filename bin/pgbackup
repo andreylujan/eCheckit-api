@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IP=52.3.170.85
+IP=50.16.161.152
 # IP=52.86.125.35
 PORT=60
 KEY=echeckit_production.pem
