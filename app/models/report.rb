@@ -63,12 +63,15 @@ class Report < ActiveRecord::Base
 
   require 'csv'
 
-  def self.to_csv(workspace_id)
+  def self.to_csv(workspace_id, year, month)
     contents = CSV.generate() do |csv|
       columns = %w(id client_name client_rut construction contact_name contact_email create_date creator_email
        assigned_user_email pdf)
       csv << columns
-      reports = Report.where(workspace_id: workspace_id).order('created_at DESC')
+      start_date = DateTime.new(year, month)
+      end_date = start_date + 1.month
+      reports = Report.where("workspace_id = ? AND created_at >= ? AND created_at < ?",
+          workspace_id, start_date, end_date).order('created_at DESC')
       reports.each do |row|
         data = []
         columns.each do |col_name|
