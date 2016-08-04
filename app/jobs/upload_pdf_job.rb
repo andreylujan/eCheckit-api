@@ -1,5 +1,5 @@
 class UploadPdfJob < ActiveJob::Base
-	queue_as :default
+	queue_as :andina_report
 
 	require 'amazon'
 
