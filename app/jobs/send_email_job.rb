@@ -1,5 +1,5 @@
 class SendEmailJob < ActiveJob::Base
-  queue_as :default
+  queue_as :dom_email
 
   def perform(email)
     gmail = Gmail.connect ENV["EWIN_EMAIL"], ENV["EWIN_PASSWORD"]

@@ -1,5 +1,5 @@
 class ContestEndJob < ActiveJob::Base
-  queue_as :default
+  queue_as :contest
 
   def perform(contest_id, title, message)
     contest = Contest.find(contest_id)

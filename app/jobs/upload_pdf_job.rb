@@ -1,5 +1,5 @@
 class UploadPdfJob < ActiveJob::Base
-	queue_as :default
+	queue_as :dom_report
 
 	require 'amazon'
 

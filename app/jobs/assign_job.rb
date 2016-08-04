@@ -1,5 +1,5 @@
 class AssignJob < ActiveJob::Base
-  queue_as :default
+  queue_as :dom_push
 
   def perform(report_id)
 
