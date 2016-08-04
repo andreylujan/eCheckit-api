@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.6'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 0.18.3'
+gem 'pg', '~> 0.18.4'
 
-gem 'active_model_serializers', '~> 0.9.3'
+gem 'active_model_serializers', '~> 0.9.4'
 
 group :doc do    
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -37,9 +37,9 @@ group :development do
   gem 'mailcatcher', '~> 0.6.1'
 	gem 'annotate', '~> 2.6.10'	
 	gem 'rails-erd', '~> 1.3.1'
-  gem 'capistrano-rails', '~> 1.1.3'
-  gem 'capistrano-rvm', '~> 0.1.2'
-  gem 'capistrano-passenger', '~> 0.0.5'
+  gem 'capistrano-rails', '~> 1.1.5'
+  gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
+  gem 'capistrano-passenger', '~> 0.2.0'
 end
 
 group :development, :test do
