@@ -1,6 +1,17 @@
+
+require 'digest'
+old_md5sum = nil
+if File.file? './db/data_md5sum'
+  f = File.open('./db/data_md5sum', 'r')
+  old_md5sum = f.read
+  f.close
+end
+md5sum = Digest::MD5.file('./db/DATOS.csv').hexdigest
+if not old_md5sum.nil? and old_md5sum == md5sum
+  exit
+end
+
 require 'csv'
-
-
 def titleize(word)
   word.humanize.gsub(/\b(?<!['’`])[a-z]/) { $&.capitalize }
 end
@@ -80,3 +91,7 @@ Client.transaction do
 
   end
 end
+
+f = File.open('./db/data_md5sum', 'w')
+f.write md5sum
+f.close

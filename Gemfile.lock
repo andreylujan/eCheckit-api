@@ -73,6 +73,7 @@ GEM
       capistrano
       sidekiq (>= 3.4)
     choice (0.2.0)
+    chronic (0.10.2)
     concurrent-ruby (1.0.0)
     connection_pool (2.2.0)
     daemons (1.2.3)
@@ -221,6 +222,8 @@ GEM
       yard (~> 0.7)
     warden (1.2.4)
       rack (>= 1.0)
+    whenever (0.9.7)
+      chronic (>= 0.6.3)
     wicked_pdf (1.0.3)
     wkhtmltopdf-binary (0.9.9.3)
     yard (0.8.7.6)
@@ -259,8 +262,9 @@ DEPENDENCIES
   spring (~> 1.6.1)
   thin (~> 1.6, >= 1.6.4)
   versionist (~> 1.4, >= 1.4.1)
+  whenever
   wicked_pdf (~> 1.0.3)
   wkhtmltopdf-binary (~> 0.9.9.3)
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
