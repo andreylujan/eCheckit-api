@@ -24,13 +24,13 @@ gem 'aws-sdk', '~> 2.2.9'
 gem 'faraday', '~> 0.9.2'
 gem 'sidekiq', '~> 4.0.2'
 gem 'net-ssh', '~> 3.0.2'
-gem 'capistrano-sidekiq', '~> 0.5.4'
 gem 'paranoia', '~> 2.1', '>= 2.1.5'
 gem 'versionist', '~> 1.4', '>= 1.4.1'
 
 group :development do
 	gem 'annotate', '~> 2.7.0'	
 	gem 'rails-erd', '~> 1.4.4'
+  gem 'capistrano-sidekiq', git: 'https://github.com/pelluch/capistrano-sidekiq'
   gem 'capistrano-rails', '~> 1.1.5'
   gem 'capistrano-rbenv', '~> 2.0', '>= 2.0.4'
   gem 'capistrano-passenger', '~> 0.2.0'
@@ -39,7 +39,6 @@ end
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 8.2.1'
-
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '~> 1.6.1'
   gem 'rspec-rails', '~> 3.4.0'
