@@ -1,12 +1,12 @@
 
 require 'digest'
 old_md5sum = nil
-if File.file? './db/data_md5sum'
-  f = File.open('./db/data_md5sum', 'r')
+if File.file? ENV['MD5SUM_FILE']
+  f = File.open(ENV['MD5SUM_FILE'], 'r')
   old_md5sum = f.read
   f.close
 end
-md5sum = Digest::MD5.file('./db/DATOS.csv').hexdigest
+md5sum = Digest::MD5.file(ENV['DATA_FILE']).hexdigest
 if not old_md5sum.nil? and old_md5sum == md5sum
   exit
 end
@@ -22,7 +22,7 @@ Client.transaction do
   Construction.destroy_all
   Client.destroy_all
 
-  CSV.foreach('./db/DATOS.csv', { col_sep: ';', encoding: 'windows-1251:utf-8' }) do |row|
+  CSV.foreach(ENV['DATA_FILE'], { col_sep: ';', encoding: 'windows-1251:utf-8' }) do |row|
     if row.length >= 4
       client_data = {
         rut: row[0],
@@ -92,6 +92,6 @@ Client.transaction do
   end
 end
 
-f = File.open('./db/data_md5sum', 'w')
+f = File.open(ENV['MD5SUM_FILE'], 'w')
 f.write md5sum
 f.close
