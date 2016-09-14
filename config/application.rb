@@ -21,7 +21,7 @@ module EcheckitApi
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :es
-    
+
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
@@ -29,6 +29,16 @@ module EcheckitApi
     config.generators do |g|
       g.test_framework :rspec
     end
+
+    config.action_mailer.smtp_settings = {
+      :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :domain               => ENV['EWIN_EMAIL_DOMAIN'],
+      :user_name            => ENV['EWIN_EMAIL'],
+      :password             => ENV['EWIN_PASSWORD'],
+      :authentication       => :login,
+      :enable_starttls_auto => true
+    }
   end
 end
 

@@ -27,7 +27,7 @@ class MailHelper
         mail = MailHelper.new message: html,
         to: workspace_invitation.user_email,
         subject: "Embajadores en acción | Confirme su usuario"
-        php = ac.render_to_string('templates/email.php.erb',
+        ac.render_to_string('templates/email.php.erb',
             locals: { :@mail => mail })
     end
 

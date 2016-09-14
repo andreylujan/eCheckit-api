@@ -18,3 +18,4 @@ Prod-eCheckIt.pem
 .idea
 /keys
 .byebug_history
+.DS_Store

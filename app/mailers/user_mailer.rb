@@ -1,6 +1,6 @@
 class UserMailer < ApplicationMailer
 
-    default from: 'eCheckit <info@echeckit.cl>'
+    default from: 'DOM <informes@dom.cl>'
     def welcome_email(invitation)
         workspace = invitation.workspace
         if workspace.present? and workspace.email.present? and workspace.welcome_message.present?
