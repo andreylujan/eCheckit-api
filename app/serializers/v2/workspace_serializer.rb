@@ -26,11 +26,11 @@ class V2::WorkspaceSerializer < ActiveModel::Serializer
   has_many :channels
 
   def reports
-    object_reports = object.reports.order('created_at desc')
+    object_reports = object.reports.includes(:report_fields, :report_state, :assigned_user, :creator).order('created_at desc')
     reports_json = []
     object_reports.each do |report|
       reports_json << V2::ReportIndexSerializer.new(report).as_json
-    end
+    end        
     reports_json
   end
 

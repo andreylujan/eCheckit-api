@@ -106,7 +106,7 @@ class Report < ActiveRecord::Base
 
   def client_name
     if not client_info.nil?
-      client_info["name"]
+      client_info.value["name"]
     end
   end
 

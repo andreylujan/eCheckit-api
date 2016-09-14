@@ -22,10 +22,11 @@ gem 'wicked_pdf', '~> 1.0.3'
 gem 'wkhtmltopdf-binary', '~> 0.9.9.3'
 gem 'aws-sdk', '~> 2.2.9'
 gem 'faraday', '~> 0.9.2'
-gem 'sidekiq', '~> 4.0.2'
+gem 'sidekiq', '~> 4.1', '>= 4.1.4'
 gem 'net-ssh', '~> 3.0.2'
 gem 'paranoia', '~> 2.1', '>= 2.1.5'
 gem 'versionist', '~> 1.4', '>= 1.4.1'
+gem 'sinatra'
 
 group :development do
 	gem 'annotate', '~> 2.7.0'	

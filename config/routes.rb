@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
   match '/*path', to: 'application#cors_preflight_check', via: :options
-  
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+    
+    
   current_api_routes = lambda do
 
-    
 
     resources :feedbacks, only: [ :create ]
     resources :access_tokens, only: [ :create ]

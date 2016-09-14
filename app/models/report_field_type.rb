@@ -16,4 +16,5 @@
 class ReportFieldType < ActiveRecord::Base
   belongs_to :workspace
   belongs_to :widget
+  has_many :report_fields
 end

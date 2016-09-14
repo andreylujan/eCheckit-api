@@ -34,14 +34,14 @@ class V2::ReportIndexSerializer < ActiveModel::Serializer
   has_one :reason
 
   def client_name
-    client_field = object.report_fields.where(report_field_type_id: 15).first
+    client_field = object.report_fields.select { |r| r.report_field_type_id = 15 }.first
     if client_field.present?
       client_field.value["name"]
     end
   end
 
   def construction_name
-    construction_field = object.report_fields.where(report_field_type_id: 16).first
+    construction_field = object.report_fields.select { |r| r.report_field_type_id = 16 }.first
     if construction_field.present?
       construction_field.value["name"]
     end

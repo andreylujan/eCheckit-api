@@ -4,7 +4,7 @@ class V2::WorkspacesController < ApplicationController
 
 	
 	def show
-		@workspace = Workspace.find(params[:id])
+		@workspace = Workspace.where(id: params[:id]).first		
 		if params[:include]
 			data = V2::WorkspaceFullSerializer.new(@workspace).as_json
 			render json: data
