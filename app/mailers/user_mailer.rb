@@ -38,7 +38,7 @@ class UserMailer < ApplicationMailer
         end
 
         mail(to: destinatary_email, 
-            subject: "Dom - Reporte de visita de obra",
+            subject: "Dom - Reporte de visita de obra #{@report.construction}",
             from: "Informes Dom <informes@dom.cl>",
             reply_to: "Informes DOM <#{@creator.email}>"
             )
