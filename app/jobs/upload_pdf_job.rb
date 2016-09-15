@@ -27,7 +27,7 @@ class UploadPdfJob < ActiveJob::Base
                                                             user_name: report.contact_name,
                                                             pdf: url,
                                                             destinatary: report.contact_email,
-                                                            subject: "Tarea Completada",
+                                                            subject: "Dom - Reporte de visita de obra",
                                                             from: "Informes Dom <informes@dom.cl>"
         })
       end
