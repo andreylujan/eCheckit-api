@@ -22,7 +22,7 @@ class ReportAction < ActiveRecord::Base
   validate :data_attributes_present
   belongs_to :report_state
   before_create :check_report_state
-  
+
 
   def data_attributes_present
     if self.report_action_type.name == "assign"
@@ -52,7 +52,7 @@ class ReportAction < ActiveRecord::Base
   end
 
   def notify_action
-    
+
     apns_app_name = ENV["APNS_APP_NAME"]
     gcm_app_name = ENV["GCM_APP_NAME"]
 
@@ -61,17 +61,17 @@ class ReportAction < ActiveRecord::Base
       new_user = self.report.assigned_user
       devices = new_user.devices
       conn = Faraday.new(:url => ENV["PUSH_ENGINE_HOST"])
-        params = {
-          alert: "Se le ha asignado el reporte #{self.report.title}",
-          data: {
-            message: "Se le ha asignado el reporte #{self.report.title}",
-            title: "Reporte asignado",
-            report_id: self.report.id,
-            type: "assign"
-          },
-          gcm_app_name: gcm_app_name,
-          apns_app_name: apns_app_name
-        }
+      params = {
+        alert: "Se le ha asignado el reporte #{self.report.title}",
+        data: {
+          message: "Se le ha asignado el reporte #{self.report.title}",
+          title: "Reporte asignado",
+          report_id: self.report.id,
+          type: "assign"
+        },
+        gcm_app_name: gcm_app_name,
+        apns_app_name: apns_app_name
+      }
       devices.each do |device|
         if device.name == "android"
           body = params.merge({ registration_id: device.registration_id })
@@ -83,7 +83,7 @@ class ReportAction < ActiveRecord::Base
           req.headers['Content-Type'] = 'application/json'
           req.body = body.to_json
         end
-        
+
       end
     elsif self.report_action_type.name == "change_state"
     end
@@ -108,8 +108,8 @@ class ReportAction < ActiveRecord::Base
         end
         first_assigned_user_id = self.report.report_actions.first.data["assigned_user_id"]
         first_assigned_user = User.find(first_assigned_user_id)
-        message = self.report.assign_actions.count == 1 ? "Se le ha asignado el reporte #{self.report.title}" : 
-        "El reporte #{self.report.title} ha sido reasignado a #{self.report.assigned_user_name}"
+        message = self.report.assign_actions.count == 1 ? "Se le ha asignado el reporte #{self.report.title}" :
+          "El reporte #{self.report.title} ha sido reasignado a #{self.report.assigned_user_name}"
         emails << {
           destinatary: first_assigned_user.email,
           message: message,
@@ -118,7 +118,7 @@ class ReportAction < ActiveRecord::Base
           from: self.report.workspace.email,
           subject: "Embajadores en acción | Reporte reasignado"
         }
-      elsif self.report_action_type.name == "change_state" and 
+      elsif self.report_action_type.name == "change_state" and
         self.report_state.name == "Cerrado"
         self.report.assign_actions.each do |action|
           assigned_user_id = action.data["assigned_user_id"]
@@ -134,14 +134,14 @@ class ReportAction < ActiveRecord::Base
         end
       end
       emails.uniq! { |e| e[:destinatary] }
-      
+
       emails.each do |email|
         UserMailer.report_email(email).deliver_now!
       end
-      
+
     end
   end
-  
+
   private
 
   def check_report_state
@@ -157,6 +157,6 @@ class ReportAction < ActiveRecord::Base
     self.report.update_attribute :report_state_id, self.report_state_id
   end
 
-  
-  
+
+
 end

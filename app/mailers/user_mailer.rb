@@ -26,11 +26,21 @@ class UserMailer < ApplicationMailer
             from: "info@echeckit.cl")
     end
 
-    def report_email(email)
-        @message = email[:message]
-        @user_name = email[:user_name]
-        @pdf = email[:pdf]
-        mail(to: email[:destinatary], subject: email[:subject],
-            from: email[:from])
+    def report_email(report_id, destinatary_email)
+        @report = Report.find(report_id)
+        @message = "Se ha completado la tarea de la obra #{@report.client_name} - #{@report.construction}"
+        @user_name = @report.contact_name
+        @pdf = @report.pdf
+        if @report.assigned_user.present?
+            @creator = @report.assigned_user
+        else
+            @creator = @report.creator
+        end
+        
+        mail(to: destinatary_email, 
+            subject: "Dom - Reporte de visita de obra",
+            from: "Informes Dom <informes@dom.cl>",
+            reply_to: "#{@creator.name} <#{@creator.email}>"
+            )
     end
 end
