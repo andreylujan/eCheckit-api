@@ -20,12 +20,12 @@ class UploadPdfJob < ActiveJob::Base
       if report_action
         report_action.send_create_email
       end
-      if report.contact_email.present? # and report.client_name == "Ewin"
-      	creator_email = report.assigned_user.present? ? report.assigned_user.email : report.creator.email
+      if report.contact_email.present? and report.contact_email.include? '@' # and report.client_name == "Ewin"
         UserMailer.delay(queue: "dom_email").report_email(report_id, report.contact_email)
-        UserMailer.delay(queue: "dom_email").report_email(report_id, creator_email)
-        UserMailer.delay(queue: "dom_email").report_email(report_id, "informes@dom.cl")
       end
+      creator_email = report.assigned_user.present? ? report.assigned_user.email : report.creator.email
+      UserMailer.delay(queue: "dom_email").report_email(report_id, creator_email)
+      UserMailer.delay(queue: "dom_email").report_email(report_id, "informes@dom.cl")
     end
   end
 end
