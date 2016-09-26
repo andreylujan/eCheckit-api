@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :access_tokens, only: [ :create ]
     resources :workspaces, only: [ :show, :index ] do
       post :admins
-      get :dashboard
+      get :dashboard, to: 'dashboard#show'
       get :excel
       resources :clients, only: [ :index ]
       resources :constructions, only: [ :index ]
