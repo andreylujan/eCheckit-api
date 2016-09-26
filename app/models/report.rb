@@ -67,7 +67,7 @@ class Report < ActiveRecord::Base
     finish_date.present?
   end
 
-  def self.to_csv(workspace_id, year, month)
+  def self.to_csv(workspace_id, year = DateTime.now.year, month = DateTime.now.month, to_file = true)
     contents = CSV.generate() do |csv|
       columns = %w(id client_name client_rut construction contact_name contact_email create_date creator_email
        assigned_user_email pdf)
@@ -85,9 +85,12 @@ class Report < ActiveRecord::Base
       end
     end
 
-    out_file = File.new("reports.csv", "w")
-    out_file.puts(contents)
-    out_file.close
+    if to_file
+      out_file = File.new("reports.csv", "w")
+      out_file.puts(contents)
+      out_file.close
+    end
+    contents
   end
 
   def month_criteria

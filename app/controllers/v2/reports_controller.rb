@@ -3,7 +3,7 @@ class V2::ReportsController < ApplicationController
   require 'amazon'
 
 
-  before_action :doorkeeper_authorize!, except: :index
+  before_action :doorkeeper_authorize!
 
   
   def create
@@ -107,8 +107,11 @@ class V2::ReportsController < ApplicationController
         render json: reports_json, status: :ok
       end
       format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"reportes.csv\""
+        headers['Content-Disposition'] = "attachment; filename=\"reports.csv\""
         headers['Content-Type'] ||= 'text/csv'
+        csv_data = @reports.to_csv(workspace_id, params.require(:year).to_i, params.require(:month).to_i, false)
+        send_data(csv_data, :type => 'text/csv', :filename => 'reports.csv')
+        return
       end
     end
   end
