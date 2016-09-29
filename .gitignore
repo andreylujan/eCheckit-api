@@ -19,3 +19,5 @@ Prod-eCheckIt.pem
 /keys
 .byebug_history
 .DS_Store
+.env
+*.csv

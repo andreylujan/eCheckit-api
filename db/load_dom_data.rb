@@ -22,7 +22,7 @@ Client.transaction do
   Construction.destroy_all
   Client.destroy_all
 
-  CSV.foreach(ENV['DATA_FILE'], { col_sep: ';', encoding: 'windows-1251:utf-8' }) do |row|
+  CSV.foreach(ENV['DATA_FILE'], { col_sep: ',', encoding: 'windows-1251:utf-8' }) do |row|
     if row.length >= 4
       client_data = {
         rut: row[0],
