@@ -11,8 +11,14 @@ class V2::DashboardController < ApplicationController
                         .order('reports.created_at ASC')
 
     filtered_reports = yearly_reports
-    reports_by_month = filtered_reports.group_by(&:month_criteria).map do |month|
-    	
+
+    last_month_reports = workspace.reports
+      .includes(:assigned_user, :creator)
+                        .where("reports.created_at >= ? AND reports.created_at < ?",
+                               DateTime.now.beginning_of_month - 1.month, DateTime.now.end_of_month - 1.month)
+                        .order('reports.created_at ASC')
+
+    reports_by_month = filtered_reports.group_by(&:month_criteria).map do |month|    	
     	{
     		num_assigned: month[1].count { |r| r.assigned_user.present? },
         num_executed: month[1].count { |r| r.finished? },
@@ -33,8 +39,7 @@ class V2::DashboardController < ApplicationController
       }
     end.sort! { |a, b| a[:user_name] <=> b[:user_name] }
 
-    last_month_user_reports = filtered_reports.where("reports.created_at >= ? AND reports.created_at < ?",
-        DateTime.now.beginning_of_month - 1.month, DateTime.now.end_of_month - 1.month)
+    last_month_user_reports = last_month_reports
         .where.not(assigned_user_id: nil)
 
     last_month_reports_by_user = last_month_user_reports.group_by(&:assigned_user).map do |info|
