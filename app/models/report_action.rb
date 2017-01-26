@@ -136,7 +136,7 @@ class ReportAction < ActiveRecord::Base
       emails.uniq! { |e| e[:destinatary] }
 
       emails.each do |email|
-        UserMailer.report_email(email).deliver_now!
+        UserMailer.report_email(I18n.transliterate(email)).deliver_now!
       end
 
     end
