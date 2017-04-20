@@ -4,7 +4,11 @@ class UploadPdfJob < ActiveJob::Base
   require 'amazon'
 
   def perform(report_id)
+    send_emails = true
     report = Report.find(report_id)
+    if report.pdf.present?
+      send_emails = false
+    end
     ac = ActionController::Base.new()
     # html = ac.render_to_string('templates/report.html.erb',
     # html = ac.render_to_string('templates/report2.html.erb',
@@ -16,16 +20,18 @@ class UploadPdfJob < ActiveJob::Base
     url = Amazon.upload_pdf(pdf)
     if not url.nil?
       report.update_attribute :pdf, url
-      report_action = report.report_actions.last
-      if report_action
-        report_action.send_create_email
+      if send_emails
+        report_action = report.report_actions.last
+        if report_action
+          report_action.send_create_email
+        end
+        if report.contact_email.present? and report.contact_email.include? '@' # and report.client_name == "Ewin"
+          UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(report.contact_email))
+        end
+        creator_email = report.assigned_user.present? ? report.assigned_user.email : report.creator.email
+        UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(creator_email))
+        UserMailer.delay(queue: "dom_email").report_email(report_id, "informes@dom.cl")
       end
-      if report.contact_email.present? and report.contact_email.include? '@' # and report.client_name == "Ewin"
-        UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(report.contact_email))
-      end
-      creator_email = report.assigned_user.present? ? report.assigned_user.email : report.creator.email
-      UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(creator_email))
-      UserMailer.delay(queue: "dom_email").report_email(report_id, "informes@dom.cl")
     end
   end
 end

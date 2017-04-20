@@ -67,6 +67,10 @@ class Report < ActiveRecord::Base
     finish_date.present?
   end
 
+  def regenerate_pdf
+    UploadPdfJob.perform_later(self.id)
+  end
+
   def self.to_csv(workspace_id, year = DateTime.now.year, month = DateTime.now.month, to_file = true)
     contents = CSV.generate() do |csv|
       columns = %w(id client_name client_rut construction contact_name contact_email create_date creator_email
