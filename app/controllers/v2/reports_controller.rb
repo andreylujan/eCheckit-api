@@ -102,7 +102,7 @@ class V2::ReportsController < ApplicationController
       format.json do
         reports_json = []
         @reports.each do |r|
-          reports_json << ReportIndexSerializer.new(r).as_json
+          reports_json << V2::ReportIndexSerializer.new(r).as_json
         end
         render json: reports_json, status: :ok
       end

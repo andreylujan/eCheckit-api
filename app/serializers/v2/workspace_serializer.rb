@@ -18,7 +18,7 @@
 class V2::WorkspaceSerializer < ActiveModel::Serializer
   attributes :id, :name, :organization_id, :users, :server_time,
     :max_pictures
-
+  attr_accessor :page_params, :current_user
   has_many :reports
   has_many :report_states
   has_many :contests
@@ -27,6 +27,16 @@ class V2::WorkspaceSerializer < ActiveModel::Serializer
 
   def reports
     object_reports = object.reports.includes(:report_fields, :report_state, :assigned_user, :creator).order('created_at desc')
+    created_reports = object_reports.where(creator_id: @current_user.id)
+    assigned_reports = object_reports.where(assigned_user_id: @current_user.id)
+
+    if @page_params.present?
+      created_reports = created_reports.limit(@page_params[:size])
+      assigned_reports = assigned_reports.limit(@page_params[:size])
+    end
+    assigned_reports = assigned_reports.to_a
+    created_reports = created_reports.to_a
+    object_reports = (assigned_reports + created_reports).uniq
     reports_json = []
     object_reports.each do |report|
       reports_json << V2::ReportIndexSerializer.new(report).as_json

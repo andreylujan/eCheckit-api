@@ -9,7 +9,12 @@ class V2::WorkspacesController < ApplicationController
 			data = V2::WorkspaceFullSerializer.new(@workspace).as_json
 			render json: data
 		else
-			render json: @workspace
+			serializer = V2::WorkspaceSerializer.new(@workspace)
+			serializer.page_params = params[:page]
+			serializer.current_user = current_user
+			data = serializer.as_json
+
+			render json: data
 		end
 	end
 
