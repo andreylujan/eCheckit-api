@@ -30,16 +30,30 @@ Client.transaction do
         construction_name: row[2],
         construction_id: row[3]
       }
-      if row.length >= 5
-        client_data[:contact_name] = row[4]
-      end
-
+      contacts = []
       if row.length >= 6
-        client_data[:contact_email] = row[5]
+        contacts << {
+          name: row[4],
+          email: row[5]
+        }
       end
 
       if row.length >= 7
         client_data[:construction_address] = row[6]
+      end
+
+      if row.length >= 9
+        contacts << {
+          name: row[7],
+          email: row[8]
+        }
+      end
+
+      if row.length >= 11
+        contacts << {
+          name: row[9],
+          email: row[10]
+        }
       end
 
       client_data.values.each do |val|
@@ -52,12 +66,14 @@ Client.transaction do
         next
       end
       client_data[:rut].upcase!
-      client_data[:contact_email].downcase! if client_data[:contact_email].present?
+      contacts.each do |contact|
+        contact[:name] = titleize(contact[:name]) if contact[:name].present?
+        contact[:email].downcase! if contact[:email].present?
+      end
       client_data[:name] = titleize(client_data[:name]) if client_data[:name].present?
       client_data[:construction_name] = titleize(client_data[:construction_name]) if client_data[:construction_name].present?
       client_data[:construction_id] = client_data[:construction_id].to_i
       client_data[:construction_address] = titleize(client_data[:construction_address]) if client_data[:construction_address].present?
-      client_data[:contact_name] = titleize(client_data[:contact_name]) if client_data[:contact_name].present?
 
       client = Client.with_deleted.find_by_rut(client_data[:rut])
       if client.present?
@@ -80,19 +96,34 @@ Client.transaction do
         c.save!
       end
 
-      if client_data[:contact_email].present?
 
-        contact = Contact.with_deleted.find_by_email_and_construction_id(client_data[:contact_email],
-                                                                         construction.id)
-        if contact.present?
-          contact.restore
-        end
+      contacts.each do |contact_info|
+        if contact_info[:email].present?
+          contact = Contact.with_deleted.find_by_email_and_construction_id(contact_info[:email],
+                                                                           construction.id)
+          if contact.present?
+            contact.restore
+          end
 
-        Contact.find_or_create_by(email: client_data[:contact_email], construction: construction).tap do |c|
-          c.name = client_data[:contact_name].present? ? client_data[:contact_name] : client_data[:contact_email]
-          c.save!
+          Contact.find_or_create_by(email: contact_info[:email], construction: construction).tap do |c|
+            c.name = contact_info[:name].present? ? contact_info[:name] : contact_info[:email]
+            c.save!
+          end
         end
       end
+      # if client_data[:contact_email].present?
+
+      #   contact = Contact.with_deleted.find_by_email_and_construction_id(client_data[:contact_email],
+      #                                                                    construction.id)
+      #   if contact.present?
+      #     contact.restore
+      #   end
+
+      #   Contact.find_or_create_by(email: client_data[:contact_email], construction: construction).tap do |c|
+      #     c.name = client_data[:contact_name].present? ? client_data[:contact_name] : client_data[:contact_email]
+      #     c.save!
+      #   end
+      # end
     end
 
   end
