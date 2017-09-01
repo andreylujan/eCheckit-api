@@ -1,11 +1,11 @@
 ---
-:concurrency: 5
+:concurrency: 1
 :pidfile: tmp/pids/sidekiq.pid
 staging:
-  :concurrency: 10
+  :concurrency: 1
 production:
-  :concurrency: 10
+  :concurrency: 1
 :queues:
-  - [ andina_report, 12 ]
-  - [ andina_email, 4 ]
+  - [ andina_report, 1 ]
+  - [ andina_email, 1 ]
   - [ contest, 1 ]
