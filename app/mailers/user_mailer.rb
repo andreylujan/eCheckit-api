@@ -26,10 +26,10 @@ class UserMailer < ApplicationMailer
             from: "info@echeckit.cl")
     end
 
-    def report_email(report_id, destinatary_email)
+    def report_email(report_id, user_name, destinatary_email)
         @report = Report.find(report_id)
         @message = "Se ha completado la tarea de la obra #{@report.client_name} - #{@report.construction}"
-        @user_name = @report.contact_name
+        @user_name = user_name
         @pdf = @report.pdf
         if @report.assigned_user.present?
             @creator = @report.assigned_user

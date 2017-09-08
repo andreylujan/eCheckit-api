@@ -26,18 +26,19 @@ class UploadPdfJob < ActiveJob::Base
           report_action.send_create_email
         end
         creator_email = report.assigned_user.present? ? report.assigned_user.email : report.creator.email
-        emails = [ "informes@dom.cl", creator_email ]
+        creator_name = report.assigned_user.present? ? report.assigned_user.name : report.creator.name
+        emails = [{ name: "Informes DOM", email: "informes@dom.cl" }, { name: creator_name, email: creator_email }]
         unique_id = report.construction_info["construction_id"]
         if Construction.exists? unique_id
           construction = Construction.find(unique_id)
           construction.contacts.each do |contact|
-            emails << contact.email
+            emails << { name: contact.name, email: contact.email }
             emails.uniq!
           end
         end
         emails.each do |email|
-          if email.present? and email.include? '@'
-            UserMailer.delay(queue: "dom_email").report_email(report_id, email)
+          if email[:email].present? and email[:email].include? '@'
+            UserMailer.delay(queue: "dom_email").report_email(report_id, email[:name], email[:email])
           end
         end
 
