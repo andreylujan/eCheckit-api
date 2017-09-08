@@ -25,12 +25,28 @@ class UploadPdfJob < ActiveJob::Base
         if report_action
           report_action.send_create_email
         end
-        if report.contact_email.present? and report.contact_email.include? '@' # and report.client_name == "Ewin"
-          UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(report.contact_email))
-        end
         creator_email = report.assigned_user.present? ? report.assigned_user.email : report.creator.email
-        UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(creator_email))
-        UserMailer.delay(queue: "dom_email").report_email(report_id, "informes@dom.cl")
+        emails = [ "informes@dom.cl", creator_email ]
+        unique_id = report.construction_info["construction_id"]
+        if Construction.exists? unique_id
+          construction = Construction.find(unique_id)
+          construction.contacts.each do |contact|
+            emails << contact.email
+            emails.uniq!
+          end
+        end
+        emails.each do |email|
+          if email.present? and email.include? '@'
+            UserMailer.delay(queue: "dom_email").report_email(report_id, email)
+          end
+        end
+
+        # if report.contact_email.present? and report.contact_email.include? '@' # and report.client_name == "Ewin"
+        #  UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(report.contact_email))
+        # end
+        
+        # UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(creator_email))
+        # UserMailer.delay(queue: "dom_email").report_email(report_id, "informes@dom.cl")
       end
     end
   end
