@@ -44,7 +44,7 @@ set :bundle_flags, '--deployment --quiet'                # this is default
 set :bundle_env_variables, {}                    # this is default
 
 # Default value for :linked_files is []
-set :linked_files, %w{.env}
+set :linked_files, %w{.env .ruby-version}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -56,7 +56,7 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/sys
 set :keep_releases, 5
 
 set :rbenv_type, :user
-set :rbenv_ruby, '2.3.0'
+set :rbenv_ruby, '2.3.3'
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} /home/ubuntu/.rbenv/bin/rbenv exec"
 set :rbenv_roles, :all
 set :rbenv_custom_path, '/home/ubuntu/.rbenv/bin/rbenv'
