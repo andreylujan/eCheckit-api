@@ -21,4 +21,3 @@ Prod-eCheckIt.pem
 .DS_Store
 .env
 *.csv
-.ruby-version
