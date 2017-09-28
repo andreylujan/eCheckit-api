@@ -97,6 +97,42 @@ class Report < ActiveRecord::Base
     contents
   end
 
+  def duration_seconds
+    if start_date.present? and finish_date.present?
+      finish_date - start_date
+    else
+      0
+    end
+  end
+
+  def duration
+    if start_date.present? and finish_date.present?
+      duration_secs = finish_date - start_date
+      tmp = duration_secs
+      duration_comps = []
+
+      if duration_secs >= 86400
+        days = (duration_secs/86400).to_i
+        duration_comps << "#{days}d"
+        duration_secs = duration_secs % 86400
+      end
+      if duration_secs >= 3600
+        hours = (duration_secs/3600).to_i
+        duration_comps << "#{hours}h"
+        duration_secs = duration_secs % 3600
+      end
+      if duration_secs >= 60
+        minutes = (duration_secs/60).to_i
+        duration_comps << "#{minutes}m"
+      elsif tmp < 60
+        duration_comps << "#{duration_secs.to_i}s"
+      end
+      duration_comps.join(" ")
+    else
+      "Sin duración"
+    end
+  end
+
   def month_criteria
     self.created_at.beginning_of_month
   end

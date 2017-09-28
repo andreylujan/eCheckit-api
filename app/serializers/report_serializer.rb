@@ -39,7 +39,7 @@ class ReportSerializer < ActiveModel::Serializer
   :region, :city, :latitude, :longitude, :reference, :comment, :report_state_id,
   :creator_name, :synced, :internal_id, :is_draft, :start_date, 
   :finish_date, :finish_latitude, :finish_longitude, :visit_date,
-  :start_latitude, :start_longitude
+  :start_latitude, :start_longitude, :duration
 
   has_one :report_state
   has_many :pictures

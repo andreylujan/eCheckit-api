@@ -26,7 +26,8 @@ class V2::ReportIndexSerializer < ActiveModel::Serializer
   :created_at, :title, :workspace_id, :report_state_id,
   :assigned_user_name, :creator_name, :pdf,
   :synced, :is_draft, :start_date, :finish_date, :visit_date,
-  :internal_id, :client_name, :construction_name
+  :internal_id, :client_name, :construction_name,
+  :duration
 
   has_one :report_state
   has_one :channel
