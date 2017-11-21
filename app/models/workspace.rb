@@ -110,6 +110,7 @@ class Workspace < ActiveRecord::Base
         if params[:end_date]
           begin
             end_date = Date.parse params[:end_date]
+            end_date = end_date + 1
             reports = reports.where("created_at < ?", end_date)
           rescue ArgumentError
             return {
