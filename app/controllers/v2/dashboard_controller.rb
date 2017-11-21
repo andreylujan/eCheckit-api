@@ -52,7 +52,7 @@ class V2::DashboardController < ApplicationController
     end
 
     current_month_user_reports = filtered_reports.where("reports.created_at >= ? AND reports.created_at < ?",
-                                                        DateTime.now.beginning_of_month, DateTime.now.end_of_month)
+                                                        DateTime.now.beginning_of_month, DateTime.now.end_of_month + 1)
     .where.not(assigned_user_id: nil)
 
     current_month_reports_by_user = current_month_user_reports.group_by(&:assigned_user).map do |info|
