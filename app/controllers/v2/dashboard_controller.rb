@@ -38,8 +38,8 @@ class V2::DashboardController < ApplicationController
 
     last_month_reports = workspace.reports
     .includes(:assigned_user, :creator)
-    .where("reports.created_at >= ? AND reports.created_at < ?",
-           DateTime.now.beginning_of_month - 1.month, DateTime.now.end_of_month - 1.month)
+    .where("reports.created_at >= ? AND reports.created_at <= ?",
+           DateTime.now.beginning_of_month - 1.month, DateTime.now.end_of_month - 1.month + 1)
     .order('reports.created_at ASC')
 
     reports_by_month = filtered_reports.group_by(&:month_criteria).map do |month|
