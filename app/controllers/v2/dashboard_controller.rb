@@ -36,10 +36,12 @@ class V2::DashboardController < ApplicationController
 
     filtered_reports = yearly_reports
 
+    Rails.logger.info "beginning_of_month : #{DateTime.now.beginning_of_month - 1.month} - end_of_month: #{(DateTime.now - 1.month).end_of_month} "
+
     last_month_reports = workspace.reports
     .includes(:assigned_user, :creator)
     .where("reports.created_at >= ? AND reports.created_at <= ?",
-           DateTime.now.beginning_of_month - 1.month, DateTime.now.end_of_month - 1.month + 1)
+           DateTime.now.beginning_of_month - 1.month, (DateTime.now - 1.month).end_of_month)
     .order('reports.created_at ASC')
 
     reports_by_month = filtered_reports.group_by(&:month_criteria).map do |month|

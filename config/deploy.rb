@@ -7,7 +7,7 @@ set :branch, 'master'
 
 set :ssh_options, {
  keys: [ "./keys/Prod-eCheckIt.pem", "Users/Alvaro/.ssh/id_rsa", "/home/pablo/.ssh/ubuntu.pem", "./keys/Dev-eCheckIt.pem",
- "/home/pablo/.ssh/echeckit_production.pem" ],
+ "/home/pablo/.ssh/echeckit_production.pem", "~/.ssh/id_rsa" ],
  forward_agent: true,
  auth_methods: ["publickey"]
 }

@@ -73,7 +73,7 @@ class Report < ActiveRecord::Base
 
   def self.to_csv(workspace_id, year = DateTime.now.year, month = DateTime.now.month, to_file = true)
     contents = CSV.generate() do |csv|
-      columns = %w(id client_name client_rut construction contact_name contact_email create_date creator_email
+      columns = %w(id client_name client_rut construction contruction_id contact_name contact_email create_date creator_email
        assigned_user_email pdf)
       csv << columns
       start_date = DateTime.new(year, month)
@@ -153,6 +153,12 @@ class Report < ActiveRecord::Base
 
   def client_info
     report_fields.find_by_report_field_type_id(15)
+  end
+
+  def contruction_id
+    if not construction_info.nil?
+      construction_info["id"]
+    end
   end
 
   def client_name
