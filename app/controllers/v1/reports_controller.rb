@@ -98,8 +98,8 @@ class V1::ReportsController < ApplicationController
     workspace_id = params.require(:workspace_id)
     workspace = Workspace.find(workspace_id)
     @reports = workspace.reports
-    Rails.logger.info "Format : #{respond_to}"
     respond_to do |format|
+      Rails.logger.info "Format : #{format}"
       format.json do
         reports_json = []
         @reports.each do |r|
