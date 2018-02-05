@@ -5,7 +5,7 @@ class V1::ReportsController < ApplicationController
 
   before_action :doorkeeper_authorize!, except: :index
 
-  
+
   def create
 
     if params[:internal_id].present?
@@ -93,7 +93,7 @@ class V1::ReportsController < ApplicationController
     end
   end
 
-  
+
   def index
     workspace_id = params.require(:workspace_id)
     workspace = Workspace.find(workspace_id)
@@ -113,13 +113,13 @@ class V1::ReportsController < ApplicationController
     end
   end
 
-  
+
   def show
     @report = Report.find(params[:id])
     render json: @report, status: :ok
   end
 
-  
+
   def update
     @report = Report.find(params[:id])
 
@@ -162,7 +162,7 @@ class V1::ReportsController < ApplicationController
     params.require(:report).permit(:workspace_id, :assigned_user_id, :visit_date)
   end
   def create_params
-    params.require(:report).permit(:workspace_id, :title,
+    params.require(:report).permit(:workspace_id, :title,:construction_id,
                                    :report_state_id, :assigned_user_id,
                                    :longitude, :latitude, :address, :city, :country,
                                    :region, :commune, :reference, :comment, :internal_id,
