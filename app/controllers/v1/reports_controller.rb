@@ -112,6 +112,9 @@ class V1::ReportsController < ApplicationController
         headers['Content-Type'] ||= 'text/csv'
         csv_data = @reports.to_csv(workspace_id, params.require(:year).to_i, params.require(:month).to_i, false)
         send_data(csv_data, :type => 'text/csv', :filename => 'reports.csv')
+
+        #headers['Content-Disposition'] = "attachment; filename=\"reportes.csv\""
+        #headers['Content-Type'] ||= 'text/csv'
       end
     end
   end

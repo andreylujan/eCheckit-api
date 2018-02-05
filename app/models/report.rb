@@ -72,7 +72,6 @@ class Report < ActiveRecord::Base
   end
 
   def self.to_csv(workspace_id, year = DateTime.now.year, month = DateTime.now.month, to_file = true)
-    Rails.logger.info "CSV : #{workspace_id}, #{construction_id}"
     contents = CSV.generate() do |csv|
       columns = %w(id client_name client_rut construction construction_id contact_name contact_email create_date creator_email
        assigned_user_email pdf)
