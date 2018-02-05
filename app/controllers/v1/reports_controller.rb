@@ -162,7 +162,7 @@ class V1::ReportsController < ApplicationController
     params.require(:report).permit(:workspace_id, :assigned_user_id, :visit_date)
   end
   def create_params
-    params.require(:report).permit(:workspace_id, :title,:construction_id,
+    params.require(:report).permit(:workspace_id, :title, :construction_id,
                                    :report_state_id, :assigned_user_id,
                                    :longitude, :latitude, :address, :city, :country,
                                    :region, :commune, :reference, :comment, :internal_id,
