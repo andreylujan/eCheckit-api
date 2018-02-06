@@ -73,8 +73,8 @@ class Report < ActiveRecord::Base
 
   def self.to_csv(workspace_id, year = DateTime.now.year, month = DateTime.now.month, to_file = true)
     contents = CSV.generate() do |csv|
-      columns = %w(id client_name client_rut construction construction_id contact_name contact_email create_date creator_email
-       assigned_user_email pdf)
+      columns = %w(id client_name client_rut construction construction_id contact_name contact_email create_date creator_name
+        creator_email assigned_user_name assigned_user_email pdf)
       csv << columns
       start_date = DateTime.new(year, month)
       end_date = start_date + 1.month
@@ -156,9 +156,15 @@ class Report < ActiveRecord::Base
   end
 
   def construction_id
+    Rails.logger.info "unique_id : #{Construction.find(construction_info["construction_id"]).unique_id}"
     if not construction_info.nil?
-      construction_info["construction_id"]
+      if construction_info["unique_id"].present?
+        construction_info["unique_id"]
+      else
+        Construction.find(construction_info["construction_id"]).unique_id
+      end
     end
+
   end
 
   def client_name
@@ -169,7 +175,7 @@ class Report < ActiveRecord::Base
 
   def client_rut
     if not client_info.nil?
-      client_info["client_rut"]
+      client_info.value["client_rut"]
     end
   end
 
