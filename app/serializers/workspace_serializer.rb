@@ -26,7 +26,9 @@ class WorkspaceSerializer < ActiveModel::Serializer
   has_many :channels
 
   def reports
-    object_reports = object.reports.order('created_at desc')
+    object_reports = object.reports
+      .where("reports.created_at >= ?",DateTime.now.years_ago(1).beginning_of_year)
+      .order('created_at desc')
     reports_json = []
     object_reports.each do |report|
       reports_json << ReportIndexSerializer.new(report).as_json
