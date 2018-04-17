@@ -98,12 +98,12 @@ class User < ActiveRecord::Base
   def send_welcome_email
     invitation = self.workspace_invitations.where(accepted: true).first
     if invitation.present?
-      UserMailer.welcome_email(invitation).deliver_now!
+      UserSendGridMailer.welcome_email(invitation).deliver_now!
     end
   end
 
   def send_password_confirmation_token
-    UserMailer.password_confirmation_token_email(self).deliver_now!
+    UserSendGridMailer.password_confirmation_token_email(self).deliver_now!
   end
 
   def admin_workspace_ids

@@ -38,14 +38,14 @@ class UploadPdfJob < ActiveJob::Base
         end
         emails.each do |email|
           if email[:email].present? and email[:email].include? '@'
-            UserMailer.delay(queue: "dom_email").report_email(report_id, email[:name], email[:email])
+            UserSendGridMailer.delay(queue: "dom_email").report_email(report_id, email[:name], email[:email])
           end
         end
 
         # if report.contact_email.present? and report.contact_email.include? '@' # and report.client_name == "Ewin"
         #  UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(report.contact_email))
         # end
-        
+
         # UserMailer.delay(queue: "dom_email").report_email(report_id, I18n.transliterate(creator_email))
         # UserMailer.delay(queue: "dom_email").report_email(report_id, "informes@dom.cl")
       end

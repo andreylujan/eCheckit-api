@@ -29,7 +29,7 @@ class WorkspaceInvitation < ActiveRecord::Base
 
   def send_email
     if not self.accepted?
-      UserMailer.delay(queue: "dom_email").invite_email(self)
+      UserSendGridMailer.invite_email(self)
     end
   end
 
@@ -75,4 +75,3 @@ class WorkspaceInvitation < ActiveRecord::Base
     end
   end
 end
-

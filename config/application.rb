@@ -29,14 +29,15 @@ module EcheckitApi
     config.generators do |g|
       g.test_framework :rspec
     end
-
+    
+    config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      :address              => "smtp.gmail.com",
-      :port                 => 587,
-      :domain               => ENV['EWIN_EMAIL_DOMAIN'],
-      :user_name            => ENV['EWIN_EMAIL'],
-      :password             => ENV['EWIN_PASSWORD'],
-      :authentication       => :login,
+      :user_name => ENV["SENDGRID_USER"],
+      :password => ENV["SENDGRID_PASSWORD"],
+      :domain => ENV["SENDGRID_DOMAIN"],
+      :address => ENV["SENDGRID_ADDRESS"],
+      :port => ENV["SENDGRID_PORT"],
+      :authentication => :plain,
       :enable_starttls_auto => true
     }
   end

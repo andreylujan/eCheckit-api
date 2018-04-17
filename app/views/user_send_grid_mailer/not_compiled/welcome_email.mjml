@@ -1,0 +1,45 @@
+<mjml>
+	<mj-body>
+		<mj-container>
+
+			<mj-section padding="0">
+				<mj-column>
+					<mj-image align="left" width="150" src="http://d21zid65ggdxzg.cloudfront.net/F4620745B6827E9246EA8BD7041942BB.png"></mj-image>
+				</mj-column>
+			</mj-section>
+
+			<mj-divider padding-top="0" padding-bottom="0" padding-left="0" padding-right="0" border-width="4px" border-color="#808080"/>
+
+			<mj-section padding-top="20">
+				<mj-column>
+					<mj-text font-size="22" color="#7fcdca">Estimado/a <%= name %></mj-text>
+				</mj-column>
+			</mj-section>
+
+			<mj-section padding="0">
+				<mj-column>
+					<mj-text font-size="16"  color="#4b4b4b">Bienvenido a eCheckit DOM.</mj-text>
+				</mj-column>
+			</mj-section>
+
+			<mj-section padding="0">
+				<mj-column>
+					<mj-text font-size="16"  color="#4b4b4b">¡Esperamos que tengas una muy buena experiencia usando la app!</mj-text>
+				</mj-column>
+			</mj-section>
+
+			<mj-section padding="0">
+				<mj-column>
+					<mj-text font-size="16"  color="#4b4b4b">Saludos,</mj-text>
+				</mj-column>
+			</mj-section>
+
+			<mj-section padding="0">
+				<mj-column>
+					<mj-text font-size="16"  color="#4b4b4b">Team Echeck it</mj-text>
+				</mj-column>
+			</mj-section>
+
+		</mj-container>
+	</mj-body>
+</mjml>
